@@ -1,6 +1,16 @@
 bin/
 dist/
 build/
+*/.settings/
+.settings
+.metadata/*
+
+# Logging Files
+*.dat
+
+# Mac OS X folder config#
+.DS_Store
+.DS_Store/
 
 *.class
 
