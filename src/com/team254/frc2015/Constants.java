@@ -6,31 +6,12 @@ public class Constants extends ConstantsBase {
     public static double kDriveSensitivity = .75;
     public static double kNegativeInertiaScalar = 5.0;
 
-    // Operator controls
-    public static double kElevatorJogFastPwm = 1.0;
-    public static double kElevatorJogMediumPwm = .7;
-    public static double kElevatorJogSlowPwm = .35;
+    // Manual control speed tuning
     public static double kManualIntakeSpeed = 1.0;
     public static double kManualExhaustSpeed = .6;
-
+    
+    // Autonomous intake speed
     public static double kAutoIntakeSpeed = 1.0;
-    public static double kCoopIntakeSpeed = .4;
-    public static double kCanIntakeSlowSpeed = .25;
-    public static double kCanIntakeSpeed = .3;
-    public static double kSpinnyThingSpeed = .65;
-
-    public static double kPeacockUpManualPWM = .45;
-    public static double kPeacockDownManualPWM = .1;
-    // Auto mode stuff
-    public static double kPeacockDriveDelayTime = .3;
-
-    // Elevator carriage TrajectoryFollowingPositionController gains
-    public static double kElevatorCarriagePositionKp = 1.0;
-    public static double kElevatorCarriagePositionKi = 1.5;
-    public static double kElevatorCarriagePositionKd = 0.0;
-    public static double kElevatorCarriagePositionKv = 0.02;
-    public static double kElevatorCarriagePositionKa = 6.0E-4;
-    public static double kElevatorOnTargetError = 0.125;
 
     // DriveStraightController gains
     public static double kDriveMaxSpeedInchesPerSec = 120.0;
@@ -55,22 +36,6 @@ public class Constants extends ConstantsBase {
     public static double kTurnKv = 0.085;
     public static double kTurnKa = 0.075;
     public static double kTurnOnTargetError = 0.0225;
-
-    // Height presets
-    public static double kCoopTopHeight = 40;
-    public static double kCoopBottomHeight = 10.75;
-
-    public static double kCanPickupStartTopHeight = 21.;
-    public static double kCanPickupStartBottomHeight = 6.75;
-    public static double kCanPickupEndTopHeight = 5.25;
-    public static double kCanPickupEndBottomHeight = 1.0;
-
-    // Sensor calibration
-    public static double kBreambeamVoltage = 1.0;
-
-    // Common carriage parameters
-    public static double kElevatorMaxSpeedInchesPerSec = 72.0;
-    public static double kElevatorMaxAccelInchesPerSec2 = 120.0;
 
     // !!! End of editable Constants! !!!
     public static int kEndEditableArea = 0;
@@ -106,67 +71,36 @@ public class Constants extends ConstantsBase {
     public static int kRightIntakeMotorPDP = 4;
 
     // DIO
-    public static int kLeftDriveEncoderDIOA = 12; // Flipped for polarity
-    public static int kLeftDriveEncoderDIOB = 13; // Flipped for polarity
-    public static int kRightDriveEncoderDIOA = 11;
-    public static int kRightDriveEncoderDIOB = 10;
-    public static int kBottomCarriageEncoderDIOA = 17;
-    public static int kBottomCarriageEncoderDIOB = 16;
-    public static int kTopCarriageEncoderDIOA = 15;
-    public static int kTopCarriageEncoderDIOB = 14;
-    public static int kBottomCarriageHomeDIO = 8;
-    public static int kTopCarriageHomeDIO = 1;
-    public static int kPressureSwitchDIO = 0;
+    public static int kLeftDriveEncoderDIOA = 0;
+    public static int kLeftDriveEncoderDIOB = 1;
+    public static int kRightDriveEncoderDIOA = 2;
+    public static int kRightDriveEncoderDIOB = 3;
 
     // Analog I/O
-    public static int kBreakbeamPort = 0;
+    
+    
+    // Solenoids (shooter, latch, grabber)
+    public static int kShooterSolenoidPortExtend = 5;
+    public static int kShooterSolenoidPortRetract = 2;
+    public static int kLatchSolenoidPortExtend = 1;
+    public static int kLatchSolenoidPortRetract = 6;
+    public static int kGrabberSolenoidPortExtend = 0;
+    public static int kGrabberSolenoidPortRetract = 7;
 
-    // Solenoids
-    public static int kBottomCarriageBrakeSolenoidPort = 7;
-    public static int kTopCarriageBrakeSolenoidPort = 6;
-    public static int kTopCarriagePivotSolenoidPort = 1;
-    public static int kTopCarriageGrabberCloseSolenoidPort = 0;
-    public static int kTopCarriageGrabberOpenSolenoidPort = 3;
-    public static int kBottomCarriagePusherSolenoidPort = 9;
-    public static int kBottomCarriageFlapperSolenoidPort = 10;
-    public static int kIntakeSolenoidPort = 2;
-    public static int kCoopSolenoidPort = 8;
-    public static int kPinballWizardSolenoidPort = 5;
-    public static int kPeacockSolenoidPort = 11;
-
-
-    // Relays
+    // Compressor Ports DON'T WORK
     public static int kCompressorRelayPort = 0;
+    public static int kPressureSwitchDIO = 1;
 
     // !!! Physical constants
-    public static double kElevatorPulleyRadiusInches = 0.564;
-    public static double kElevatorEncoderCountsPerRev = 250.0;
-    public static double kBottomCarriageHeight = 1.5;
-
 
     // !!! Program constants
     public static double kControlLoopsDt = 0.005;
 
     // !!! Control loop constants
 
-    public static double kElevatorCarriageSafetyMarginInches = -0.5;
-
-    // Top carriage limits
-    public static double kTopCarriageMinPositionInches = 3.5;
-    public static double kTopCarriageMaxPositionInches = 67.5;
-    public static double kTopCarriageHomePositionInches = 10.15;
-    public static double kTopCarriageReZeroPositionInches = 10.15;
-    public static double kTopCarriageSafePositionInches = 4.75;
-
-    // Bottom carriage limits
-    public static double kBottomCarriageMinPositionInches = .75;
-    public static double kBottomCarriageMaxPositionInches = 65.0;
-    public static double kBottomCarriageHomePositionInches = 0.0;
-    public static double kBottomCarriageReZeroPositionInches = 0.0;
-
     // Drive parameters
     public static double kDriveEncoderCountsPerRev = 250.0;
-    public static double kDriveWheelSizeInches = 3.875;
+    public static double kDriveWheelSizeInches = 6; //pneumatic wheels
 
     @Override
     public String getFileLocation() {

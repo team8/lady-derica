@@ -5,9 +5,6 @@ import com.team254.frc2015.auto.AutoModeExecuter;
 import com.team254.frc2015.auto.AutoModeSelector;
 import com.team254.frc2015.behavior.BehaviorManager;
 import com.team254.frc2015.subsystems.Drive;
-import com.team254.frc2015.subsystems.ElevatorCarriage;
-import com.team254.frc2015.subsystems.MotorPeacock;
-import com.team254.frc2015.web.WebServer;
 import com.team254.lib.util.DriveSignal;
 import com.team254.lib.util.Looper;
 import com.team254.lib.util.MultiLooper;
@@ -38,9 +35,6 @@ public class Robot extends IterativeRobot {
     AutoModeExecuter autoModeRunner = new AutoModeExecuter();
 
     Drive drive = HardwareAdaptor.kDrive;
-    ElevatorCarriage top_carriage = HardwareAdaptor.kTopCarriage;
-    ElevatorCarriage bottom_carriage = HardwareAdaptor.kBottomCarriage;
-    MotorPeacock motor_peacock = HardwareAdaptor.kMotorPeacock;
     PowerDistributionPanel pdp = HardwareAdaptor.kPDP;
 
     BehaviorManager behavior_manager = new BehaviorManager();
@@ -50,7 +44,7 @@ public class Robot extends IterativeRobot {
 
     Joystick leftStick = HardwareAdaptor.kLeftStick;
     Joystick rightStick = HardwareAdaptor.kRightStick;
-    Joystick buttonBoard = HardwareAdaptor.kButtonBoard;
+    Joystick operatorStick = HardwareAdaptor.kOperatorStick;
 
     static {
         SystemManager.getInstance().add(new RobotData());
@@ -60,10 +54,6 @@ public class Robot extends IterativeRobot {
     public void robotInit() {
         System.out.println("Start robotInit()");
         HardwareAdaptor.kGyroThread.start();
-        WebServer.startServer();
-        looper.addLoopable(top_carriage);
-        looper.addLoopable(bottom_carriage);
-        looper.addLoopable(motor_peacock);
         slowLooper.addLoopable(drive);
         logUpdater.start();
         SystemManager.getInstance().add(behavior_manager);
@@ -72,9 +62,6 @@ public class Robot extends IterativeRobot {
     @Override
     public void autonomousInit() {
         setState(RobotState.AUTONOMOUS);
-        if (!top_carriage.isInitialized()) {
-            top_carriage.findHome();
-        }
 
         HardwareAdaptor.kGyroThread.rezero();
         HardwareAdaptor.kGyroThread.reset();
@@ -99,10 +86,6 @@ public class Robot extends IterativeRobot {
     @Override
     public void teleopInit() {
         setState(RobotState.TELEOP);
-
-        if (!top_carriage.isInitialized()) {
-            top_carriage.findHome();
-        }
 
         System.out.println("Start teleopInit()");
 
@@ -133,13 +116,9 @@ public class Robot extends IterativeRobot {
 
         // Stop controllers
         drive.setOpenLoop(DriveSignal.NEUTRAL);
-        top_carriage.setOpenLoop(0.0, true);
-        bottom_carriage.setOpenLoop(0.0, true);
 
         // Reload constants
         drive.reloadConstants();
-        top_carriage.reloadConstants();
-        bottom_carriage.reloadConstants();
 
         System.gc();
 

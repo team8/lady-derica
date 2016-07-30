@@ -17,11 +17,7 @@ public class BehaviorManager implements Tappable {
     }
 
     protected Drive drive = HardwareAdaptor.kDrive;
-    protected TopCarriage top_carriage = HardwareAdaptor.kTopCarriage;
-    protected BottomCarriage bottom_carriage = HardwareAdaptor.kBottomCarriage;
     protected Intake intake = HardwareAdaptor.kIntake;
-    protected AirPeacock airPeacock = HardwareAdaptor.kAirPeacock;
-    protected MotorPeacock motorPeacock = HardwareAdaptor.kMotorPeacock;
 
     private boolean m_top_jogging = false;
     private boolean m_bottom_jogging = false;
