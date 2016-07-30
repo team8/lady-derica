@@ -18,23 +18,39 @@ public class OperatorInterface {
     }
 
     public Commands getCommands() {
-        // Left joystick
-        if (leftStick.getRawButton(1)) {
+        // Operator Stick - Intake Control
+        if (operatorStick.getRawButton(1)) {
             m_commands.intake_request = Commands.IntakeRequest.INTAKE;
-        } else if (leftStick.getRawButton(2)) {
+        } else if (operatorStick.getRawButton(2)) {
             m_commands.intake_request = Commands.IntakeRequest.EXHAUST;
         } else {
             m_commands.intake_request = Commands.IntakeRequest.NONE;
         }
-
-        // Right joystick
-        if (rightStick.getRawButton(2)) {
-            m_commands.intake_request = Commands.IntakeRequest.OPEN;
+        // Operator Stick - Shooter Control
+        if (operatorStick.getRawButton(3)) {
+        	m_commands.shooter_request = Commands.ShooterRequest.EXTEND;
+        } else if (operatorStick.getRawButton(2)) {
+        	m_commands.shooter_request = Commands.ShooterRequest.RETRACT;
         } else {
-            m_commands.intake_request = Commands.IntakeRequest.CLOSE;
+        	m_commands.shooter_request = Commands.ShooterRequest.NONE;
+        }
+        // Operator Stick - Latch Control
+        if (operatorStick.getRawButton(5)) {
+        	m_commands.latch_request = Commands.LatchRequest.LOCK;
+        } else if (operatorStick.getRawButton(3)) {
+        	m_commands.latch_request = Commands.LatchRequest.UNLOCK;
+        } else {
+        	m_commands.latch_request = Commands.LatchRequest.NONE;
+        }
+        // Operator Stick - Grabber Control
+        if (operatorStick.getRawButton(4)) {
+            m_commands.grabber_request = Commands.GrabberRequest.RELEASE;
+        } else {
+            m_commands.grabber_request = Commands.GrabberRequest.GRAB;
         }
         
-        m_commands.cancel_current_routine = operatorStick.getX() < 0; // Button 6
+        // Left Stick trigger cancels current routine
+        m_commands.cancel_current_routine = leftStick.getTrigger(); // Cancels routine?
 
         return m_commands;
     }
