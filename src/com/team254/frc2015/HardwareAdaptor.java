@@ -10,22 +10,22 @@ import edu.wpi.first.wpilibj.*;
 public class HardwareAdaptor {
     // Motors
 	// Drivetrain motors
-    static CheesySpeedController kLeftDriveFrontMotor = new CheesySpeedController(
-            new CANTalon(Constants.kLeftDriveMotorFrontDeviceID), new int[]{
-            Constants.kLeftDriveMotor1PDP,
-            Constants.kLeftDriveMotor2PDP});
-    
-    static CheesySpeedController kRightDriveFrontMotor = new CheesySpeedController(
-            new CANTalon(Constants.kRightDriveMotorFrontDeviceID), new int[]{
-            Constants.kRightDriveMotor2PDP,
-            Constants.kRightDriveMotor2PDP});
-   // Intake motors
-    static CheesySpeedController kLeftIntakeMotor = new CheesySpeedController(
-            new VictorSP(Constants.kLeftIntakeMotorPWM),
-            Constants.kLeftIntakeMotorPDP);
-    static CheesySpeedController kRightIntakeMotor = new CheesySpeedController(
-            new VictorSP(Constants.kRightIntakeMotorPWM),
-            Constants.kRightIntakeMotorPDP);
+//    static CheesySpeedController kLeftDriveFrontMotor = new CheesySpeedController(
+//            new CANTalon(Constants.kLeftDriveMotorFrontDeviceID), new int[]{
+//            Constants.kLeftDriveMotor1PDP,
+//            Constants.kLeftDriveMotor2PDP});
+//    
+//    static CheesySpeedController kRightDriveFrontMotor = new CheesySpeedController(
+//            new CANTalon(Constants.kRightDriveMotorFrontDeviceID), new int[]{
+//            Constants.kRightDriveMotor2PDP,
+//            Constants.kRightDriveMotor2PDP});
+//   // Intake motors
+//    static CheesySpeedController kLeftIntakeMotor = new CheesySpeedController(
+//            new VictorSP(Constants.kLeftIntakeMotorPWM),
+//            Constants.kLeftIntakeMotorPDP);
+//    static CheesySpeedController kRightIntakeMotor = new CheesySpeedController(
+//            new VictorSP(Constants.kRightIntakeMotorPWM),
+//            Constants.kRightIntakeMotorPDP);
 
     // DIO
     static Encoder kLeftDriveEncoder = new Encoder(
@@ -43,14 +43,13 @@ public class HardwareAdaptor {
 
 
     // Sensors
-    public static GyroThread kGyroThread = null;//new GyroThread();
+    public static GyroThread kGyroThread = new GyroThread();
 
     // Subsystems
-    public static Drive kDrive = new Drive("drive", kLeftDriveFrontMotor,
-            kRightDriveFrontMotor, kLeftDriveEncoder, kRightDriveEncoder,
+    public static Drive kDrive = new Drive("drive", null, null, kLeftDriveEncoder, kRightDriveEncoder,
             kGyroThread);
     public static Intake kIntake = new Intake("intake",
-            kLeftIntakeMotor, kRightIntakeMotor);
+            null, null);
     public static PowerDistributionPanel kPDP = new PowerDistributionPanel();
 
     // Compressor

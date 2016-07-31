@@ -1,8 +1,5 @@
 package com.team254.lib.util;
 
-import edu.wpi.first.wpilibj.Notifier;
-import edu.wpi.first.wpilibj.TimerEventHandler;
-
 /**
  * A Looper is an easy way to create a timed task the gets
  * called periodically.

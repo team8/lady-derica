@@ -189,7 +189,9 @@ public class GyroInterface {
     }
 
     public class GyroException extends Exception {
-        public GyroException(String s) {
+		private static final long serialVersionUID = 1L;
+
+		public GyroException(String s) {
             super(s);
         }
     }

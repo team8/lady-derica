@@ -1,8 +1,9 @@
 package com.team254.lib.util.gyro;
 
+import com.team254.lib.util.Notifier;
+import com.team254.lib.util.TimerEventHandler;
 import com.team254.lib.util.Util;
-import edu.wpi.first.wpilibj.Notifier;
-import edu.wpi.first.wpilibj.TimerEventHandler;
+import com.team254.lib.util.gyro.GyroInterface;
 
 import java.util.List;
 import java.util.Timer;

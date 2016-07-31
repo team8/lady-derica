@@ -28,18 +28,18 @@ public class Robot extends IterativeRobot {
         s_robot_state = state;
     }
 
-    MultiLooper looper = new MultiLooper("Controllers", 1 / 200.0, true);
-    MultiLooper slowLooper = new MultiLooper("SlowControllers", 1 / 100.0);
+    //MultiLooper looper = new MultiLooper("Controllers", 1 / 200.0, true);
+    //MultiLooper slowLooper = new MultiLooper("SlowControllers", 1 / 100.0);
 
     AutoModeExecuter autoModeRunner = new AutoModeExecuter();
 
-    Drive drive = HardwareAdaptor.kDrive;
-    PowerDistributionPanel pdp = HardwareAdaptor.kPDP;
+    //Drive drive = HardwareAdaptor.kDrive;
+    //PowerDistributionPanel pdp = HardwareAdaptor.kPDP;
 
-    BehaviorManager behavior_manager = new BehaviorManager();
+   // BehaviorManager behavior_manager = new BehaviorManager();
     OperatorInterface operator_interface = new OperatorInterface();
 
-    CheesyDriveHelper cdh = new CheesyDriveHelper(drive);
+    //CheesyDriveHelper cdh = new CheesyDriveHelper(drive);
 
     Joystick leftStick = HardwareAdaptor.kLeftStick;
     Joystick rightStick = HardwareAdaptor.kRightStick;
@@ -53,8 +53,8 @@ public class Robot extends IterativeRobot {
     public void robotInit() {
         System.out.println("Start robotInit()");
         HardwareAdaptor.kGyroThread.start();
-        slowLooper.addLoopable(drive);
-        SystemManager.getInstance().add(behavior_manager);
+       // slowLooper.addLoopable(drive);
+        //SystemManager.getInstance().add(behavior_manager);
     }
 
     @Override
@@ -66,15 +66,15 @@ public class Robot extends IterativeRobot {
 
         HardwareAdaptor.kLeftDriveEncoder.reset();
         HardwareAdaptor.kRightDriveEncoder.reset();
-        AutoMode mode = AutoModeSelector.getInstance().getAutoMode();
-        autoModeRunner.setAutoMode(mode);
+        //AutoMode mode = AutoModeSelector.getInstance().getAutoMode();
+        //autoModeRunner.setAutoMode(mode);
         // Prestart auto mode
-        mode.prestart();
+        //mode.prestart();
 
         // Start control loops
-        autoModeRunner.start();
-        looper.start();
-        slowLooper.start();
+        //autoModeRunner.start();
+        //looper.start();
+        //slowLooper.start();
     }
 
     @Override
@@ -87,13 +87,13 @@ public class Robot extends IterativeRobot {
 
         System.out.println("Start teleopInit()");
 
-        looper.start();
+        //looper.start();
     }
 
     @Override
     public void teleopPeriodic() {
-        cdh.cheesyDrive(-leftStick.getY(), rightStick.getX(), rightStick.getRawButton(1), true);
-        behavior_manager.update(operator_interface.getCommands());
+        //cdh.cheesyDrive(-leftStick.getY(), rightStick.getX(), rightStick.getRawButton(1), true);
+        //behavior_manager.update(operator_interface.getCommands());
     }
 
     @Override
@@ -109,14 +109,14 @@ public class Robot extends IterativeRobot {
         //behavior_manager.reset();
 
         // Stop control loops
-        looper.stop();
-        slowLooper.stop();
+        //looper.stop();
+        //slowLooper.stop();
 
         // Stop controllers
-        drive.setOpenLoop(DriveSignal.NEUTRAL);
+        ///drive.setOpenLoop(DriveSignal.NEUTRAL);
 
         // Reload constants
-        drive.reloadConstants();
+        //drive.reloadConstants();
 
         System.gc();
 
