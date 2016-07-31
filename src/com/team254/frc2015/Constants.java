@@ -42,13 +42,15 @@ public class Constants extends ConstantsBase {
 
     // !!! Electrical constants (do not change at runtime, lol)
     // Motors
-    public static int kLeftDriveMotorPWM = 4;
-    public static int kLeftDriveMotor1PDP = 14;
-    public static int kLeftDriveMotor2PDP = 15;
+    public static int kLeftDriveMotorFrontDeviceID = 1;
+    public static int kLeftDriveMotorBackDeviceID = 3;
+    public static int kLeftDriveMotor1PDP = 12; // Tested using tyr code
+    public static int kLeftDriveMotor2PDP = 13; // Unsure about ordering
 
-    public static int kRightDriveMotorPWM = 5;
-    public static int kRightDriveMotor1PDP = 0;
-    public static int kRightDriveMotor2PDP = 1;
+    public static int kRightDriveMotorFrontDeviceID = 2;
+    public static int kRightDriveMotorBackDeviceID = 4;
+    public static int kRightDriveMotor1PDP = 14; // Tested using tyr
+    public static int kRightDriveMotor2PDP = 15; // Unsure if swapped
 
     public static int kLeftPeacockMotorPWM = 0;
     public static int kLeftPeacockMotorPDP = 0;
@@ -66,9 +68,9 @@ public class Constants extends ConstantsBase {
     public static int kBottomCarriageMotor2PDP = 3;
 
     public static int kLeftIntakeMotorPWM = 1;
-    public static int kLeftIntakeMotorPDP = 11;
+    public static int kLeftIntakeMotorPDP = 7;
     public static int kRightIntakeMotorPWM = 8;
-    public static int kRightIntakeMotorPDP = 4;
+    public static int kRightIntakeMotorPDP = 8;
 
     // DIO
     public static int kLeftDriveEncoderDIOA = 0;

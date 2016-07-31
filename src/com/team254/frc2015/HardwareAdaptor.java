@@ -10,12 +10,13 @@ import edu.wpi.first.wpilibj.*;
 public class HardwareAdaptor {
     // Motors
 	// Drivetrain motors
-    static CheesySpeedController kLeftDriveMotor = new CheesySpeedController(
-            new VictorSP(Constants.kLeftDriveMotorPWM), new int[]{
+    static CheesySpeedController kLeftDriveFrontMotor = new CheesySpeedController(
+            new CANTalon(Constants.kLeftDriveMotorFrontDeviceID), new int[]{
             Constants.kLeftDriveMotor1PDP,
             Constants.kLeftDriveMotor2PDP});
-    static CheesySpeedController kRightDriveMotor = new CheesySpeedController(
-            new VictorSP(Constants.kRightDriveMotorPWM), new int[]{
+    
+    static CheesySpeedController kRightDriveFrontMotor = new CheesySpeedController(
+            new CANTalon(Constants.kRightDriveMotorFrontDeviceID), new int[]{
             Constants.kRightDriveMotor2PDP,
             Constants.kRightDriveMotor2PDP});
    // Intake motors
@@ -42,11 +43,11 @@ public class HardwareAdaptor {
 
 
     // Sensors
-    public static GyroThread kGyroThread = new GyroThread();
+    public static GyroThread kGyroThread = null;//new GyroThread();
 
     // Subsystems
-    public static Drive kDrive = new Drive("drive", kLeftDriveMotor,
-            kRightDriveMotor, kLeftDriveEncoder, kRightDriveEncoder,
+    public static Drive kDrive = new Drive("drive", kLeftDriveFrontMotor,
+            kRightDriveFrontMotor, kLeftDriveEncoder, kRightDriveEncoder,
             kGyroThread);
     public static Intake kIntake = new Intake("intake",
             kLeftIntakeMotor, kRightIntakeMotor);
