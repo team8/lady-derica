@@ -22,10 +22,14 @@ public class Notifier {
 	* in order to attach the newly spawned thread when an interrupt is fired.
 	*/
 	static {
-		ByteBuffer status = ByteBuffer.allocateDirect(4);
-		status.order(ByteOrder.LITTLE_ENDIAN);
-		NotifierJNI.initializeNotifierJVM(status.asIntBuffer());
-		HALUtil.checkStatus(status.asIntBuffer());
+		try{
+			ByteBuffer status = ByteBuffer.allocateDirect(4);
+			status.order(ByteOrder.LITTLE_ENDIAN);
+			NotifierJNI.initializeNotifierJVM(status.asIntBuffer());
+			HALUtil.checkStatus(status.asIntBuffer());
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -69,10 +73,14 @@ public class Notifier {
 		m_param = param;
 		synchronized(s_queue_semaphore) {
 		  if (s_ref_count == 0) {
-			ByteBuffer status = ByteBuffer.allocateDirect(4);
-			status.order(ByteOrder.LITTLE_ENDIAN);
-			s_notifier = NotifierJNI.initializeNotifier(s_notifier_process_queue, status.asIntBuffer());
-			HALUtil.checkStatus(status.asIntBuffer());
+			  try{
+				  ByteBuffer status = ByteBuffer.allocateDirect(4);
+				  status.order(ByteOrder.LITTLE_ENDIAN);
+				  s_notifier = NotifierJNI.initializeNotifier(s_notifier_process_queue, status.asIntBuffer());
+				  HALUtil.checkStatus(status.asIntBuffer());
+			  } catch(Exception e) {
+				  e.printStackTrace();
+			  }
 		  }
 		  s_ref_count++;
 		}
@@ -88,10 +96,14 @@ public class Notifier {
 	public static void updateAlarm() {
 		if (s_timer_queue_head != null)
 		{
-			ByteBuffer status = ByteBuffer.allocateDirect(4);
-			status.order(ByteOrder.LITTLE_ENDIAN);
-			NotifierJNI.updateNotifierAlarm(s_notifier, (int)(s_timer_queue_head.m_expiration_time * 1e6), status.asIntBuffer());
-			HALUtil.checkStatus(status.asIntBuffer());
+			try{
+				ByteBuffer status = ByteBuffer.allocateDirect(4);
+				status.order(ByteOrder.LITTLE_ENDIAN);
+				NotifierJNI.updateNotifierAlarm(s_notifier, (int)(s_timer_queue_head.m_expiration_time * 1e6), status.asIntBuffer());
+				HALUtil.checkStatus(status.asIntBuffer());
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 

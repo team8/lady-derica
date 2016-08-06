@@ -4,7 +4,7 @@ import com.team254.frc2015.subsystems.*;
 import com.team254.lib.util.CheesyCompressor;
 import com.team254.lib.util.CheesySolenoid;
 import com.team254.lib.util.CheesySpeedController;
-import com.team254.lib.util.gyro.GyroThread;
+//import com.team254.lib.util.gyro.GyroThread;
 import edu.wpi.first.wpilibj.*;
 
 public class HardwareAdaptor {
@@ -43,11 +43,10 @@ public class HardwareAdaptor {
 
 
     // Sensors
-    public static GyroThread kGyroThread = new GyroThread();
+//    public static GyroThread kGyroThread = null; //new GyroThread();
 
     // Subsystems
-    public static Drive kDrive = new Drive("drive", null, null, kLeftDriveEncoder, kRightDriveEncoder,
-            kGyroThread);
+    public static Drive kDrive = new Drive("drive", null, null, kLeftDriveEncoder, kRightDriveEncoder);
     public static Intake kIntake = new Intake("intake",
             null, null);
     public static PowerDistributionPanel kPDP = new PowerDistributionPanel();
