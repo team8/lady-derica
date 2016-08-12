@@ -12,6 +12,8 @@ import com.team254.lib.util.SystemManager;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
+import edu.wpi.first.wpilibj.networktables.NetworkTable;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends IterativeRobot {
     public enum RobotState {
@@ -31,19 +33,21 @@ public class Robot extends IterativeRobot {
 //    MultiLooper looper = new MultiLooper("Controllers", 1 / 200.0, true);
 //    MultiLooper slowLooper = new MultiLooper("SlowControllers", 1 / 100.0);
 
-    AutoModeExecuter autoModeRunner = new AutoModeExecuter();
+//    AutoModeExecuter autoModeRunner = new AutoModeExecuter();
 
-//    Drive drive = HardwareAdaptor.kDrive;
-//    PowerDistributionPanel pdp = HardwareAdaptor.kPDP;
+    Drive drive = HardwareAdaptor.kDrive;
+    PowerDistributionPanel pdp = HardwareAdaptor.kPDP;
 
 //    BehaviorManager behavior_manager = new BehaviorManager();
     OperatorInterface operator_interface = new OperatorInterface();
 
-//    CheesyDriveHelper cdh = new CheesyDriveHelper(drive);
+    CheesyDriveHelper cdh = new CheesyDriveHelper(drive);
 
     Joystick leftStick = HardwareAdaptor.kLeftStick;
     Joystick rightStick = HardwareAdaptor.kRightStick;
     Joystick operatorStick = HardwareAdaptor.kOperatorStick;
+    
+    NetworkTable table;
 
     static {
         SystemManager.getInstance().add(new RobotData());
@@ -55,6 +59,7 @@ public class Robot extends IterativeRobot {
 //        HardwareAdaptor.kGyroThread.start();
 //        slowLooper.addLoopable(drive);
 //        SystemManager.getInstance().add(behavior_manager);
+        table = NetworkTable.getTable("Sensor");
     }
 
     @Override
@@ -92,8 +97,11 @@ public class Robot extends IterativeRobot {
 
     @Override
     public void teleopPeriodic() {
-//        cdh.cheesyDrive(-leftStick.getY(), rightStick.getX(), rightStick.getRawButton(1), true);
+        cdh.cheesyDrive(-leftStick.getY(), rightStick.getX(), rightStick.getRawButton(1), true);
 //        behavior_manager.update(operator_interface.getCommands());
+
+    	table.putString("left", String.valueOf(HardwareAdaptor.kLeftDriveEncoder.getDistance()));
+    	table.putString("right", String.valueOf(HardwareAdaptor.kRightDriveEncoder.getDistance()));
     }
 
     @Override
@@ -103,7 +111,7 @@ public class Robot extends IterativeRobot {
         System.out.println("Start disabledInit()");
 
         // Stop auto mode
-        autoModeRunner.stop();
+//        autoModeRunner.stop();
 
         // Stop routines
         //behavior_manager.reset();

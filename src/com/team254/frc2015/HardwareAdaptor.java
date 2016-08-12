@@ -10,15 +10,15 @@ import edu.wpi.first.wpilibj.*;
 public class HardwareAdaptor {
     // Motors
 	// Drivetrain motors
-//    static CheesySpeedController kLeftDriveFrontMotor = new CheesySpeedController(
-//            new CANTalon(Constants.kLeftDriveMotorFrontDeviceID), new int[]{
-//            Constants.kLeftDriveMotor1PDP,
-//            Constants.kLeftDriveMotor2PDP});
-//    
-//    static CheesySpeedController kRightDriveFrontMotor = new CheesySpeedController(
-//            new CANTalon(Constants.kRightDriveMotorFrontDeviceID), new int[]{
-//            Constants.kRightDriveMotor2PDP,
-//            Constants.kRightDriveMotor2PDP});
+    static CheesySpeedController kLeftDriveMotor = new CheesySpeedController(
+            new SpeedController[]{new CANTalon(Constants.kLeftDriveMotorFrontDeviceID), 
+            		new CANTalon(Constants.kLeftDriveMotorBackDeviceID)},
+            new int[]{Constants.kLeftDriveMotor1PDP, Constants.kLeftDriveMotor2PDP});
+    
+    static CheesySpeedController kRightDriveMotor = new CheesySpeedController(
+            new SpeedController[]{new CANTalon(Constants.kRightDriveMotorFrontDeviceID), 
+            		new CANTalon(Constants.kRightDriveMotorBackDeviceID)}, 
+            new int[]{Constants.kRightDriveMotor2PDP, Constants.kRightDriveMotor2PDP});
 //   // Intake motors
 //    static CheesySpeedController kLeftIntakeMotor = new CheesySpeedController(
 //            new VictorSP(Constants.kLeftIntakeMotorPWM),
@@ -46,7 +46,7 @@ public class HardwareAdaptor {
 //    public static GyroThread kGyroThread = null; //new GyroThread();
 
     // Subsystems
-    public static Drive kDrive = new Drive("drive", null, null, kLeftDriveEncoder, kRightDriveEncoder);
+    public static Drive kDrive = new Drive("drive", kLeftDriveMotor, kRightDriveMotor, kLeftDriveEncoder, kRightDriveEncoder);
     public static Intake kIntake = new Intake("intake",
             null, null);
     public static PowerDistributionPanel kPDP = new PowerDistributionPanel();
