@@ -1,6 +1,9 @@
 package com.team254.frc2015.auto;
 
+import com.team254.frc2015.auto.actions.DriveForwardAction;
 import com.team254.frc2015.auto.modes.DoNothingAutoMode;
+import com.team254.frc2015.auto.modes.DriveForwardAutoMode;
+
 import org.json.simple.JSONArray;
 
 import java.util.ArrayList;
@@ -8,7 +11,7 @@ import java.util.ArrayList;
 public class AutoModeSelector {
     private static AutoModeSelector instance = null;
     private ArrayList<AutoMode> autoModes = new ArrayList<AutoMode>();
-    int selectedIndex = 0;
+    int selectedIndex = 1;
     public static AutoModeSelector getInstance() {
         if (instance == null) {
             instance = new AutoModeSelector();
@@ -22,10 +25,15 @@ public class AutoModeSelector {
 
     public AutoModeSelector() {
         registerAutonomous(new DoNothingAutoMode());
+        registerAutonomous(new DriveForwardAutoMode());
     }
 
     public AutoMode getAutoMode() {
         return autoModes.get(selectedIndex);
+    }
+    
+    public AutoMode getAutoMode(int index) {
+        return autoModes.get(index);
     }
 
     public ArrayList<String> getAutoModeList() {

@@ -28,8 +28,9 @@ public class Drive extends Subsystem implements Loopable {
 //    public GyroThread m_gyro;
     private DriveController m_controller = null;
 
-    protected final double m_inches_per_tick = Constants.kDriveWheelSizeInches
-            * Math.PI / Constants.kDriveEncoderCountsPerRev;
+    //encoder dpp
+    protected final double m_inches_per_tick = 1;
+    
     protected final double m_wheelbase_width = 26.0; // Get from CAD
     protected final double m_turn_slip_factor = 1.2; // Measure empirically
     private Pose m_cached_pose = new Pose(0, 0, 0, 0, 0, 0); // Don't allocate poses at 200Hz!

@@ -11,6 +11,6 @@ public class DoNothingAutoMode extends AutoMode {
 
     @Override
     public void prestart() {
-
+    	System.out.println("Starting Do Nothing Auto Mode");
     }
 }

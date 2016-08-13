@@ -73,8 +73,8 @@ public class Constants extends ConstantsBase {
     public static int kRightIntakeMotorPDP = 8;
 
     // DIO
-    public static int kLeftDriveEncoderDIOA = 0;
-    public static int kLeftDriveEncoderDIOB = 1;
+    public static int kLeftDriveEncoderDIOA = 1;
+    public static int kLeftDriveEncoderDIOB = 0;
     public static int kRightDriveEncoderDIOA = 2;
     public static int kRightDriveEncoderDIOB = 3;
 

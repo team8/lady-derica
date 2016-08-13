@@ -33,7 +33,7 @@ public class Robot extends IterativeRobot {
 //    MultiLooper looper = new MultiLooper("Controllers", 1 / 200.0, true);
 //    MultiLooper slowLooper = new MultiLooper("SlowControllers", 1 / 100.0);
 
-//    AutoModeExecuter autoModeRunner = new AutoModeExecuter();
+    AutoModeExecuter autoModeRunner = new AutoModeExecuter();
 
     Drive drive = HardwareAdaptor.kDrive;
     PowerDistributionPanel pdp = HardwareAdaptor.kPDP;
@@ -47,7 +47,7 @@ public class Robot extends IterativeRobot {
     Joystick rightStick = HardwareAdaptor.kRightStick;
     Joystick operatorStick = HardwareAdaptor.kOperatorStick;
     
-    NetworkTable table;
+    NetworkTable sensorTable;
 
     static {
         SystemManager.getInstance().add(new RobotData());
@@ -59,7 +59,7 @@ public class Robot extends IterativeRobot {
 //        HardwareAdaptor.kGyroThread.start();
 //        slowLooper.addLoopable(drive);
 //        SystemManager.getInstance().add(behavior_manager);
-        table = NetworkTable.getTable("Sensor");
+        sensorTable = NetworkTable.getTable("Sensor");
     }
 
     @Override
@@ -71,13 +71,13 @@ public class Robot extends IterativeRobot {
 
         HardwareAdaptor.kLeftDriveEncoder.reset();
         HardwareAdaptor.kRightDriveEncoder.reset();
-//        AutoMode mode = AutoModeSelector.getInstance().getAutoMode();
-//        autoModeRunner.setAutoMode(mode);
-//        // Prestart auto mode
-//        mode.prestart();
+        AutoMode mode = AutoModeSelector.getInstance().getAutoMode(1);
+        autoModeRunner.setAutoMode(mode);
+        // Prestart auto mode
+        mode.prestart();
 //
 //        // Start control loops
-//        autoModeRunner.start();
+        autoModeRunner.start();
 //        looper.start();
 //        slowLooper.start();
     }
@@ -99,9 +99,10 @@ public class Robot extends IterativeRobot {
     public void teleopPeriodic() {
         cdh.cheesyDrive(-leftStick.getY(), rightStick.getX(), rightStick.getRawButton(1), true);
 //        behavior_manager.update(operator_interface.getCommands());
-
-    	table.putString("left", String.valueOf(HardwareAdaptor.kLeftDriveEncoder.getDistance()));
-    	table.putString("right", String.valueOf(HardwareAdaptor.kRightDriveEncoder.getDistance()));
+        // Update sensorTable with encoder distances
+    	sensorTable.putString("left", String.valueOf(HardwareAdaptor.kLeftDriveEncoder.getDistance()));
+    	sensorTable.putString("right", String.valueOf(HardwareAdaptor.kRightDriveEncoder.getDistance()));
+    	System.out.println("Encoders "+ String.valueOf(HardwareAdaptor.kLeftDriveEncoder.getDistance()+" "+String.valueOf(HardwareAdaptor.kRightDriveEncoder.getDistance())));
     }
 
     @Override
@@ -111,7 +112,7 @@ public class Robot extends IterativeRobot {
         System.out.println("Start disabledInit()");
 
         // Stop auto mode
-//        autoModeRunner.stop();
+        autoModeRunner.stop();
 
         // Stop routines
         //behavior_manager.reset();

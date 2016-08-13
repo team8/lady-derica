@@ -32,7 +32,7 @@ public class HardwareAdaptor {
             Constants.kLeftDriveEncoderDIOA, Constants.kLeftDriveEncoderDIOB);
     static Encoder kRightDriveEncoder = new Encoder(
             Constants.kRightDriveEncoderDIOA, Constants.kRightDriveEncoderDIOB);
-
+    
     // Solenoids
     static DoubleSolenoid kShooterSolenoid = new DoubleSolenoid(
     		Constants.kShooterSolenoidPortExtend, Constants.kShooterSolenoidPortRetract);
@@ -50,7 +50,7 @@ public class HardwareAdaptor {
     public static Intake kIntake = new Intake("intake",
             null, null);
     public static PowerDistributionPanel kPDP = new PowerDistributionPanel();
-
+    
     // Compressor
 //    public static Relay kCompressorRelay = new Relay(Constants.kCompressorRelayPort);
 //    public static DigitalInput kCompressorSwitch = new DigitalInput(Constants.kPressureSwitchDIO);
