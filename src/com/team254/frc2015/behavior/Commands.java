@@ -24,6 +24,11 @@ public class Commands {
     public enum ShooterRequest {
     	NONE, EXTEND, RETRACT
     }
+    
+    // Commands for DriveForwardRoutine
+    public enum DriveForwardRequest {
+    	NONE, ACTIVATE
+    }
 
     public PresetRequest preset_request;
     
@@ -32,6 +37,9 @@ public class Commands {
     public GrabberRequest grabber_request;
     public LatchRequest latch_request;
     public ShooterRequest shooter_request;
+    
+    // Routine requests
+    public DriveForwardRequest drive_forward_request;
     
     // Allows you to cancel routine
     public boolean cancel_current_routine = false;

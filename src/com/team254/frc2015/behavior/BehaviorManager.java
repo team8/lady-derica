@@ -4,6 +4,7 @@ import com.team254.frc2015.Constants;
 import com.team254.frc2015.HardwareAdaptor;
 import com.team254.frc2015.behavior.routines.*;
 import com.team254.frc2015.subsystems.*;
+import com.team254.lib.util.DriveSignal;
 import com.team254.lib.util.StateHolder;
 import com.team254.lib.util.Tappable;
 
@@ -16,16 +17,20 @@ public class BehaviorManager implements Tappable {
 	}
 
 	protected Drive drive = HardwareAdaptor.kDrive;
-	protected Intake intake = HardwareAdaptor.kIntake;
+//	protected Intake intake = HardwareAdaptor.kIntake;
 
 	private Routine m_cur_routine = null;
 	private RobotSetpoints m_setpoints;
 	//    private ManualRoutine m_manual_routine = new ManualRoutine();
 
+	public RobotSetpoints getSetpoints() {
+		return m_setpoints;
+	}
+	
 	private void setNewRoutine(Routine new_routine) {
-		boolean needs_cancel = new_routine != m_cur_routine && m_cur_routine != null;
+		boolean needs_cancel = (new_routine != m_cur_routine) && (m_cur_routine != null);
 
-		boolean needs_reset = new_routine != m_cur_routine && new_routine != null;
+		boolean needs_reset = (new_routine != m_cur_routine) && (new_routine != null);
 		if (needs_cancel) {
 			m_cur_routine.cancel();
 		}
@@ -35,7 +40,15 @@ public class BehaviorManager implements Tappable {
 		}
 	}
 
+	public Routine getCurrentRoutine() {
+		return m_cur_routine;
+	}
+	
 	public void reset() {
+		if(m_cur_routine != null) {
+			m_cur_routine.cancel();
+		}
+		
 		setNewRoutine(null);
 	}
 
@@ -45,6 +58,7 @@ public class BehaviorManager implements Tappable {
 	}
 
 	public void update(Commands commands) {
+		//resets the state of the robot, the setpoints will be changed later by the current routine
 		m_setpoints.reset();
 
 		// If current routine exists and is finished, nullify it
@@ -55,8 +69,11 @@ public class BehaviorManager implements Tappable {
 		// Set "TROUT" Routine (we have none for now)
 		if (commands.cancel_current_routine) {
 			setNewRoutine(null);
+		} else if (commands.drive_forward_request == Commands.DriveForwardRequest.ACTIVATE && !(m_cur_routine instanceof DriveForwardRoutine)) {
+			setNewRoutine(new DriveForwardRoutine());
 		}
 
+		//changes the setpoints according to the current routine update
 		if (m_cur_routine != null) {
 			m_setpoints = m_cur_routine.update(commands, m_setpoints);
 		}
@@ -65,16 +82,16 @@ public class BehaviorManager implements Tappable {
 		//        m_setpoints = m_manual_routine.update(commands, m_setpoints);
 
 		// Intake commands parsing
-		if (commands.intake_request == Commands.IntakeRequest.INTAKE) {
-			// Run intake inwards.
-			intake.setSpeed(-Constants.kManualIntakeSpeed);
-		} else if (commands.intake_request == Commands.IntakeRequest.EXHAUST) {
-			// Run intake outwards.
-			intake.setSpeed(Constants.kManualExhaustSpeed);
-		} else {
-			// Stop intake.
-			intake.setSpeed(0.0);
-		}
+//		if (commands.intake_request == Commands.IntakeRequest.INTAKE) {
+//			// Run intake inwards.
+//			intake.setSpeed(-Constants.kManualIntakeSpeed);
+//		} else if (commands.intake_request == Commands.IntakeRequest.EXHAUST) {
+//			// Run intake outwards.
+//			intake.setSpeed(Constants.kManualExhaustSpeed);
+//		} else {
+//			// Stop intake.
+//			intake.setSpeed(0.0);
+//		}
 
 		// Parse latch commands because this is only open loop
 		if (commands.latch_request == Commands.LatchRequest.LOCK) {
@@ -101,6 +118,13 @@ public class BehaviorManager implements Tappable {
 			;
 		} else {
 			;
+		}
+		
+		if(m_setpoints.drive_action == RobotSetpoints.DriveAction.DRIVE_STRAIGHT) {
+			drive.setOpenLoop(new DriveSignal(0.5, 0.5));
+		}
+		if(m_setpoints.drive_action == RobotSetpoints.DriveAction.WAITING) {
+			drive.setOpenLoop(new DriveSignal(0, 0));
 		}
 	}
 

@@ -78,6 +78,7 @@ public class Drive extends Subsystem implements Loopable {
     public void reset() {
         m_left_encoder.reset();
         m_right_encoder.reset();
+        m_controller = null;
     }
 
     public void setPathSetpoint(Path path) {
@@ -166,5 +167,9 @@ public class Drive extends Subsystem implements Loopable {
 
     public boolean controllerOnTarget() {
         return m_controller != null && m_controller.onTarget();
+    }
+    
+    public boolean hasController() {
+    	return m_controller != null;
     }
 }

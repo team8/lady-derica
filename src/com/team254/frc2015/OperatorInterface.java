@@ -12,6 +12,8 @@ public class OperatorInterface {
     Joystick leftStick = HardwareAdaptor.kLeftStick;
     Joystick rightStick = HardwareAdaptor.kRightStick;
     Joystick operatorStick = HardwareAdaptor.kOperatorStick;
+    
+    Latch driveForwardLatch = new Latch();
 
     public void reset() {
         m_commands = new Commands();
@@ -47,6 +49,13 @@ public class OperatorInterface {
             m_commands.grabber_request = Commands.GrabberRequest.RELEASE;
         } else {
             m_commands.grabber_request = Commands.GrabberRequest.GRAB;
+        }
+        
+        // Operator Stick - Activate routine
+        if (driveForwardLatch.update(leftStick.getRawButton(6))) {
+        	m_commands.drive_forward_request = Commands.DriveForwardRequest.ACTIVATE;
+        } else {
+        	m_commands.drive_forward_request = Commands.DriveForwardRequest.NONE;
         }
         
         // Left Stick trigger cancels current routine

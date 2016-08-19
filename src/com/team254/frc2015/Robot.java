@@ -4,6 +4,7 @@ import com.team254.frc2015.auto.AutoMode;
 import com.team254.frc2015.auto.AutoModeExecuter;
 import com.team254.frc2015.auto.AutoModeSelector;
 import com.team254.frc2015.behavior.BehaviorManager;
+import com.team254.frc2015.behavior.RobotSetpoints;
 import com.team254.frc2015.subsystems.Drive;
 import com.team254.lib.util.DriveSignal;
 import com.team254.lib.util.Looper;
@@ -38,7 +39,7 @@ public class Robot extends IterativeRobot {
     Drive drive = HardwareAdaptor.kDrive;
     PowerDistributionPanel pdp = HardwareAdaptor.kPDP;
 
-//    BehaviorManager behavior_manager = new BehaviorManager();
+    BehaviorManager behavior_manager = new BehaviorManager();
     OperatorInterface operator_interface = new OperatorInterface();
 
     CheesyDriveHelper cdh = new CheesyDriveHelper(drive);
@@ -97,12 +98,19 @@ public class Robot extends IterativeRobot {
 
     @Override
     public void teleopPeriodic() {
-        cdh.cheesyDrive(-leftStick.getY(), rightStick.getX(), rightStick.getRawButton(1), true);
-//        behavior_manager.update(operator_interface.getCommands());
+    	if(RobotSetpoints.DriveAction.NONE == behavior_manager.getSetpoints().drive_action) {
+    		cdh.cheesyDrive(-leftStick.getY(), rightStick.getX(), rightStick.getRawButton(1), true);
+    	}
+       
+    	//the behavior manager updates based on the commands from the operator interface.
+    	//in the first part, various routines are called based on the requests from the operator interface(buttons)
+    	//these routines should change the states of the RobotSetpoints only - NO MOVEMENT CODE
+    	//the second part of the update method in behavior manager runs the physical subsystems based off the RobotSetpoints.
+        behavior_manager.update(operator_interface.getCommands());
         // Update sensorTable with encoder distances
     	sensorTable.putString("left", String.valueOf(HardwareAdaptor.kLeftDriveEncoder.getDistance()));
     	sensorTable.putString("right", String.valueOf(HardwareAdaptor.kRightDriveEncoder.getDistance()));
-    	System.out.println("Encoders "+ String.valueOf(HardwareAdaptor.kLeftDriveEncoder.getDistance()+" "+String.valueOf(HardwareAdaptor.kRightDriveEncoder.getDistance())));
+//    	System.out.println("Encoders "+ String.valueOf(HardwareAdaptor.kLeftDriveEncoder.getDistance()+" "+String.valueOf(HardwareAdaptor.kRightDriveEncoder.getDistance())));
     }
 
     @Override
@@ -115,7 +123,7 @@ public class Robot extends IterativeRobot {
         autoModeRunner.stop();
 
         // Stop routines
-        //behavior_manager.reset();
+        behavior_manager.reset();
 
         // Stop control loops
 //        looper.stop();

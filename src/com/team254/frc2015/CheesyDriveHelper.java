@@ -26,6 +26,10 @@ public class CheesyDriveHelper {
         if (DriverStation.getInstance().isAutonomous()) {
             return;
         }
+        
+        if (drive.hasController()) {
+        	return;
+        }
 
         double wheelNonLinearity;
 
