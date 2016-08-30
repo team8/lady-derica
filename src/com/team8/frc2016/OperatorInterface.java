@@ -54,9 +54,12 @@ public class OperatorInterface {
         
         // Operator Stick - Activate routine
         if (driveForwardLatch.update(leftStick.getRawButton(6))) {
-        	m_commands.drive_forward_request = Commands.DriveForwardRequest.ACTIVATE;
+        	m_commands.timer_drive_request = Commands.TimerDriveRequest.ACTIVATE;
+        } else if(driveForwardLatch.update(leftStick.getRawButton(5))) {
+        	m_commands.encoder_drive_request = Commands.EncoderDriveRequest.ACTIVATE;
         } else {
-        	m_commands.drive_forward_request = Commands.DriveForwardRequest.NONE;
+        	m_commands.timer_drive_request = Commands.TimerDriveRequest.NONE;
+        	m_commands.encoder_drive_request = Commands.EncoderDriveRequest.NONE;
         }
         
         // Left Stick trigger cancels current routine

@@ -1,7 +1,6 @@
 package com.team8.lib.util;
 
 import com.team8.frc2016.Robot;
-
 import edu.wpi.first.wpilibj.Solenoid;
 
 public class CheesySolenoid extends Solenoid {

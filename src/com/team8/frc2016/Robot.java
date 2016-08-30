@@ -99,7 +99,7 @@ public class Robot extends IterativeRobot {
 
     @Override
     public void teleopPeriodic() {
-    	if(RobotSetpoints.DriveAction.NONE == behavior_manager.getSetpoints().drive_action) {
+    	if(RobotSetpoints.TimerDriveAction.NONE == behavior_manager.getSetpoints().timer_drive_action) {
     		cdh.cheesyDrive(-leftStick.getY(), rightStick.getX(), rightStick.getRawButton(1), true);
     	}
        

@@ -8,24 +8,24 @@ import com.team8.lib.util.DriveSignal;
 
 import edu.wpi.first.wpilibj.Timer;
 
-public class DriveForwardRoutine extends Routine {
+public class EncoderDriveRoutine extends Routine {
 	
 	public enum States {
-		WAIT, DRIVE_FORWARD, DONE
+		NONE, DRIVE_FORWARD, DONE
 	}
 	
-	States m_state = States.WAIT;
-	private boolean m_is_new_state = true;
+	States m_state = States.NONE;
+	private int distance;
     Timer m_state_timer = new Timer();
     
     private Drive drive = HardwareAdaptor.kDrive;
     
+    public EncoderDriveRoutine(int distance) {
+    	this.distance = distance;
+    }
+    
 	@Override
 	public void reset() {
-		m_state = States.WAIT;
-		m_is_new_state = true;
-		m_state_timer.stop();
-        m_state_timer.reset();
 	}
 
 	//Routines just change the states of the robotsetpoints, which the behavior manager then moves the physical subsystems based on.
@@ -34,36 +34,27 @@ public class DriveForwardRoutine extends Routine {
 		States new_state = m_state;
 		
 		switch (m_state) {
-		case WAIT:
-			existing_setpoints.drive_action = RobotSetpoints.DriveAction.WAITING;
-			if (m_is_new_state) {
-				m_state_timer.start();
-			}
-			if (m_state_timer.get() > 3) {
-				new_state = States.DRIVE_FORWARD;
-				m_state_timer.stop();
-				m_state_timer.reset();
-				m_state_timer.start();
-			}
+		case NONE:
+			existing_setpoints.encoder_drive_action = RobotSetpoints.EncoderDriveAction.WAITING;
+			new_state = States.DRIVE_FORWARD;
 			break;
 		case DRIVE_FORWARD:
-			existing_setpoints.drive_action = RobotSetpoints.DriveAction.DRIVE_STRAIGHT;
-			if(m_state_timer.get() > 3) {
-				existing_setpoints.drive_action = RobotSetpoints.DriveAction.NONE;
+			if(drive.m_right_encoder.getDistance() < distance) {
+				existing_setpoints.encoder_drive_action = RobotSetpoints.EncoderDriveAction.DRIVE_STRAIGHT;
+			}
+			else {
+				existing_setpoints.encoder_drive_action = RobotSetpoints.EncoderDriveAction.NONE;
 				new_state = States.DONE;
 			}
 			break;
 		case DONE:
 			drive.reset();
-			existing_setpoints.drive_action = RobotSetpoints.DriveAction.NONE;
+			existing_setpoints.encoder_drive_action = RobotSetpoints.EncoderDriveAction.NONE;
 			break;
 		}
 		
-		m_is_new_state = false;
         if (new_state != m_state) {
             m_state = new_state;
-            m_state_timer.reset();
-            m_is_new_state = true;
         }
         
 		return existing_setpoints;
@@ -71,8 +62,7 @@ public class DriveForwardRoutine extends Routine {
 
 	@Override
 	public void cancel() {
-		m_state = States.WAIT;
-        m_state_timer.stop();
+		m_state = States.NONE;
         drive.setOpenLoop(new DriveSignal(0, 0));
         drive.reset();
 	}
@@ -84,7 +74,7 @@ public class DriveForwardRoutine extends Routine {
 
 	@Override
 	public String getName() {
-		return "Drive Forward";
+		return "Encoder Drive Forward";
 	}
 
 }

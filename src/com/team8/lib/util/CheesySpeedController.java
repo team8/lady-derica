@@ -1,7 +1,6 @@
 package com.team8.lib.util;
 
 import com.team8.frc2016.HardwareAdaptor;
-
 import edu.wpi.first.wpilibj.SpeedController;
 
 public class CheesySpeedController implements SpeedController {

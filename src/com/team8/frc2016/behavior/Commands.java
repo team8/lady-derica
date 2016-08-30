@@ -25,8 +25,13 @@ public class Commands {
     	NONE, EXTEND, RETRACT
     }
     
-    // Commands for DriveForwardRoutine
-    public enum DriveForwardRequest {
+    // Commands for TimerDriveRoutine
+    public enum TimerDriveRequest {
+    	NONE, ACTIVATE
+    }
+    
+    //Commands for EncoderDriveRoutine
+    public enum EncoderDriveRequest {
     	NONE, ACTIVATE
     }
 
@@ -39,7 +44,8 @@ public class Commands {
     public ShooterRequest shooter_request;
     
     // Routine requests
-    public DriveForwardRequest drive_forward_request;
+    public TimerDriveRequest timer_drive_request;
+    public EncoderDriveRequest encoder_drive_request;
     
     // Allows you to cancel routine
     public boolean cancel_current_routine = false;

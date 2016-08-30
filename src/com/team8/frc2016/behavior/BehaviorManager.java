@@ -66,11 +66,13 @@ public class BehaviorManager implements Tappable {
 			setNewRoutine(null);
 		}
 
-		// Set "TROUT" Routine (we have none for now)
+		// Set TROUT routines
 		if (commands.cancel_current_routine) {
 			setNewRoutine(null);
-		} else if (commands.drive_forward_request == Commands.DriveForwardRequest.ACTIVATE && !(m_cur_routine instanceof DriveForwardRoutine)) {
-			setNewRoutine(new DriveForwardRoutine());
+		} else if(commands.encoder_drive_request == Commands.EncoderDriveRequest.ACTIVATE && !(m_cur_routine instanceof EncoderDriveRoutine)) {
+			setNewRoutine(new EncoderDriveRoutine(100));
+		} else if (commands.timer_drive_request == Commands.TimerDriveRequest.ACTIVATE && !(m_cur_routine instanceof TimerDriveRoutine)) {
+			setNewRoutine(new TimerDriveRoutine());
 		}
 
 		//changes the setpoints according to the current routine update
@@ -120,10 +122,19 @@ public class BehaviorManager implements Tappable {
 			;
 		}
 		
-		if(m_setpoints.drive_action == RobotSetpoints.DriveAction.DRIVE_STRAIGHT) {
+		//Timer based routine
+		if(m_setpoints.timer_drive_action == RobotSetpoints.TimerDriveAction.DRIVE_STRAIGHT) {
 			drive.setOpenLoop(new DriveSignal(0.5, 0.5));
 		}
-		if(m_setpoints.drive_action == RobotSetpoints.DriveAction.WAITING) {
+		if(m_setpoints.timer_drive_action == RobotSetpoints.TimerDriveAction.WAITING) {
+			drive.setOpenLoop(new DriveSignal(0, 0));
+		}
+		
+		//Encoder based routine
+		if(m_setpoints.encoder_drive_action == RobotSetpoints.EncoderDriveAction.DRIVE_STRAIGHT) {
+			drive.setOpenLoop(new DriveSignal(0.3, 0.3));
+		}
+		if(m_setpoints.encoder_drive_action == RobotSetpoints.EncoderDriveAction.WAITING) {
 			drive.setOpenLoop(new DriveSignal(0, 0));
 		}
 	}

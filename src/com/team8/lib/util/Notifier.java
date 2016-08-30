@@ -8,7 +8,6 @@ import java.util.concurrent.Semaphore;
 
 import com.team8.lib.util.NotifierJNI.ProcessQueue;
 
-
 /**
  * Class to utilize timer interrupts from the FPGA to schedule one time or periodic
  * tasks. The standard JRE that runs on the roboRIO is not very good at obeying
