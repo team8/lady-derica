@@ -4,8 +4,8 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import com.team8.lib.util.Pose;
-import com.team8.lib.util.Pose.RelativePoseGenerator;
+import com.palyrobotics.lib.util.Pose;
+import com.palyrobotics.lib.util.Pose.RelativePoseGenerator;
 
 public class PoseTest {
 

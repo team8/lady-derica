@@ -14,8 +14,8 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 import org.junit.Test;
 
-import com.team8.lib.util.ConstantsBase;
-import com.team8.lib.util.ConstantsBase.Constant;
+import com.palyrobotics.lib.util.ConstantsBase;
+import com.palyrobotics.lib.util.ConstantsBase.Constant;
 
 public class ConstantsBaseTest {
 
