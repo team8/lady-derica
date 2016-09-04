@@ -73,7 +73,7 @@ public class Robot extends IterativeRobot {
 
         HardwareAdaptor.kLeftDriveEncoder.reset();
         HardwareAdaptor.kRightDriveEncoder.reset();
-        AutoMode mode = AutoModeSelector.getInstance().getAutoMode(1);
+        AutoMode mode = AutoModeSelector.getInstance().getAutoMode(2);
         autoModeRunner.setAutoMode(mode);
         // Prestart auto mode
         mode.prestart();

@@ -2,9 +2,9 @@ package com.palyrobotics.frc2016.auto;
 
 import org.json.simple.JSONArray;
 
-import com.palyrobotics.frc2016.auto.actions.DriveForwardAction;
 import com.palyrobotics.frc2016.auto.modes.DoNothingAutoMode;
 import com.palyrobotics.frc2016.auto.modes.DriveForwardAutoMode;
+import com.palyrobotics.frc2016.auto.modes.WaitForwardBackwardAutoMode;
 
 import java.util.ArrayList;
 
@@ -26,6 +26,7 @@ public class AutoModeSelector {
     public AutoModeSelector() {
         registerAutonomous(new DoNothingAutoMode());
         registerAutonomous(new DriveForwardAutoMode());
+        registerAutonomous(new WaitForwardBackwardAutoMode(3, 3, -100));
     }
 
     public AutoMode getAutoMode() {
