@@ -108,9 +108,7 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic() {
 		// Test XboxController output
 		
-		if(RobotSetpoints.TimerDriveAction.NONE == behavior_manager.getSetpoints().timer_drive_action) {
-			cdh.cheesyDrive(-leftStick.getY(), rightStick.getX(), rightStick.getRawButton(1), true);
-		}
+		cdh.cheesyDrive(-leftStick.getY(), rightStick.getX(), rightStick.getRawButton(1), true, behavior_manager.getSetpoints());
 
 		//the behavior manager updates based on the commands from the operator interface.
 		//in the first part, various routines are called based on the requests from the operator interface(buttons)

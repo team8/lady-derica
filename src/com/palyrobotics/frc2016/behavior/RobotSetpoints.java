@@ -4,8 +4,12 @@ import java.util.Optional;
 
 public class RobotSetpoints {
 
+	public enum RoutineAction {
+		NONE, RUNNING
+	}
+	
     public enum IntakeAction {
-        NONE, OPEN, CLOSE, PREFER_OPEN, PREFER_CLOSE
+    	NONE, OPEN, CLOSE, PREFER_OPEN, PREFER_CLOSE
     }
 
     public enum TimerDriveAction {
@@ -23,12 +27,14 @@ public class RobotSetpoints {
     public EncoderDriveAction encoder_drive_action;
     public Optional<Double> top_open_loop_jog;
     public Optional<Double> bottom_open_loop_jog;
+    public RoutineAction routine_status;
 
     public void reset() {
-        intake_action = IntakeAction.NONE;
-        timer_drive_action = TimerDriveAction.NONE;
-        encoder_drive_action = EncoderDriveAction.NONE;
-        top_open_loop_jog = m_nullopt;
-        bottom_open_loop_jog = m_nullopt;
+    	intake_action = IntakeAction.NONE;
+    	timer_drive_action = TimerDriveAction.NONE;
+    	encoder_drive_action = EncoderDriveAction.NONE;
+    	routine_status = RoutineAction.NONE;
+    	top_open_loop_jog = m_nullopt;
+    	bottom_open_loop_jog = m_nullopt;
     }
 }

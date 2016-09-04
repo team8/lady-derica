@@ -1,5 +1,7 @@
 package com.palyrobotics.frc2016;
 
+import com.palyrobotics.frc2016.behavior.RobotSetpoints;
+import com.palyrobotics.frc2016.behavior.RobotSetpoints.RoutineAction;
 import com.palyrobotics.frc2016.subsystems.Drive;
 import com.palyrobotics.lib.util.DriveSignal;
 import com.palyrobotics.lib.util.Util;
@@ -17,13 +19,14 @@ public class CheesyDriveHelper {
     private double throttleDeadband = 0.02;
     private double wheelDeadband = 0.02;
     private DriveSignal signal = new DriveSignal(0, 0);
+    private RobotSetpoints setpoints = null;
 
     public CheesyDriveHelper(Drive drive) {
         this.drive = drive;
     }
 
     public void cheesyDrive(double throttle, double wheel, boolean isQuickTurn,
-                            boolean isHighGear) {
+                            boolean isHighGear, RobotSetpoints setpoints) {
         if (DriverStation.getInstance().isAutonomous()) {
             return;
         }
@@ -31,7 +34,11 @@ public class CheesyDriveHelper {
         if (drive.hasController()) {
         	return;
         }
-
+        
+        if(setpoints.routine_status == RoutineAction.RUNNING) {
+        	return;
+        }
+        
         double wheelNonLinearity;
 
         wheel = handleDeadband(wheel, wheelDeadband);

@@ -134,9 +134,6 @@ public class Drive extends Subsystem implements Loopable {
 	private void setDriveOutputs(DriveSignal signal) {
 		m_left_motor.set(signal.leftMotor);
 		m_right_motor.set(-signal.rightMotor);
-		
-		System.out.println("left encoder: " + m_left_encoder.getDistance());
-		System.out.println("right encoder: " + m_right_encoder.getDistance());
 	}
 
 	private Pose getPoseToContinueFrom(boolean for_turn_controller) {

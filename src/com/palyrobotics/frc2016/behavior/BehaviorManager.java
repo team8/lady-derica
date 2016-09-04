@@ -71,7 +71,7 @@ public class BehaviorManager implements Tappable {
 		if (commands.cancel_current_routine) {
 			setNewRoutine(null);
 		} else if(commands.encoder_drive_request == Commands.EncoderDriveRequest.ACTIVATE && !(m_cur_routine instanceof EncoderDriveRoutine)) {
-			setNewRoutine(new EncoderDriveRoutine(100));
+			setNewRoutine(new EncoderDriveRoutine(1000));
 		} else if (commands.timer_drive_request == Commands.TimerDriveRequest.ACTIVATE && !(m_cur_routine instanceof TimerDriveRoutine)) {
 			setNewRoutine(new TimerDriveRoutine());
 		}
