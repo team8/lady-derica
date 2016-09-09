@@ -1,2 +1,3 @@
-# 254-tyr-code
-Using FIRST® Robotics Competition Team 254's library on our robot, Tyr.
+# Lady-Derica
+Robot code for Team 8's offseason robot, "Lady-Derica"
+Uses Team 254's library.
