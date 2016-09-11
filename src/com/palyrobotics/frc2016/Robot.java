@@ -18,7 +18,11 @@ import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends IterativeRobot {
-    public enum RobotState {
+    public enum RobotName {
+    	TYR, DERICA
+    }
+	
+	public enum RobotState {
         DISABLED, AUTONOMOUS, TELEOP
     }
 
@@ -35,6 +39,8 @@ public class Robot extends IterativeRobot {
 //    MultiLooper looper = new MultiLooper("Controllers", 1 / 200.0, true);
 //    MultiLooper slowLooper = new MultiLooper("SlowControllers", 1 / 100.0);
 
+    public static RobotName name = RobotName.TYR;
+    
     AutoModeExecuter autoModeRunner = new AutoModeExecuter();
 
     Drive drive = HardwareAdaptor.kDrive;
