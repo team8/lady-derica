@@ -19,140 +19,137 @@ import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends IterativeRobot {
-	public enum RobotName {
-		TYR, DERICA
-	}
-
+    public enum RobotName {
+    	TYR, DERICA
+    }
+	
 	public enum RobotState {
-		DISABLED, AUTONOMOUS, TELEOP
-	}
+        DISABLED, AUTONOMOUS, TELEOP
+    }
 
-	public static RobotState s_robot_state = RobotState.DISABLED;
+    public static RobotState s_robot_state = RobotState.DISABLED;
 
-	public static RobotState getState() {
-		return s_robot_state;
-	}
+    public static RobotState getState() {
+        return s_robot_state;
+    }
 
-	public static void setState(RobotState state) {
-		s_robot_state = state;
-	}
+    public static void setState(RobotState state) {
+        s_robot_state = state;
+    }
 
-	//    MultiLooper looper = new MultiLooper("Controllers", 1 / 200.0, true);
-	//    MultiLooper slowLooper = new MultiLooper("SlowControllers", 1 / 100.0);
+//    MultiLooper looper = new MultiLooper("Controllers", 1 / 200.0, true);
+//    MultiLooper slowLooper = new MultiLooper("SlowControllers", 1 / 100.0);
 
-	public static RobotName name = RobotName.DERICA;
+    public static RobotName name = RobotName.TYR;
+    
+    AutoModeExecuter autoModeRunner = new AutoModeExecuter();
 
-	AutoModeExecuter autoModeRunner = new AutoModeExecuter();
+    Drive drive = HardwareAdaptor.kDrive;
+    PowerDistributionPanel pdp = HardwareAdaptor.kPDP;
 
-	Drive drive = HardwareAdaptor.kDrive;
-	PowerDistributionPanel pdp = HardwareAdaptor.kPDP;
+    BehaviorManager behavior_manager = new BehaviorManager();
+    OperatorInterface operator_interface = new OperatorInterface();
 
-	BehaviorManager behavior_manager = new BehaviorManager();
-	OperatorInterface operator_interface = new OperatorInterface();
+    CheesyDriveHelper cdh = new CheesyDriveHelper(drive);
 
-	CheesyDriveHelper cdh = new CheesyDriveHelper(drive);
+    Joystick leftStick = HardwareAdaptor.kLeftStick;
+    Joystick rightStick = HardwareAdaptor.kRightStick;
+    Joystick operatorStick = HardwareAdaptor.kOperatorStick;
+    
+    NetworkTable sensorTable;
 
-	Joystick leftStick = HardwareAdaptor.kLeftStick;
-	Joystick rightStick = HardwareAdaptor.kRightStick;
-	XboxController operatorStick = HardwareAdaptor.kOperatorStick;
+    static {
+        SystemManager.getInstance().add(new RobotData());
+    }
 
-	NetworkTable sensorTable;
+    @Override
+    public void robotInit() {
+        System.out.println("Start robotInit()");
+//        HardwareAdaptor.kGyroThread.start();
+//        slowLooper.addLoopable(drive);
+//        SystemManager.getInstance().add(behavior_manager);
+        sensorTable = NetworkTable.getTable("Sensor");
+    }
 
-	static {
-		SystemManager.getInstance().add(new RobotData());
-	}
+    @Override
+    public void autonomousInit() {
+        setState(RobotState.AUTONOMOUS);
 
-	@Override
-	public void robotInit() {
-		System.out.println("Start robotInit()");
-		//        HardwareAdaptor.kGyroThread.start();
-		//        slowLooper.addLoopable(drive);
-		//        SystemManager.getInstance().add(behavior_manager);
-		sensorTable = NetworkTable.getTable("Sensor");
-	}
+//        HardwareAdaptor.kGyroThread.rezero();
+//        HardwareAdaptor.kGyroThread.reset();
 
-	@Override
-	public void autonomousInit() {
-		setState(RobotState.AUTONOMOUS);
+        HardwareAdaptor.kLeftDriveEncoder.reset();
+        HardwareAdaptor.kRightDriveEncoder.reset();
+        AutoMode mode = AutoModeSelector.getInstance().getAutoMode(2);
+        autoModeRunner.setAutoMode(mode);
+        // Prestart auto mode
+        mode.prestart();
+//
+//        // Start control loops
+        autoModeRunner.start();
+//        looper.start();
+//        slowLooper.start();
+    }
 
-		//        HardwareAdaptor.kGyroThread.rezero();
-		//        HardwareAdaptor.kGyroThread.reset();
+    @Override
+    public void autonomousPeriodic() {
+    }
 
-		HardwareAdaptor.kLeftDriveEncoder.reset();
-		HardwareAdaptor.kRightDriveEncoder.reset();
-		AutoMode mode = AutoModeSelector.getInstance().getAutoMode(2);
-		autoModeRunner.setAutoMode(mode);
-		// Prestart auto mode
-		mode.prestart();
-		//
-		//        // Start control loops
-		autoModeRunner.start();
-		//        looper.start();
-		//        slowLooper.start();
-	}
+    @Override
+    public void teleopInit() {
+        setState(RobotState.TELEOP);
 
-	@Override
-	public void autonomousPeriodic() {
-	}
+        System.out.println("Start teleopInit()");
 
-	@Override
-	public void teleopInit() {
-		setState(RobotState.TELEOP);
+//        looper.start();
+    }
 
-		System.out.println("Start teleopInit()");
+    @Override
+    public void teleopPeriodic() {
+    	if(RobotSetpoints.TimerDriveAction.NONE == behavior_manager.getSetpoints().timer_drive_action) {
+    		cdh.cheesyDrive(-leftStick.getY(), rightStick.getX(), rightStick.getRawButton(1), true);
+    	}
+       
+    	//the behavior manager updates based on the commands from the operator interface.
+    	//in the first part, various routines are called based on the requests from the operator interface(buttons)
+    	//these routines should change the states of the RobotSetpoints only - NO MOVEMENT CODE
+    	//the second part of the update method in behavior manager runs the physical subsystems based off the RobotSetpoints.
+        behavior_manager.update(operator_interface.getCommands());
+        // Update sensorTable with encoder distances
+    	sensorTable.putString("left", String.valueOf(HardwareAdaptor.kLeftDriveEncoder.getDistance()));
+    	sensorTable.putString("right", String.valueOf(HardwareAdaptor.kRightDriveEncoder.getDistance()));
+//    	System.out.println("Encoders "+ String.valueOf(HardwareAdaptor.kLeftDriveEncoder.getDistance()+" "+String.valueOf(HardwareAdaptor.kRightDriveEncoder.getDistance())));
+    }
 
-		//        looper.start();
-	}
+    @Override
+    public void disabledInit() {
+        setState(RobotState.DISABLED);
 
-	@Override
-	public void teleopPeriodic() {
-		// Test XboxController output
-		
-		if(RobotSetpoints.TimerDriveAction.NONE == behavior_manager.getSetpoints().timer_drive_action) {
-			cdh.cheesyDrive(-leftStick.getY(), rightStick.getX(), rightStick.getRawButton(1), true);
-		}
+        System.out.println("Start disabledInit()");
 
-		//the behavior manager updates based on the commands from the operator interface.
-		//in the first part, various routines are called based on the requests from the operator interface(buttons)
-		//these routines should change the states of the RobotSetpoints only - NO MOVEMENT CODE
-		//the second part of the update method in behavior manager runs the physical subsystems based off the RobotSetpoints.
-		behavior_manager.update(operator_interface.getCommands());
+        // Stop auto mode
+        autoModeRunner.stop();
 
-		// Update sensorTable with encoder distances
-		sensorTable.putString("left", String.valueOf(HardwareAdaptor.kLeftDriveEncoder.getDistance()));
-		sensorTable.putString("right", String.valueOf(HardwareAdaptor.kRightDriveEncoder.getDistance()));
-		//    	System.out.println("Encoders "+ String.valueOf(HardwareAdaptor.kLeftDriveEncoder.getDistance()+" "+String.valueOf(HardwareAdaptor.kRightDriveEncoder.getDistance())));
-	}
+        // Stop routines
+        behavior_manager.reset();
 
-	@Override
-	public void disabledInit() {
-		setState(RobotState.DISABLED);
+        // Stop control loops
+//        looper.stop();
+//        slowLooper.stop();
+//
+//        // Stop controllers
+//        drive.setOpenLoop(DriveSignal.NEUTRAL);
+//
+//        // Reload constants
+//        drive.reloadConstants();
+//
+        System.gc();
 
-		System.out.println("Start disabledInit()");
+        System.out.println("end disable init!");
+    }
 
-		// Stop auto mode
-		autoModeRunner.stop();
+    @Override
+    public void disabledPeriodic() {
 
-		// Stop routines
-		behavior_manager.reset();
-
-		// Stop control loops
-		//        looper.stop();
-		//        slowLooper.stop();
-		//
-		//        // Stop controllers
-		//        drive.setOpenLoop(DriveSignal.NEUTRAL);
-		//
-		//        // Reload constants
-		//        drive.reloadConstants();
-		//
-		System.gc();
-
-		System.out.println("end disable init!");
-	}
-
-	@Override
-	public void disabledPeriodic() {
-	}
-
+    }
 }

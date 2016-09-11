@@ -1,5 +1,6 @@
 package com.palyrobotics.frc2016;
 
+import com.palyrobotics.frc2016.Robot.RobotName;
 import com.palyrobotics.lib.util.ConstantsBase;
 
 public class Constants extends ConstantsBase {

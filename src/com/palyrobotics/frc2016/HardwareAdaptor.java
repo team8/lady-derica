@@ -62,7 +62,6 @@ public class HardwareAdaptor {
 	 * INTAKE
 	 */
 	public static Intake kIntake = null;
-
 	static {
 		if(Robot.name == RobotName.TYR) {
 			CheesySpeedController kLeftIntakeMotor = new CheesySpeedController(
@@ -98,10 +97,9 @@ public class HardwareAdaptor {
 					Constants.kGrabberSolenoidPortExtend, Constants.kGrabberSolenoidPortRetract);
 		}
 	}
-	
-    public static TyrShooter kTyrShooter = new TyrShooter("shooter", kShooter, kShooterSolenoid, kLatchSolenoid);
-
-
+    // Subsystems
+    public static TyrShooter kTyrShooter = new TyrShooter("shooter", kShooter, kShooterSolenoid, kLatchSolenoid);    
+    
 	// Sensors
 	//    public static GyroThread kGyroThread = null; //new GyroThread();
 
