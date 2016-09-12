@@ -42,68 +42,31 @@ public class Constants extends ConstantsBase {
 	public static int kEndEditableArea = 0;
 
 	// !!! Electrical constants (do not change at runtime, lol)
+	/*
+	 * TYR
+	 */
 	// Motors
-	public static int kLeftDriveMotorFrontDeviceID;
-	public static int kLeftDriveMotorBackDeviceID;
-	public static int kLeftDriveMotor1PDP; 
-	public static int kLeftDriveMotor2PDP;
+	public static int kTyrLeftDriveMotorFrontDeviceID  = 1;
+	public static int kTyrLeftDriveMotorBackDeviceID = 3;
+	public static int kTyrLeftDriveMotor1PDP = 12; // Found using tyr code
+	public static int kTyrLeftDriveMotor2PDP = 13;
 
-	public static int kRightDriveMotorFrontDeviceID;
-	public static int kRightDriveMotorBackDeviceID;
-	public static int kRightDriveMotor1PDP;
-	public static int kRightDriveMotor2PDP;
+	public static int kTyrRightDriveMotorFrontDeviceID = 2;
+	public static int kTyrRightDriveMotorBackDeviceID = 4;
+	public static int kTyrRightDriveMotor1PDP = 14; // Found using tyr code
+	public static int kTyrRightDriveMotor2PDP = 15;
+	// DIO Encoders
+	public static int kTyrLeftDriveEncoderDIOA = 1;
+	public static int kTyrLeftDriveEncoderDIOB = 0;
+	public static int kTyrRightDriveEncoderDIOA = 2;
+	public static int kTyrRightDriveEncoderDIOB = 3;
 
-	public static int kLeftIntakeMotorPWM = 1;
-	public static int kLeftIntakeMotorPDP = 7;
-	public static int kRightIntakeMotorPWM = 8;
-	public static int kRightIntakeMotorPDP = 8;
-
-	// DIO
-	public static int kLeftDriveEncoderDIOA;
-	public static int kLeftDriveEncoderDIOB;
-	public static int kRightDriveEncoderDIOA;
-	public static int kRightDriveEncoderDIOB;
-
-	static {
-		if(Robot.name == RobotName.TYR) {
-			kLeftDriveMotorFrontDeviceID  = 1;
-			kLeftDriveMotorBackDeviceID = 3;
-			kLeftDriveMotor1PDP = 12; // Found using tyr code
-			kLeftDriveMotor2PDP = 13;
-
-			kRightDriveMotorFrontDeviceID = 2;
-			kRightDriveMotorBackDeviceID = 4;
-			kRightDriveMotor1PDP = 14; // Found using tyr code
-			kRightDriveMotor2PDP = 15;
-			
-			kLeftDriveEncoderDIOA = 1;
-			kLeftDriveEncoderDIOB = 0;
-			kRightDriveEncoderDIOA = 2;
-			kRightDriveEncoderDIOB = 3;
-		}
-
-		if(Robot.name == RobotName.DERICA) {
-			//FIND PDP slots THROUGH TESTING, THESE ARE NOT CORRECT
-			kLeftDriveMotorFrontDeviceID  = 3;
-			kLeftDriveMotorBackDeviceID = 4;
-			kLeftDriveMotor1PDP = 12;
-			kLeftDriveMotor2PDP = 13;
-
-			kRightDriveMotorFrontDeviceID = 1;
-			kRightDriveMotorBackDeviceID = 2;
-			kRightDriveMotor1PDP = 14;
-			kRightDriveMotor2PDP = 15;
-		
-			kLeftDriveEncoderDIOA = 2;
-			kLeftDriveEncoderDIOB = 3;
-			kRightDriveEncoderDIOA = 1;
-			kRightDriveEncoderDIOB = 2;
-		}
-	}
-
-
-	// Analog I/O
-
+	//Intake
+	public static int kTyrLeftIntakeMotorPWM = 1;
+	public static int kTyrLeftIntakeMotorPDP = 7;
+	public static int kTyrIntakeMotorPWM = 8;
+	public static int kTyrRightIntakeMotorPDP = 8;
+	
 	// Solenoids (shooter, latch, grabber)
 	public static int kShooterSolenoidPortExtend = 5;
 	public static int kShooterSolenoidPortRetract = 2;
@@ -111,6 +74,36 @@ public class Constants extends ConstantsBase {
 	public static int kLatchSolenoidPortRetract = 6;
 	public static int kGrabberSolenoidPortExtend = 0;
 	public static int kGrabberSolenoidPortRetract = 7;
+
+
+	/*
+	 * DERICA
+	 */
+	
+	// Motors
+	public static int kDericaLeftDriveMotorFrontDeviceID  = 3;
+	public static int kDericaLeftDriveMotorBackDeviceID = 4;
+	//TODO FIND PDP slots THROUGH TESTING, THESE ARE NOT CORRECT
+	public static int kDericaLeftDriveMotor1PDP = 12;
+	public static int kDericaLeftDriveMotor2PDP = 13;
+
+	public static int kDericaRightDriveMotorFrontDeviceID = 1;
+	public static int kDericaRightDriveMotorBackDeviceID = 2;
+	public static int kDericaRightDriveMotor1PDP = 14;
+	public static int kDericaRightDriveMotor2PDP = 15;
+
+	public static int kDericaLeftDriveEncoderDIOA = 2;
+	public static int kDericaLeftDriveEncoderDIOB = 3;
+	public static int kDericaRightDriveEncoderDIOA = 1;
+	public static int kDericaRightDriveEncoderDIOB = 2;
+	
+	// INTAKE
+	public static int kDericaIntakeMotorPWM;
+	public static int kDericaIntakeMotorPDP;
+	public static int kDericaArmIntakeMotorPWM;
+	public static int kDericaArmIntakeMotorPDP;
+	
+	// Analog I/O
 
 	// Compressor Ports DON'T WORK
 	public static int kCompressorRelayPort = 0;
@@ -125,7 +118,7 @@ public class Constants extends ConstantsBase {
 
 	// Drive parameters
 	public static double kDriveEncoderCountsPerRev = 250.0;
-	public static double kDriveWheelSizeInches = 6; //pneumatic wheels
+	public static double kDriveWheelSizeInches = 8; //pneumatic wheels
 
 	@Override
 	public String getFileLocation() {
