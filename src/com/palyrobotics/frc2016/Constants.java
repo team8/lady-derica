@@ -66,8 +66,8 @@ public class Constants extends ConstantsBase {
 	public static int kTyrLeftIntakeMotorPDP = 7;
 	public static int kTyrIntakeMotorPWM = 8;
 	public static int kTyrRightIntakeMotorPDP = 8;
-	
-    // Shooter
+
+	// Shooter
     public static int kShooterTalonId = 8;
     public static int kShooterPDP = 3; 
     
