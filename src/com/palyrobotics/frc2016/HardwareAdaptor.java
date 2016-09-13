@@ -87,7 +87,9 @@ public class HardwareAdaptor {
 			kRightDriveEncoder = new Encoder(
 					Constants.kDericaRightDriveEncoderDIOA, Constants.kDericaRightDriveEncoderDIOB);
 		}
+		System.out.println("DT about to init");
 		kDrive = new Drive("drive", kLeftDriveMotor, kRightDriveMotor, kLeftDriveEncoder, kRightDriveEncoder);
+		System.out.println("DT Initialized");
 	}
 
 	/*
@@ -130,16 +132,9 @@ public class HardwareAdaptor {
 		}
 	}
     // Subsystems
-    public static TyrShooter kTyrShooter = new TyrShooter("shooter", kShooter, kShooterSolenoid, kLatchSolenoid);    
-    
-	// Sensors
-	//    public static GyroThread kGyroThread = null; //new GyroThread();
-
-	// Subsystems
-	public static PowerDistributionPanel kPDP = new PowerDistributionPanel();
+    public static TyrShooter kTyrShooter = new TyrShooter("shooter", kShooter, kShooterSolenoid, kLatchSolenoid);    	
 	
-	public static Intake intake;
-
+    public static Intake intake;
 	static {
 		if(Robot.name == RobotName.TYR) {
 			CheesySpeedController kLeftIntakeMotor = new CheesySpeedController(
@@ -148,20 +143,24 @@ public class HardwareAdaptor {
 			CheesySpeedController kRightIntakeMotor = new CheesySpeedController(
 					new VictorSP(Constants.kTyrIntakeMotorPWM),
 					Constants.kTyrRightIntakeMotorPDP);
-			intake = new Intake("intake", kLeftIntakeMotor, kRightIntakeMotor);
+			kIntake = new Intake("intake", kLeftIntakeMotor, kRightIntakeMotor);
 		} else if (Robot.name == RobotName.DERICA) {
-			CheesySpeedController kIntakeMotor = new CheesySpeedController(
-					new VictorSP(Constants.kDericaIntakeMotorPWM),
-					Constants.kDericaIntakeMotorPDP);
-			CheesySpeedController kIntakeArmMotor = new CheesySpeedController(
-					new VictorSP(Constants.kDericaArmIntakeMotorPWM),
-					Constants.kDericaArmIntakeMotorPDP);
-			intake = new Intake("intake", kIntakeMotor, kIntakeArmMotor);
+			System.out.println("Intake not initialized");
+//			CheesySpeedController kIntakeMotor = new CheesySpeedController(
+//					new VictorSP(Constants.kDericaIntakeMotorPWM),
+//					Constants.kDericaIntakeMotorPDP);
+//			CheesySpeedController kIntakeArmMotor = new CheesySpeedController(
+//					new VictorSP(Constants.kDericaArmIntakeMotorPWM),
+//					Constants.kDericaArmIntakeMotorPDP);
+//			kIntake = new Intake("intake", kIntakeMotor, kIntakeArmMotor);
 		}
 	}
 
 	// Sensors
 	//    public static GyroThread kGyroThread = null; //new GyroThread();
+
+	// Subsystems
+	public static PowerDistributionPanel kPDP = new PowerDistributionPanel();
 
 	// Compressor
 	//    public static Relay kCompressorRelay = new Relay(Constants.kCompressorRelayPort);
