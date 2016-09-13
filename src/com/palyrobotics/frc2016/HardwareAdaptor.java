@@ -13,24 +13,24 @@ public class HardwareAdaptor {
 	/* 
 	 * DRIVETRAIN
 	 */
-	public static Drive kDrive;
+	public static Drive kDrive = null;
 
-	static CheesySpeedController kLeftDriveMotor;
-	static CheesySpeedController kRightDriveMotor;
-	static Encoder kLeftDriveEncoder;
-	static Encoder kRightDriveEncoder;
+	static CheesySpeedController kLeftDriveMotor = null;
+	static CheesySpeedController kRightDriveMotor = null;
+	static Encoder kLeftDriveEncoder = null;
+	static Encoder kRightDriveEncoder = null;
 
 	// Instantiate drive motors
 	static {
 		if(Robot.name == RobotName.TYR) {
 			kLeftDriveMotor = new CheesySpeedController(
-					new SpeedController[]{new CANTalon(Constants.kTyrLeftDriveMotorFrontDeviceID), 
-							new CANTalon(Constants.kTyrLeftDriveMotorBackDeviceID)},
-					new int[]{Constants.kTyrLeftDriveMotor1PDP, Constants.kTyrLeftDriveMotor2PDP});
+					new SpeedController[]{new CANTalon(Constants.kTyrLeftDriveFrontMotorDeviceID), 
+							new CANTalon(Constants.kTyrLeftDriveBackMotorDeviceID)},
+					new int[]{Constants.kTyrLeftDriveFrontMotorPDP, Constants.kTyrLeftDriveBackMotorPDP});
 			kRightDriveMotor = new CheesySpeedController(
-					new SpeedController[]{new CANTalon(Constants.kTyrRightDriveMotorFrontDeviceID), 
-							new CANTalon(Constants.kTyrRightDriveMotorBackDeviceID)}, 
-					new int[]{Constants.kTyrRightDriveMotor2PDP, Constants.kTyrRightDriveMotor2PDP});
+					new SpeedController[]{new CANTalon(Constants.kTyrRightDriveFrontMotorDeviceID), 
+							new CANTalon(Constants.kTyrRightDriveBackMotorDeviceID)}, 
+					new int[]{Constants.kTyrRightDriveBackMotorPDP, Constants.kTyrRightDriveBackMotorPDP});
 			kLeftDriveEncoder = new Encoder(
 					Constants.kTyrLeftDriveEncoderDIOA, Constants.kTyrLeftDriveEncoderDIOB);
 			kRightDriveEncoder = new Encoder(
@@ -38,25 +38,27 @@ public class HardwareAdaptor {
 		}
 		else if (Robot.name == RobotName.DERICA) {
 			kLeftDriveMotor = new CheesySpeedController(
-					new SpeedController[]{new CANTalon(Constants.kDericaLeftDriveMotorFrontDeviceID), 
-							new CANTalon(Constants.kDericaLeftDriveMotorBackDeviceID)},
-					new int[]{Constants.kDericaLeftDriveMotor1PDP, Constants.kDericaLeftDriveMotor2PDP});
+					new SpeedController[]{new CANTalon(Constants.kDericaLeftDriveFrontMotorDeviceID), 
+							new CANTalon(Constants.kDericaLeftDriveBackMotorDeviceID)},
+					new int[]{Constants.kDericaLeftDriveFrontMotorPDP, Constants.kDericaLeftDriveBackMotorPDP});
 			kRightDriveMotor = new CheesySpeedController(
-					new SpeedController[]{new CANTalon(Constants.kDericaRightDriveMotorFrontDeviceID), 
-							new CANTalon(Constants.kDericaRightDriveMotorBackDeviceID)}, 
-					new int[]{Constants.kDericaRightDriveMotor2PDP, Constants.kDericaRightDriveMotor2PDP});
+					new SpeedController[]{new CANTalon(Constants.kDericaRightDriveFrontMotorDeviceID), 
+							new CANTalon(Constants.kDericaRightDriveBackMotorDeviceID)}, 
+					new int[]{Constants.kDericaRightDriveBackMotorPDP, Constants.kDericaRightDriveBackMotorPDP});
 			kLeftDriveEncoder = new Encoder(
 					Constants.kDericaLeftDriveEncoderDIOA, Constants.kDericaLeftDriveEncoderDIOB);
 			kRightDriveEncoder = new Encoder(
 					Constants.kDericaRightDriveEncoderDIOA, Constants.kDericaRightDriveEncoderDIOB);
 		}
+		System.out.println("DT about to init");
 		kDrive = new Drive("drive", kLeftDriveMotor, kRightDriveMotor, kLeftDriveEncoder, kRightDriveEncoder);
+		System.out.println("DT Initialized");
 	}
 
 	/*
 	 * INTAKE
 	 */
-	public static Intake intake;
+	public static Intake kIntake = null;
 
 	static {
 		if(Robot.name == RobotName.TYR) {
@@ -66,41 +68,46 @@ public class HardwareAdaptor {
 			CheesySpeedController kRightIntakeMotor = new CheesySpeedController(
 					new VictorSP(Constants.kTyrIntakeMotorPWM),
 					Constants.kTyrRightIntakeMotorPDP);
-			intake = new Intake("intake", kLeftIntakeMotor, kRightIntakeMotor);
+			kIntake = new Intake("intake", kLeftIntakeMotor, kRightIntakeMotor);
 		} else if (Robot.name == RobotName.DERICA) {
-			CheesySpeedController kIntakeMotor = new CheesySpeedController(
-					new VictorSP(Constants.kDericaIntakeMotorPWM),
-					Constants.kDericaIntakeMotorPDP);
-			CheesySpeedController kIntakeArmMotor = new CheesySpeedController(
-					new VictorSP(Constants.kDericaArmIntakeMotorPWM),
-					Constants.kDericaArmIntakeMotorPDP);
-			intake = new Intake("intake", kIntakeMotor, kIntakeArmMotor);
+			System.out.println("Intake not initialized");
+//			CheesySpeedController kIntakeMotor = new CheesySpeedController(
+//					new VictorSP(Constants.kDericaIntakeMotorPWM),
+//					Constants.kDericaIntakeMotorPDP);
+//			CheesySpeedController kIntakeArmMotor = new CheesySpeedController(
+//					new VictorSP(Constants.kDericaArmIntakeMotorPWM),
+//					Constants.kDericaArmIntakeMotorPDP);
+//			kIntake = new Intake("intake", kIntakeMotor, kIntakeArmMotor);
 		}
 	}
 
-	// Solenoids
-	DoubleSolenoid kShooterSolenoid = new DoubleSolenoid(
-			Constants.kShooterSolenoidPortExtend, Constants.kShooterSolenoidPortRetract);
-	DoubleSolenoid kLatchSolenoid = new DoubleSolenoid(
-			Constants.kLatchSolenoidPortExtend, Constants.kLatchSolenoidPortRetract);
-	DoubleSolenoid kGrabberSolenoid = new DoubleSolenoid(
-			Constants.kGrabberSolenoidPortExtend, Constants.kGrabberSolenoidPortRetract);
+	// Pneumatic solenoids, only instantiate if Tyr
+	static DoubleSolenoid kShooterSolenoid = null;
+	static DoubleSolenoid kLatchSolenoid = null;
+	static DoubleSolenoid kGrabberSolenoid = null;
+	static {
+		if(Robot.name == RobotName.TYR){
+			kShooterSolenoid = new DoubleSolenoid(
+					Constants.kShooterSolenoidPortExtend, Constants.kShooterSolenoidPortRetract);
+			kLatchSolenoid = new DoubleSolenoid(
+					Constants.kLatchSolenoidPortExtend, Constants.kLatchSolenoidPortRetract);
+			kGrabberSolenoid = new DoubleSolenoid(
+					Constants.kGrabberSolenoidPortExtend, Constants.kGrabberSolenoidPortRetract);
+		}
+	}
 
 	// Sensors
 	//    public static GyroThread kGyroThread = null; //new GyroThread();
 
 	// Subsystems
-	public static Intake kIntake = new Intake("intake", null, null);
 	public static PowerDistributionPanel kPDP = new PowerDistributionPanel();
-
-
 
 	// Compressor
 	//    public static Relay kCompressorRelay = new Relay(Constants.kCompressorRelayPort);
 	//    public static DigitalInput kCompressorSwitch = new DigitalInput(Constants.kPressureSwitchDIO);
 	//    public static CheesyCompressor kCompressor = new CheesyCompressor(kCompressorRelay, kCompressorSwitch);
 
-	// Interface
+	// Operator Interface
 	public static Joystick kLeftStick = new Joystick(0);
 	public static Joystick kRightStick = new Joystick(1);
 	public static Joystick kOperatorStick = new Joystick(2);

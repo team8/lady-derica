@@ -1,6 +1,5 @@
 package com.palyrobotics.frc2016;
 
-import com.palyrobotics.frc2016.Robot.RobotName;
 import com.palyrobotics.lib.util.ConstantsBase;
 
 public class Constants extends ConstantsBase {
@@ -46,15 +45,15 @@ public class Constants extends ConstantsBase {
 	 * TYR
 	 */
 	// Motors
-	public static int kTyrLeftDriveMotorFrontDeviceID  = 1;
-	public static int kTyrLeftDriveMotorBackDeviceID = 3;
-	public static int kTyrLeftDriveMotor1PDP = 12; // Found using tyr code
-	public static int kTyrLeftDriveMotor2PDP = 13;
+	public static int kTyrLeftDriveFrontMotorDeviceID  = 1;
+	public static int kTyrLeftDriveBackMotorDeviceID = 3;
+	public static int kTyrLeftDriveFrontMotorPDP = 12; // Found using tyr code
+	public static int kTyrLeftDriveBackMotorPDP = 13;
 
-	public static int kTyrRightDriveMotorFrontDeviceID = 2;
-	public static int kTyrRightDriveMotorBackDeviceID = 4;
-	public static int kTyrRightDriveMotor1PDP = 14; // Found using tyr code
-	public static int kTyrRightDriveMotor2PDP = 15;
+	public static int kTyrRightDriveFrontMotorDeviceID = 2;
+	public static int kTyrRightDriveBackMotorDeviceID = 4;
+	public static int kTyrRightDriveFrontMotorPDP = 14; // Found using tyr code
+	public static int kTyrRightDriveBackMotorPDP = 15;
 	// DIO Encoders
 	public static int kTyrLeftDriveEncoderDIOA = 1;
 	public static int kTyrLeftDriveEncoderDIOB = 0;
@@ -81,21 +80,20 @@ public class Constants extends ConstantsBase {
 	 */
 	
 	// Motors
-	public static int kDericaLeftDriveMotorFrontDeviceID  = 3;
-	public static int kDericaLeftDriveMotorBackDeviceID = 4;
-	//TODO FIND PDP slots THROUGH TESTING, THESE ARE NOT CORRECT
-	public static int kDericaLeftDriveMotor1PDP = 12;
-	public static int kDericaLeftDriveMotor2PDP = 13;
+	public static int kDericaLeftDriveFrontMotorDeviceID  = 3;
+	public static int kDericaLeftDriveBackMotorDeviceID = 4;
+	public static int kDericaLeftDriveFrontMotorPDP = 14;
+	public static int kDericaLeftDriveBackMotorPDP = 3;
 
-	public static int kDericaRightDriveMotorFrontDeviceID = 1;
-	public static int kDericaRightDriveMotorBackDeviceID = 2;
-	public static int kDericaRightDriveMotor1PDP = 14;
-	public static int kDericaRightDriveMotor2PDP = 15;
+	public static int kDericaRightDriveFrontMotorDeviceID = 1;
+	public static int kDericaRightDriveBackMotorDeviceID = 2;
+	public static int kDericaRightDriveFrontMotorPDP = 15;
+	public static int kDericaRightDriveBackMotorPDP = 2;
 
 	public static int kDericaLeftDriveEncoderDIOA = 2;
 	public static int kDericaLeftDriveEncoderDIOB = 3;
-	public static int kDericaRightDriveEncoderDIOA = 1;
-	public static int kDericaRightDriveEncoderDIOB = 2;
+	public static int kDericaRightDriveEncoderDIOA = 0;
+	public static int kDericaRightDriveEncoderDIOB = 1;
 	
 	// INTAKE
 	public static int kDericaIntakeMotorPWM;
