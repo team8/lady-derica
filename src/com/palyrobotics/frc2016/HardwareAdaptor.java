@@ -5,6 +5,7 @@ import com.palyrobotics.frc2016.subsystems.*;
 import com.palyrobotics.lib.util.CheesyCompressor;
 import com.palyrobotics.lib.util.CheesySolenoid;
 import com.palyrobotics.lib.util.CheesySpeedController;
+import com.palyrobotics.lib.util.XboxController;
 
 //import com.team254.lib.util.gyro.GyroThread;
 import edu.wpi.first.wpilibj.*;
@@ -110,6 +111,5 @@ public class HardwareAdaptor {
 	// Operator Interface
 	public static Joystick kLeftStick = new Joystick(0);
 	public static Joystick kRightStick = new Joystick(1);
-	public static Joystick kOperatorStick = new Joystick(2);
-
+	public static XboxController kOperatorStick = new XboxController(2);
 }
