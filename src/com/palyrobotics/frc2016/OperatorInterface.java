@@ -66,30 +66,4 @@ public class OperatorInterface {
 
 		return m_commands;
 	}
-
-	public void printXbox() {
-		System.out.println("Left X: "+operatorStick.getLeftX());
-		System.out.println("Left Y: "+operatorStick.getLeftY());
-		System.out.println("Right X: "+operatorStick.getRightX());
-		System.out.println("Right X: "+operatorStick.getRightY());
-		if(operatorStick.getButtonA()) {
-			System.out.println("Button A pressed");
-		}
-		if(operatorStick.getButtonB()) {
-			System.out.println("Button B pressed");
-		}
-		if(operatorStick.getButtonX()) {
-			System.out.println("Button X pressed");
-		}
-		if(operatorStick.getButtonY()) {
-			System.out.println("Button Y pressed");
-		}
-		if(operatorStick.getLeftStickPressed()) {
-			System.out.println("Left Stick pressed");
-		}
-		if(operatorStick.getRightStickPressed()) {
-			System.out.println("Right Stick pressed");
-		}
-
-	}
 }

@@ -12,6 +12,8 @@ public class XboxController extends Joystick {
 	private int invertLeftY = 1;
 	private int invertRightY = 1;
 	
+	private double triggerThreshold = 0.9;
+	
 	/**
 	 * Construct the default Xbox joystick
 	 * @param port USB port for joystick
@@ -41,6 +43,10 @@ public class XboxController extends Joystick {
 		super(port);
 		this.invertLeftY = invertLeftY ? -1:1;
 		this.invertRightY = invertRightY ? -1:1;
+	}
+	
+	public void setTriggerThreshold(double threshold) {
+		this.triggerThreshold = threshold;
 	}
 	
 	/**
@@ -141,5 +147,63 @@ public class XboxController extends Joystick {
 		return super.getRawButton(6);
 	}
 	
-	//TODO: Implement left/right triggers
+	/**
+	 * "Start" Button of Xbox
+	 * @return true if Start button is pressed
+	 */
+	public boolean getButtonStart() {
+		return super.getRawButton(9);
+	}
+	
+	/**
+	 * "Back" Button of Xbox
+	 * @return true if Back button is pressed
+	 */
+	public boolean getButtonBack() {
+		return super.getRawButton(10);
+	}
+	
+	/**
+	 * Status of Left Trigger pressed (LT)
+	 * Scales from 0 to 1 depending on how much it is pressed
+	 * @return 0 (no press) to 1 (fully pressed) 
+	 */
+	public double getLeftTrigger() {
+		return super.getRawAxis(4);
+	}
+	
+	/**
+	 * Status of Right Trigger pressed (RT)
+	 * Scales from 0 to 1 depending on how much it is pressed
+	 * @return 0 (no press) to 1 (fully pressed) 
+	 */
+	public double getRightTrigger() {
+		return super.getRawAxis(5);
+	}
+	
+	/**
+	 * Status of Left Trigger pressed (LT)
+	 * If pressed beyond threshold, returns true
+	 * @return true if pressed beyond threshold
+	 */
+	public boolean getLeftTriggerPressed() {
+		return super.getRawAxis(4) > triggerThreshold;
+	}
+	
+	/**
+	 * Status of Right Trigger pressed (RT)
+	 * If pressed beyond threshold, returns true
+	 * @return true if pressed beyond threshold
+	 */
+	public boolean getRightTriggerPressed() {
+		return super.getRawAxis(5) > triggerThreshold;
+	}
+	
+	/**
+	 * DPad up pressed
+	 * @return true if pressed up
+	 */
+	public boolean getDpadUp() {
+		return super.getRawButton(12);
+	}
 }
