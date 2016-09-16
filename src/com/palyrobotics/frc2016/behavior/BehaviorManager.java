@@ -10,6 +10,8 @@ import com.palyrobotics.lib.util.DriveSignal;
 import com.palyrobotics.lib.util.StateHolder;
 import com.palyrobotics.lib.util.Tappable;
 
+import edu.wpi.first.wpilibj.networktables.NetworkTable;
+
 public class BehaviorManager implements Tappable {
 
 	public boolean isZero(double val) {
@@ -23,6 +25,7 @@ public class BehaviorManager implements Tappable {
 
 	private Routine m_cur_routine = null;
 	private RobotSetpoints m_setpoints;
+	private NetworkTable table;
 	//    private ManualRoutine m_manual_routine = new ManualRoutine();
 
 	public RobotSetpoints getSetpoints() {
@@ -57,6 +60,7 @@ public class BehaviorManager implements Tappable {
 	public BehaviorManager() {
 		m_setpoints = new RobotSetpoints();
 		m_setpoints.reset();
+		table = NetworkTable.getTable("visiondata");
 	}
 
 	public void update(Commands commands) {
@@ -75,6 +79,8 @@ public class BehaviorManager implements Tappable {
 			setNewRoutine(new EncoderDriveRoutine(1000));
 		} else if (commands.timer_drive_request == Commands.TimerDriveRequest.ACTIVATE && !(m_cur_routine instanceof TimerDriveRoutine)) {
 			setNewRoutine(new TimerDriveRoutine());
+		} else if (commands.auto_alignment_request == Commands.AutoAlignmentRequest.ACTIVATE && !(m_cur_routine instanceof AutoAlignmentRoutine)) {
+			setNewRoutine(new AutoAlignmentRoutine());
 		}
 
 		//changes the setpoints according to the current routine update
@@ -131,6 +137,13 @@ public class BehaviorManager implements Tappable {
 			drive.setOpenLoop(new DriveSignal(0.3, 0.3));
 		}
 		if(m_setpoints.encoder_drive_action == RobotSetpoints.EncoderDriveAction.WAITING) {
+			drive.setOpenLoop(new DriveSignal(0, 0));
+		}
+		
+		if(m_setpoints.auto_alignment_action == RobotSetpoints.AutoAlignmentAction.ALIGN) {
+			drive.setTurnSetPoint(table.getNumber("skewangle", 100000));
+		}
+		if(m_setpoints.auto_alignment_action == RobotSetpoints.AutoAlignmentAction.WAITING) {
 			drive.setOpenLoop(new DriveSignal(0, 0));
 		}
 	}

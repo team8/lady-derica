@@ -34,6 +34,10 @@ public class Commands {
     public enum EncoderDriveRequest {
     	NONE, ACTIVATE
     }
+    
+    public enum AutoAlignmentRequest {
+    	NONE, ACTIVATE
+    }
 
     public PresetRequest preset_request;
     
@@ -46,6 +50,7 @@ public class Commands {
     // Routine requests
     public TimerDriveRequest timer_drive_request;
     public EncoderDriveRequest encoder_drive_request;
+    public AutoAlignmentRequest auto_alignment_request;
     
     // Allows you to cancel routine
     public boolean cancel_current_routine = false;

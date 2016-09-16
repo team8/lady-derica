@@ -20,21 +20,26 @@ public class RobotSetpoints {
     	NONE, DRIVE_STRAIGHT, WAITING
     }
     
+    public enum AutoAlignmentAction {
+    	NONE, ALIGN, WAITING
+    }
+    
     public static final Optional<Double> m_nullopt = Optional.empty();
 
     public IntakeAction intake_action;
     public TimerDriveAction timer_drive_action;
     public EncoderDriveAction encoder_drive_action;
+    public AutoAlignmentAction auto_alignment_action;
     public Optional<Double> top_open_loop_jog;
     public Optional<Double> bottom_open_loop_jog;
     public RoutineAction routine_status;
 
     public void reset() {
-    	intake_action = IntakeAction.NONE;
-    	timer_drive_action = TimerDriveAction.NONE;
-    	encoder_drive_action = EncoderDriveAction.NONE;
-    	routine_status = RoutineAction.NONE;
-    	top_open_loop_jog = m_nullopt;
-    	bottom_open_loop_jog = m_nullopt;
+        intake_action = IntakeAction.NONE;
+        timer_drive_action = TimerDriveAction.NONE;
+        encoder_drive_action = EncoderDriveAction.NONE;
+        auto_alignment_action = AutoAlignmentAction.NONE;
+        top_open_loop_jog = m_nullopt;
+        bottom_open_loop_jog = m_nullopt;
     }
 }
