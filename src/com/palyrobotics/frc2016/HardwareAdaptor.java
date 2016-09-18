@@ -55,6 +55,8 @@ public class HardwareAdaptor {
 		kDrive = new Drive("drive", kLeftDriveMotor, kRightDriveMotor, kLeftDriveEncoder, kRightDriveEncoder);
 		System.out.println("DT Initialized");
 	}
+    static CheesySpeedController kShooter = new CheesySpeedController(new CANTalon(Constants.kShooterTalonId), 
+    		Constants.kShooterPDP);
 
 	/*
 	 * INTAKE
@@ -81,11 +83,11 @@ public class HardwareAdaptor {
 //			kIntake = new Intake("intake", kIntakeMotor, kIntakeArmMotor);
 		}
 	}
-
 	// Pneumatic solenoids, only instantiate if Tyr
 	static DoubleSolenoid kShooterSolenoid = null;
 	static DoubleSolenoid kLatchSolenoid = null;
 	static DoubleSolenoid kGrabberSolenoid = null;
+
 	static {
 		if(Robot.name == RobotName.TYR){
 			kShooterSolenoid = new DoubleSolenoid(
@@ -96,6 +98,9 @@ public class HardwareAdaptor {
 					Constants.kGrabberSolenoidPortExtend, Constants.kGrabberSolenoidPortRetract);
 		}
 	}
+	
+    public static TyrShooter kTyrShooter = new TyrShooter("shooter", kShooter, kShooterSolenoid, kLatchSolenoid);
+
 
 	// Sensors
 	//    public static GyroThread kGyroThread = null; //new GyroThread();

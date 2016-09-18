@@ -66,14 +66,17 @@ public class Constants extends ConstantsBase {
 	public static int kTyrIntakeMotorPWM = 8;
 	public static int kTyrRightIntakeMotorPDP = 8;
 	
-	// Solenoids (shooter, latch, grabber)
-	public static int kShooterSolenoidPortExtend = 5;
-	public static int kShooterSolenoidPortRetract = 2;
-	public static int kLatchSolenoidPortExtend = 1;
-	public static int kLatchSolenoidPortRetract = 6;
-	public static int kGrabberSolenoidPortExtend = 0;
-	public static int kGrabberSolenoidPortRetract = 7;
-
+    // Shooter
+    public static int kShooterTalonId = 8;
+    public static int kShooterPDP = 3; 
+    
+    // Solenoids (shooter, latch, grabber)
+    public static int kShooterSolenoidPortExtend = 5;
+    public static int kShooterSolenoidPortRetract = 2;
+    public static int kLatchSolenoidPortExtend = 1;
+    public static int kLatchSolenoidPortRetract = 6;
+    public static int kGrabberSolenoidPortExtend = 0;
+    public static int kGrabberSolenoidPortRetract = 7;
 
 	/*
 	 * DERICA

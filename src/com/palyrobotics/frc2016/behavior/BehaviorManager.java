@@ -18,6 +18,7 @@ public class BehaviorManager implements Tappable {
 
 	protected Drive drive = HardwareAdaptor.kDrive;
 //	protected Intake intake = HardwareAdaptor.kIntake;
+	protected TyrShooter kShooter = HardwareAdaptor.kTyrShooter;
 
 	private Routine m_cur_routine = null;
 	private RobotSetpoints m_setpoints;
@@ -97,9 +98,9 @@ public class BehaviorManager implements Tappable {
 
 		// Parse latch commands because this is only open loop
 		if (commands.latch_request == Commands.LatchRequest.LOCK) {
-			;
+			kShooter.lock();
 		} else if (commands.latch_request == Commands.LatchRequest.UNLOCK) {
-			;
+			kShooter.unlock();
 		} else {
 			;
 		}
@@ -115,11 +116,10 @@ public class BehaviorManager implements Tappable {
 
 		// Parse shooter commands because this is only open loop
 		if (commands.shooter_request == Commands.ShooterRequest.EXTEND) {
-			;
+			kShooter.extend();
 		} else if (commands.shooter_request == Commands.ShooterRequest.RETRACT) {
-			;
+			kShooter.retract();
 		} else {
-			;
 		}
 		
 		//Timer based routine
