@@ -86,6 +86,8 @@ public class HardwareAdaptor {
 			kIntake = new Intake("intake", kIntakeMotor, kIntakeArmMotor, kArmPotentiometer);
 		}
 	}
+	
+    public static DericaShooter kCatapult = new DericaShooter("catapult", null, null, null, null, null);
 
 	/*
 	 * SHOOTER/CATAPULT

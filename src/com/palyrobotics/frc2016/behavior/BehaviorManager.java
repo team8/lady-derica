@@ -19,7 +19,7 @@ public class BehaviorManager implements Tappable {
 
 	protected TyrShooter kShooter = HardwareAdaptor.kTyrShooter;
 	protected Intake intake = HardwareAdaptor.kIntake;
-	protected DericaShooter catapult;
+	protected DericaShooter catapult = HardwareAdaptor.kCatapult;
 
 	private Routine m_cur_routine = null;
 	private RobotSetpoints m_setpoints;
@@ -149,6 +149,9 @@ public class BehaviorManager implements Tappable {
 		if (commands.winch_request == Commands.WinchRequest.WIND) {
 			// Temporary speed, replace with a constant later
 			catapult.wind(1);
+		} else if (commands.winch_request == Commands.WinchRequest.UNWIND) {
+			// Temporary speed, replace with a constant later
+			catapult.unwind(-1);
 		}
 		
 		// Parse pin commands because this is only open loop

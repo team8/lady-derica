@@ -26,9 +26,8 @@ public class Commands {
     }
     
     // Commands for Catapult Winch
-    
     public enum WinchRequest {
-    	NONE, WIND
+    	NONE, WIND, UNWIND
     }
     
     // Commands for Winch Locking Pin
@@ -81,5 +80,7 @@ public class Commands {
     	encoder_drive_request = EncoderDriveRequest.NONE;
     	auto_align_request = AutoAlignRequest.NONE;
     	turn_angle_request = TurnAngleRequest.NONE;
+    	winch_request = WinchRequest.NONE;
+    	pin_request = PinRequest.NONE;
     }
 }
