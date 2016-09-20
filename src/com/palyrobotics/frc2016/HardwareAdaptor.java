@@ -102,7 +102,7 @@ public class HardwareAdaptor {
 					new VictorSP(Constants.kTyrLeftIntakeMotorPWM),
 					Constants.kTyrLeftIntakeMotorPDP);
 			CheesySpeedController kRightIntakeMotor = new CheesySpeedController(
-					new VictorSP(Constants.kTyrIntakeMotorPWM),
+					new VictorSP(Constants.kTyrRightIntakeMotorPWM),
 					Constants.kTyrRightIntakeMotorPDP);
 			kIntake = new Intake("intake", kLeftIntakeMotor, kRightIntakeMotor);
 		} else if (Robot.name == RobotName.DERICA) {
@@ -160,6 +160,7 @@ public class HardwareAdaptor {
 	//    public static GyroThread kGyroThread = null; //new GyroThread();
 
 	// Subsystems
+	public static TyrShooter kTyrShooter = new TyrShooter("shooter", kShooter, kShooterSolenoid, kLatchSolenoid);
 	public static PowerDistributionPanel kPDP = new PowerDistributionPanel();
 
 	// Compressor
