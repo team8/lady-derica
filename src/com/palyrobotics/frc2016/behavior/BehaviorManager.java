@@ -1,8 +1,5 @@
 package com.palyrobotics.frc2016.behavior;
 
-import java.util.Optional;
-
-import com.palyrobotics.frc2016.Constants;
 import com.palyrobotics.frc2016.HardwareAdaptor;
 import com.palyrobotics.frc2016.behavior.routines.*;
 import com.palyrobotics.frc2016.subsystems.*;
@@ -25,7 +22,7 @@ public class BehaviorManager implements Tappable {
 
 	private Routine m_cur_routine = null;
 	private RobotSetpoints m_setpoints;
-	private NetworkTable table;
+	private NetworkTable m_vision_table;
 	//    private ManualRoutine m_manual_routine = new ManualRoutine();
 
 	public RobotSetpoints getSetpoints() {
@@ -60,7 +57,7 @@ public class BehaviorManager implements Tappable {
 	public BehaviorManager() {
 		m_setpoints = new RobotSetpoints();
 		m_setpoints.reset();
-		table = NetworkTable.getTable("visiondata");
+		m_vision_table = NetworkTable.getTable("visiondata");
 	}
 
 	public void update(Commands commands) {
@@ -125,26 +122,17 @@ public class BehaviorManager implements Tappable {
 		}
 		
 		//Timer based routine
-		if(m_setpoints.timer_drive_action == RobotSetpoints.TimerDriveAction.DRIVE_STRAIGHT) {
-			drive.setOpenLoop(new DriveSignal(0.5, 0.5));
-		}
-		if(m_setpoints.timer_drive_action == RobotSetpoints.TimerDriveAction.WAITING) {
-			drive.setOpenLoop(new DriveSignal(0, 0));
+		if(m_setpoints.timer_drive_time_setpoint.isPresent()) {
+			drive.setOpenLoop(new DriveSignal(m_setpoints.drive_velocity_setpoint.get(), m_setpoints.drive_velocity_setpoint.get()));
 		}
 		
-		//Encoder based routine
-		if(m_setpoints.encoder_drive_action == RobotSetpoints.EncoderDriveAction.DRIVE_STRAIGHT) {
-			drive.setOpenLoop(new DriveSignal(0.3, 0.3));
+		//Encoder drive distance routine
+		if(m_setpoints.encoder_drive_setpoint.isPresent()) {
+			drive.setOpenLoop(new DriveSignal(m_setpoints.drive_velocity_setpoint.get(), m_setpoints.drive_velocity_setpoint.get()));
 		}
-		if(m_setpoints.encoder_drive_action == RobotSetpoints.EncoderDriveAction.WAITING) {
-			drive.setOpenLoop(new DriveSignal(0, 0));
-		}
-		
-		if(m_setpoints.auto_alignment_action == RobotSetpoints.AutoAlignmentAction.ALIGN) {
-			drive.setTurnSetPoint(table.getNumber("skewangle", 100000));
-		}
-		if(m_setpoints.auto_alignment_action == RobotSetpoints.AutoAlignmentAction.WAITING) {
-			drive.setOpenLoop(new DriveSignal(0, 0));
+		// If auto-align has a setpoint to use, start turning angle
+		if(m_setpoints.auto_align_setpoint.isPresent()) {
+			drive.setTurnSetPoint(m_setpoints.auto_align_setpoint.get());
 		}
 	}
 

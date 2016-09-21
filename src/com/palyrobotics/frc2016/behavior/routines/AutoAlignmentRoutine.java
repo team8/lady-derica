@@ -1,59 +1,117 @@
 package com.palyrobotics.frc2016.behavior.routines;
 
+import java.util.Optional;
+
 import com.palyrobotics.frc2016.behavior.Commands;
 import com.palyrobotics.frc2016.behavior.RobotSetpoints;
 import com.palyrobotics.lib.util.DriveSignal;
+
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 
-public class AutoAlignmentRoutine extends Routine{
-	
-	public enum States {
-		START, ALIGN, DONE
+public class AutoAlignmentRoutine extends Routine {
+	/* Start = Start of the routine
+	 * Set_Angle = wait for vision, then set angle
+	 * Aligning = waiting while robot turns
+	 * Done = no goal spotted, or finished iterations
+	 */
+	public enum AutoAlignStates {
+		START, SET_ANGLE, ALIGNING, DONE
 	}
 
-	public States m_state = States.START;
+	public AutoAlignStates m_state = AutoAlignStates.START;
 	private NetworkTable table = NetworkTable.getTable("visiondata");
-    RobotSetpoints setpoints;
-    
+	// Threshold angle for which we will turn
+	private final double m_min_angle = 3;
+	
+	// Number of iterations for successive auto alignments
+	private final int m_default_iterations = 2;
+	private int m_iterations = m_default_iterations;
+
+	// Timer used for waiting period for camera stabilization
+	private Timer m_timer = new Timer();
+	private final double m_wait_time = 1500; 
+	
+	RobotSetpoints setpoints;
+
+	/**
+	 * Changes number of successive alignments
+	 */
+	public void setIterations(int iterations) {
+		this.m_iterations = iterations;
+	}
+
 	@Override
 	public void reset() {
-		m_state = States.START;
+		m_state = AutoAlignStates.DONE;
+		m_timer.reset();
+		m_timer.start();
+		m_iterations = m_default_iterations;
 	}
 
 	@Override
 	public RobotSetpoints update(Commands commands, RobotSetpoints existing_setpoints) {
 		RobotSetpoints setpoints = existing_setpoints;
-		States new_state = m_state;
+		AutoAlignStates new_state = m_state;
 		switch(m_state) {
-		case START: 
-			new_state = States.ALIGN;
-		case ALIGN:
-			if(table.getNumber("skewangle", 100000) > 3) {
-				existing_setpoints.auto_alignment_action = RobotSetpoints.AutoAlignmentAction.ALIGN;
+		case START:
+			if(m_iterations > 0) {
+				m_timer.reset();
+				m_timer.start();
+				new_state = AutoAlignStates.SET_ANGLE;
 			} else {
-				new_state = States.DONE;
+				new_state = AutoAlignStates.DONE;
+			}
+			break;
+		case SET_ANGLE:
+			// Wait for m_wait_time before reading vision data (latency)
+			if(m_timer.get() < m_wait_time) {
+				break;
+			}
+			// If angle turnpoint has been set, then set this routine to waiting for alignment
+			if(existing_setpoints.auto_align_setpoint.isPresent()) {
+				new_state = AutoAlignStates.ALIGNING;
+				break;
+			}
+			if(table.getNumber("skewangle", 100000) > m_min_angle) {
+				setpoints.auto_align_setpoint = Optional.of(table.getNumber("skewangle", 100000));
+			} else {
+				System.out.println("No goal detected");
+				m_iterations = 0;
+				new_state = AutoAlignStates.DONE;
+			}
+			break;
+		case ALIGNING:
+			// If finished turning, start next sequence or finish
+			if(drive.controllerOnTarget()) {
+				m_iterations--;
+				if(m_iterations > 0) {
+					new_state = AutoAlignStates.START;
+				} else {
+					new_state = AutoAlignStates.DONE;
+				}
 			}
 			break;
 		case DONE:
 			drive.reset();
-			existing_setpoints.auto_alignment_action = RobotSetpoints.AutoAlignmentAction.NONE;
+			setpoints.auto_align_setpoint = RobotSetpoints.m_nullopt;
+			break;
 		}
-		if (new_state != m_state) {
-            m_state = new_state;
-        }
-		return existing_setpoints;
+		m_state = new_state;
+		return setpoints;
 	}
 
 	@Override
 	public void cancel() {
-		m_state = States.START;
-		drive.setOpenLoop(new DriveSignal(0, 0));
+		setpoints.auto_align_setpoint = RobotSetpoints.m_nullopt;
+		m_state = AutoAlignStates.DONE;
+		drive.setOpenLoop(DriveSignal.NEUTRAL);
 		drive.reset();
 	}
 
 	@Override
 	public boolean isFinished() {
-		return m_state == States.DONE;
+		return m_state == AutoAlignStates.DONE;
 	}
 
 	@Override

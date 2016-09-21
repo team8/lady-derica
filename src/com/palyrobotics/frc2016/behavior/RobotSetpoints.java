@@ -4,42 +4,32 @@ import java.util.Optional;
 
 public class RobotSetpoints {
 
-	public enum RoutineAction {
-		NONE, RUNNING
+	public enum IntakeAction {
+		NONE, OPEN, CLOSE, PREFER_OPEN, PREFER_CLOSE
 	}
 	
-    public enum IntakeAction {
-    	NONE, OPEN, CLOSE, PREFER_OPEN, PREFER_CLOSE
-    }
+	public enum DriveRoutineState {
+		NONE, TIMER_DRIVE, ENCODER_DRIVE, ENCODER_TURN, GYRO_TURN, AUTO_ALIGN
+	}
 
-    public enum TimerDriveAction {
-    	NONE, DRIVE_STRAIGHT, WAITING
-    }
-    
-    public enum EncoderDriveAction {
-    	NONE, DRIVE_STRAIGHT, WAITING
-    }
-    
-    public enum AutoAlignmentAction {
-    	NONE, ALIGN, WAITING
-    }
-    
-    public static final Optional<Double> m_nullopt = Optional.empty();
+	public static final Optional<Double> m_nullopt = Optional.empty();
 
-    public IntakeAction intake_action;
-    public TimerDriveAction timer_drive_action;
-    public EncoderDriveAction encoder_drive_action;
-    public AutoAlignmentAction auto_alignment_action;
-    public Optional<Double> top_open_loop_jog;
-    public Optional<Double> bottom_open_loop_jog;
-    public RoutineAction routine_status;
+	// Actions for each subsystem
+	public IntakeAction intake_action;
+	public DriveRoutineState drive_routine_action;
 
-    public void reset() {
-        intake_action = IntakeAction.NONE;
-        timer_drive_action = TimerDriveAction.NONE;
-        encoder_drive_action = EncoderDriveAction.NONE;
-        auto_alignment_action = AutoAlignmentAction.NONE;
-        top_open_loop_jog = m_nullopt;
-        bottom_open_loop_jog = m_nullopt;
-    }
+	// Desired setpoints
+	public Optional<Double> auto_align_setpoint = m_nullopt;
+	public Optional<Double> encoder_drive_setpoint = m_nullopt;
+	public Optional<Double> timer_drive_time_setpoint = m_nullopt;
+	public Optional<Double> drive_velocity_setpoint = m_nullopt;
+
+	public void reset() {
+		intake_action = IntakeAction.NONE;
+		drive_routine_action = DriveRoutineState.NONE;
+		
+		auto_align_setpoint = m_nullopt;
+		encoder_drive_setpoint = m_nullopt;
+		timer_drive_time_setpoint = m_nullopt;
+	}
 }
