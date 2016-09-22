@@ -52,6 +52,7 @@ public class Robot extends IterativeRobot {
 	BehaviorManager behavior_manager = new BehaviorManager();
 	OperatorInterface operator_interface = new OperatorInterface();
 
+	PorportionalDriveHelper pdh = new PorportionalDriveHelper(drive);
 	CheesyDriveHelper cdh = new CheesyDriveHelper(drive);
 
 	Joystick leftStick = HardwareAdaptor.kLeftStick;
@@ -110,6 +111,10 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic() {
 		if(Robot.name == RobotName.TYR) {
 			shooter.teleopControlShooter(operatorStick.getRightY());
+		// Test XboxController output
+		}
+		if(RobotSetpoints.TimerDriveAction.NONE == behavior_manager.getSetpoints().timer_drive_action) {
+			pdh.pDrive(-leftStick.getY(), rightStick.getX());
 		}
 		
 		cdh.cheesyDrive(-leftStick.getY(), rightStick.getX(), rightStick.getRawButton(1), true, behavior_manager.getSetpoints());
