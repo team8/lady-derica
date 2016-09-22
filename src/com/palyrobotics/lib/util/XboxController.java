@@ -136,7 +136,7 @@ public class XboxController extends Joystick {
 	 * @param true if right bumper pressed
 	 */
 	public boolean getRightBumper() {
-		return super.getRawButton(5);
+		return super.getRawButton(6);
 	}
 	
 	/**
@@ -144,7 +144,7 @@ public class XboxController extends Joystick {
 	 * @return true if left bumper pressed
 	 */
 	public boolean getLeftBumper() {
-		return super.getRawButton(6);
+		return super.getRawButton(5);
 	}
 	
 	/**
@@ -169,7 +169,7 @@ public class XboxController extends Joystick {
 	 * @return 0 (no press) to 1 (fully pressed) 
 	 */
 	public double getLeftTrigger() {
-		return super.getRawAxis(4);
+		return super.getRawAxis(2);
 	}
 	
 	/**
@@ -178,7 +178,7 @@ public class XboxController extends Joystick {
 	 * @return 0 (no press) to 1 (fully pressed) 
 	 */
 	public double getRightTrigger() {
-		return super.getRawAxis(5);
+		return super.getRawAxis(3);
 	}
 	
 	/**
@@ -187,7 +187,7 @@ public class XboxController extends Joystick {
 	 * @return true if pressed beyond threshold
 	 */
 	public boolean getLeftTriggerPressed() {
-		return super.getRawAxis(4) > triggerThreshold;
+		return getLeftTrigger() > triggerThreshold;
 	}
 	
 	/**
@@ -196,7 +196,7 @@ public class XboxController extends Joystick {
 	 * @return true if pressed beyond threshold
 	 */
 	public boolean getRightTriggerPressed() {
-		return super.getRawAxis(5) > triggerThreshold;
+		return getRightTrigger() > triggerThreshold;
 	}
 	
 	/**

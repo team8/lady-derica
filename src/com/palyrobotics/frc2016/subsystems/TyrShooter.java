@@ -22,7 +22,6 @@ public class TyrShooter extends Subsystem {
 	}
 	
 	public void teleopControlShooter(double d) {
-		assert (d > 0);
 		m_shooter_motor.set(d);
 	}
 	

@@ -46,7 +46,7 @@ public class OperatorInterface {
 			m_commands.shooter_request = Commands.ShooterRequest.NONE;
 		}
 		// Operator Stick - Latch Control
-		if (operatorStick.getButtonY()) {
+		if (operatorStick.getLeftBumper()) {
 			m_commands.latch_request = Commands.LatchRequest.LOCK;
 		} else if (operatorStick.getRightTriggerPressed()) {
 			m_commands.latch_request = Commands.LatchRequest.UNLOCK;
@@ -94,7 +94,7 @@ public class OperatorInterface {
 			m_commands.shooter_request = Commands.ShooterRequest.NONE;
 		}
 		// Operator Stick - Latch Control
-		if (operatorStick.getButtonY()) {
+		if (operatorStick.getLeftBumper()) {
 			m_commands.latch_request = Commands.LatchRequest.LOCK;
 		} else if (operatorStick.getRightTriggerPressed()) {
 			m_commands.latch_request = Commands.LatchRequest.UNLOCK;
