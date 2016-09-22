@@ -1,6 +1,5 @@
 package com.palyrobotics.frc2016.subsystems;
 
-import com.palyrobotics.frc2016.HardwareAdaptor;
 import com.palyrobotics.lib.util.CheesySpeedController;
 import com.palyrobotics.lib.util.StateHolder;
 import com.palyrobotics.lib.util.Subsystem;
@@ -14,12 +13,12 @@ public class TyrShooter extends Subsystem {
 	DoubleSolenoid m_shooter_solenoid;
 	DoubleSolenoid m_latch_solenoid;
 	
-	public TyrShooter(String name, CheesySpeedController shooter, DoubleSolenoid shootSolenoid,
-			DoubleSolenoid latchSolenoid) {
+	public TyrShooter(String name, CheesySpeedController shooter_motor, DoubleSolenoid shooter_solenoid,
+			DoubleSolenoid latch_solenoid) {
 		super(name);
-		this.m_shooter_motor = shooter;
-		this.m_shooter_solenoid = shootSolenoid;
-		this.m_latch_solenoid = latchSolenoid;
+		this.m_shooter_motor = shooter_motor;
+		this.m_shooter_solenoid = shooter_solenoid;
+		this.m_latch_solenoid = latch_solenoid;
 	}
 	
 	public void teleopControlShooter(double d) {
