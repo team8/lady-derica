@@ -52,8 +52,8 @@ public class Robot extends IterativeRobot {
 	BehaviorManager behavior_manager = new BehaviorManager();
 	OperatorInterface operator_interface = new OperatorInterface();
 
-	PorportionalDriveHelper pdh = new PorportionalDriveHelper(drive);
 	CheesyDriveHelper cdh = new CheesyDriveHelper(drive);
+	ProportionalDriveHelper pdh = new ProportionalDriveHelper(drive);
 
 	Joystick leftStick = HardwareAdaptor.kLeftStick;
 	Joystick rightStick = HardwareAdaptor.kRightStick;
