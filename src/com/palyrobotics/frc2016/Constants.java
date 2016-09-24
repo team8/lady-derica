@@ -44,12 +44,12 @@ public class Constants extends ConstantsBase {
 	/*
 	 * TYR
 	 */
+	// DRIVETRAIN
 	// Motors
 	public static int kTyrLeftDriveFrontMotorDeviceID  = 1;
 	public static int kTyrLeftDriveBackMotorDeviceID = 3;
 	public static int kTyrLeftDriveFrontMotorPDP = 12; // Found using tyr code
 	public static int kTyrLeftDriveBackMotorPDP = 13;
-
 	public static int kTyrRightDriveFrontMotorDeviceID = 2;
 	public static int kTyrRightDriveBackMotorDeviceID = 4;
 	public static int kTyrRightDriveFrontMotorPDP = 14; // Found using tyr code
@@ -60,12 +60,15 @@ public class Constants extends ConstantsBase {
 	public static int kTyrRightDriveEncoderDIOA = 2;
 	public static int kTyrRightDriveEncoderDIOB = 3;
 
-	//Intake
+	// INTAKE
 	public static int kTyrLeftIntakeMotorPWM = 1;
 	public static int kTyrLeftIntakeMotorPDP = 7;
-	public static int kTyrIntakeMotorPWM = 8;
+	public static int kTyrRightIntakeMotorPWM = 0;
 	public static int kTyrRightIntakeMotorPDP = 8;
-	
+
+	// SHOOTER
+	public static int kTyrShooterMotorDeviceID = 8;
+	public static int kTyrShooterMotorPDP = 3; 
 	// Solenoids (shooter, latch, grabber)
 	public static int kShooterSolenoidPortExtend = 5;
 	public static int kShooterSolenoidPortRetract = 2;
@@ -74,34 +77,31 @@ public class Constants extends ConstantsBase {
 	public static int kGrabberSolenoidPortExtend = 0;
 	public static int kGrabberSolenoidPortRetract = 7;
 
-
 	/*
 	 * DERICA
 	 */
-	
+	// DRIVETRAIN
 	// Motors
 	public static int kDericaLeftDriveFrontMotorDeviceID  = 3;
 	public static int kDericaLeftDriveBackMotorDeviceID = 4;
 	public static int kDericaLeftDriveFrontMotorPDP = 14;
 	public static int kDericaLeftDriveBackMotorPDP = 3;
-
 	public static int kDericaRightDriveFrontMotorDeviceID = 1;
 	public static int kDericaRightDriveBackMotorDeviceID = 2;
 	public static int kDericaRightDriveFrontMotorPDP = 15;
 	public static int kDericaRightDriveBackMotorPDP = 2;
-
+	// DIO Encoders
 	public static int kDericaLeftDriveEncoderDIOA = 2;
 	public static int kDericaLeftDriveEncoderDIOB = 3;
 	public static int kDericaRightDriveEncoderDIOA = 0;
 	public static int kDericaRightDriveEncoderDIOB = 1;
-	
+
 	// INTAKE
 	public static int kDericaIntakeMotorPWM;
 	public static int kDericaIntakeMotorPDP;
 	public static int kDericaArmIntakeMotorPWM;
 	public static int kDericaArmIntakeMotorPDP;
-	
-	// Analog I/O
+
 
 	// Compressor Ports DON'T WORK
 	public static int kCompressorRelayPort = 0;

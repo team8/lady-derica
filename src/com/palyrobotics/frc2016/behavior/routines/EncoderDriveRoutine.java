@@ -33,6 +33,8 @@ public class EncoderDriveRoutine extends Routine {
 	public RobotSetpoints update(Commands commands, RobotSetpoints existing_setpoints) {
 		States new_state = m_state;
 		
+		existing_setpoints.routine_status = RobotSetpoints.RoutineAction.RUNNING;
+		
 		switch (m_state) {
 		case NONE:
 			existing_setpoints.encoder_drive_action = RobotSetpoints.EncoderDriveAction.WAITING;
@@ -50,6 +52,7 @@ public class EncoderDriveRoutine extends Routine {
 		case DONE:
 			drive.reset();
 			existing_setpoints.encoder_drive_action = RobotSetpoints.EncoderDriveAction.NONE;
+			existing_setpoints.routine_status = RobotSetpoints.RoutineAction.NONE;
 			break;
 		}
 		

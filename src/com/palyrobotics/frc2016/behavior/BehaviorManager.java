@@ -17,7 +17,9 @@ public class BehaviorManager implements Tappable {
 	}
 
 	protected Drive drive = HardwareAdaptor.kDrive;
-//	protected Intake intake = HardwareAdaptor.kIntake;
+
+	protected TyrShooter kShooter = HardwareAdaptor.kTyrShooter;
+	protected Intake intake = HardwareAdaptor.kIntake;
 
 	private Routine m_cur_routine = null;
 	private RobotSetpoints m_setpoints;
@@ -70,7 +72,7 @@ public class BehaviorManager implements Tappable {
 		if (commands.cancel_current_routine) {
 			setNewRoutine(null);
 		} else if(commands.encoder_drive_request == Commands.EncoderDriveRequest.ACTIVATE && !(m_cur_routine instanceof EncoderDriveRoutine)) {
-			setNewRoutine(new EncoderDriveRoutine(100));
+			setNewRoutine(new EncoderDriveRoutine(1000));
 		} else if (commands.timer_drive_request == Commands.TimerDriveRequest.ACTIVATE && !(m_cur_routine instanceof TimerDriveRoutine)) {
 			setNewRoutine(new TimerDriveRoutine());
 		}
@@ -84,22 +86,22 @@ public class BehaviorManager implements Tappable {
 		//        m_setpoints = m_manual_routine.update(commands, m_setpoints);
 
 		// Intake commands parsing
-//		if (commands.intake_request == Commands.IntakeRequest.INTAKE) {
-//			// Run intake inwards.
-//			intake.setSpeed(-Constants.kManualIntakeSpeed);
-//		} else if (commands.intake_request == Commands.IntakeRequest.EXHAUST) {
-//			// Run intake outwards.
-//			intake.setSpeed(Constants.kManualExhaustSpeed);
-//		} else {
-//			// Stop intake.
-//			intake.setSpeed(0.0);
-//		}
+		if (commands.intake_request == Commands.IntakeRequest.INTAKE) {
+			// Run intake inwards.
+			intake.setLeftRight(Constants.kManualIntakeSpeed, -Constants.kManualExhaustSpeed);
+		} else if (commands.intake_request == Commands.IntakeRequest.EXHAUST) {
+			// Run intake outwards.
+			intake.setLeftRight(-Constants.kManualExhaustSpeed, Constants.kManualExhaustSpeed);
+		} else {
+			// Stop intake.
+			intake.setLeftRight(0.0, 0.0);
+		}
 
 		// Parse latch commands because this is only open loop
 		if (commands.latch_request == Commands.LatchRequest.LOCK) {
-			;
+			kShooter.lock();
 		} else if (commands.latch_request == Commands.LatchRequest.UNLOCK) {
-			;
+			kShooter.unlock();
 		} else {
 			;
 		}
@@ -115,11 +117,10 @@ public class BehaviorManager implements Tappable {
 
 		// Parse shooter commands because this is only open loop
 		if (commands.shooter_request == Commands.ShooterRequest.EXTEND) {
-			;
+			kShooter.extend();
 		} else if (commands.shooter_request == Commands.ShooterRequest.RETRACT) {
-			;
+			kShooter.retract();
 		} else {
-			;
 		}
 		
 		//Timer based routine

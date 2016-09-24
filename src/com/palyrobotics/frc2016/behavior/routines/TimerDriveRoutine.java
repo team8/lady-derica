@@ -33,6 +33,8 @@ public class TimerDriveRoutine extends Routine {
 	public RobotSetpoints update(Commands commands, RobotSetpoints existing_setpoints) {
 		States new_state = m_state;
 		
+		existing_setpoints.routine_status = RobotSetpoints.RoutineAction.RUNNING;
+		
 		switch (m_state) {
 		case WAIT:
 			existing_setpoints.timer_drive_action = RobotSetpoints.TimerDriveAction.WAITING;
@@ -56,6 +58,7 @@ public class TimerDriveRoutine extends Routine {
 		case DONE:
 			drive.reset();
 			existing_setpoints.timer_drive_action = RobotSetpoints.TimerDriveAction.NONE;
+			existing_setpoints.routine_status = RobotSetpoints.RoutineAction.NONE;
 			break;
 		}
 		

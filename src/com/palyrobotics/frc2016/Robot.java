@@ -6,6 +6,7 @@ import com.palyrobotics.frc2016.auto.AutoModeSelector;
 import com.palyrobotics.frc2016.behavior.BehaviorManager;
 import com.palyrobotics.frc2016.behavior.RobotSetpoints;
 import com.palyrobotics.frc2016.subsystems.Drive;
+import com.palyrobotics.frc2016.subsystems.TyrShooter;
 import com.palyrobotics.lib.util.DriveSignal;
 import com.palyrobotics.lib.util.Looper;
 import com.palyrobotics.lib.util.MultiLooper;
@@ -40,11 +41,12 @@ public class Robot extends IterativeRobot {
 	//    MultiLooper looper = new MultiLooper("Controllers", 1 / 200.0, true);
 	//    MultiLooper slowLooper = new MultiLooper("SlowControllers", 1 / 100.0);
 
-	public static RobotName name = RobotName.DERICA;
+	public static RobotName name = RobotName.TYR;
 
 	AutoModeExecuter autoModeRunner = new AutoModeExecuter();
 
 	Drive drive = HardwareAdaptor.kDrive;
+	TyrShooter shooter = HardwareAdaptor.kTyrShooter;
 	PowerDistributionPanel pdp = HardwareAdaptor.kPDP;
 
 	BehaviorManager behavior_manager = new BehaviorManager();
@@ -106,12 +108,12 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void teleopPeriodic() {
-		// Test XboxController output
-		
-		if(RobotSetpoints.TimerDriveAction.NONE == behavior_manager.getSetpoints().timer_drive_action) {
-			cdh.cheesyDrive(-leftStick.getY(), rightStick.getX(), rightStick.getRawButton(1), true);
+		if(Robot.name == RobotName.TYR) {
+			shooter.teleopControlShooter(operatorStick.getRightY());
 		}
-
+		
+		cdh.cheesyDrive(-leftStick.getY(), rightStick.getX(), rightStick.getRawButton(1), true, behavior_manager.getSetpoints());
+		
 		//the behavior manager updates based on the commands from the operator interface.
 		//in the first part, various routines are called based on the requests from the operator interface(buttons)
 		//these routines should change the states of the RobotSetpoints only - NO MOVEMENT CODE

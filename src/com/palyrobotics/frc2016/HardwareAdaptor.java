@@ -2,12 +2,9 @@ package com.palyrobotics.frc2016;
 
 import com.palyrobotics.frc2016.Robot.RobotName;
 import com.palyrobotics.frc2016.subsystems.*;
-import com.palyrobotics.lib.util.CheesyCompressor;
-import com.palyrobotics.lib.util.CheesySolenoid;
 import com.palyrobotics.lib.util.CheesySpeedController;
 import com.palyrobotics.lib.util.XboxController;
 
-//import com.team254.lib.util.gyro.GyroThread;
 import edu.wpi.first.wpilibj.*;
 
 public class HardwareAdaptor {
@@ -51,7 +48,6 @@ public class HardwareAdaptor {
 			kRightDriveEncoder = new Encoder(
 					Constants.kDericaRightDriveEncoderDIOA, Constants.kDericaRightDriveEncoderDIOB);
 		}
-		System.out.println("DT about to init");
 		kDrive = new Drive("drive", kLeftDriveMotor, kRightDriveMotor, kLeftDriveEncoder, kRightDriveEncoder);
 		System.out.println("DT Initialized");
 	}
@@ -60,16 +56,16 @@ public class HardwareAdaptor {
 	 * INTAKE
 	 */
 	public static Intake kIntake = null;
-
 	static {
 		if(Robot.name == RobotName.TYR) {
 			CheesySpeedController kLeftIntakeMotor = new CheesySpeedController(
 					new VictorSP(Constants.kTyrLeftIntakeMotorPWM),
 					Constants.kTyrLeftIntakeMotorPDP);
 			CheesySpeedController kRightIntakeMotor = new CheesySpeedController(
-					new VictorSP(Constants.kTyrIntakeMotorPWM),
+					new VictorSP(Constants.kTyrRightIntakeMotorPWM),
 					Constants.kTyrRightIntakeMotorPDP);
 			kIntake = new Intake("intake", kLeftIntakeMotor, kRightIntakeMotor);
+			System.out.println("Intake initialized");
 		} else if (Robot.name == RobotName.DERICA) {
 			System.out.println("Intake not initialized");
 //			CheesySpeedController kIntakeMotor = new CheesySpeedController(
@@ -82,10 +78,17 @@ public class HardwareAdaptor {
 		}
 	}
 
+	/*
+	 * SHOOTER/CATAPULT
+	 */
+
 	// Pneumatic solenoids, only instantiate if Tyr
 	static DoubleSolenoid kShooterSolenoid = null;
 	static DoubleSolenoid kLatchSolenoid = null;
 	static DoubleSolenoid kGrabberSolenoid = null;
+	static CheesySpeedController kShooterMotor = null;
+	
+	public static TyrShooter kTyrShooter = null;
 	static {
 		if(Robot.name == RobotName.TYR){
 			kShooterSolenoid = new DoubleSolenoid(
@@ -94,20 +97,19 @@ public class HardwareAdaptor {
 					Constants.kLatchSolenoidPortExtend, Constants.kLatchSolenoidPortRetract);
 			kGrabberSolenoid = new DoubleSolenoid(
 					Constants.kGrabberSolenoidPortExtend, Constants.kGrabberSolenoidPortRetract);
+			kShooterMotor = new CheesySpeedController(new CANTalon(Constants.kTyrShooterMotorDeviceID), 
+					Constants.kTyrShooterMotorPDP);
+			kTyrShooter = new TyrShooter("shooter", kShooterMotor, kShooterSolenoid, kLatchSolenoid);
 		}
 	}
 
-	// Sensors
-	//    public static GyroThread kGyroThread = null; //new GyroThread();
-
-	// Subsystems
 	public static PowerDistributionPanel kPDP = new PowerDistributionPanel();
 
 	// Compressor
 	//    public static Relay kCompressorRelay = new Relay(Constants.kCompressorRelayPort);
 	//    public static DigitalInput kCompressorSwitch = new DigitalInput(Constants.kPressureSwitchDIO);
 	//    public static CheesyCompressor kCompressor = new CheesyCompressor(kCompressorRelay, kCompressorSwitch);
-
+	
 	// Operator Interface
 	public static Joystick kLeftStick = new Joystick(0);
 	public static Joystick kRightStick = new Joystick(1);
