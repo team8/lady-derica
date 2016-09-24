@@ -1,7 +1,7 @@
 package com.palyrobotics.frc2016;
 
 import com.palyrobotics.frc2016.behavior.RobotSetpoints;
-import com.palyrobotics.frc2016.behavior.RobotSetpoints.RoutineAction;
+import com.palyrobotics.frc2016.behavior.RobotSetpoints.DriveRoutineState;
 import com.palyrobotics.frc2016.subsystems.Drive;
 import com.palyrobotics.lib.util.DriveSignal;
 import com.palyrobotics.lib.util.Util;

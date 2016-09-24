@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import com.palyrobotics.frc2016.behavior.Commands;
 import com.palyrobotics.frc2016.behavior.RobotSetpoints;
+import com.palyrobotics.frc2016.behavior.RobotSetpoints.DriveRoutineState;
 import com.palyrobotics.lib.util.DriveSignal;
 
 import edu.wpi.first.wpilibj.Timer;
@@ -16,10 +17,10 @@ public class AutoAlignmentRoutine extends Routine {
 	 * Done = no goal spotted, or finished iterations
 	 */
 	public enum AutoAlignStates {
-		START, SET_ANGLE, ALIGNING, DONE
+		START, SET_ANGLE, ALIGNING, DONE, IDLE
 	}
 
-	public AutoAlignStates m_state = AutoAlignStates.START;
+	public AutoAlignStates m_state = AutoAlignStates.IDLE;
 	private NetworkTable table = NetworkTable.getTable("visiondata");
 	// Threshold angle for which we will turn
 	private final double m_min_angle = 3;
@@ -42,14 +43,6 @@ public class AutoAlignmentRoutine extends Routine {
 	}
 
 	@Override
-	public void reset() {
-		m_state = AutoAlignStates.DONE;
-		m_timer.reset();
-		m_timer.start();
-		m_iterations = m_default_iterations;
-	}
-
-	@Override
 	public RobotSetpoints update(Commands commands, RobotSetpoints existing_setpoints) {
 		RobotSetpoints setpoints = existing_setpoints;
 		AutoAlignStates new_state = m_state;
@@ -62,6 +55,7 @@ public class AutoAlignmentRoutine extends Routine {
 			} else {
 				new_state = AutoAlignStates.DONE;
 			}
+			setpoints.drive_routine_action = DriveRoutineState.AUTO_ALIGN;
 			break;
 		case SET_ANGLE:
 			// Wait for m_wait_time before reading vision data (latency)
@@ -95,6 +89,11 @@ public class AutoAlignmentRoutine extends Routine {
 		case DONE:
 			drive.reset();
 			setpoints.auto_align_setpoint = RobotSetpoints.m_nullopt;
+			setpoints.drive_routine_action = DriveRoutineState.NONE;
+			new_state = AutoAlignStates.IDLE;
+			break;
+		case IDLE:
+			// Do nothing, let other routines be
 			break;
 		}
 		m_state = new_state;
@@ -107,6 +106,14 @@ public class AutoAlignmentRoutine extends Routine {
 		m_state = AutoAlignStates.DONE;
 		drive.setOpenLoop(DriveSignal.NEUTRAL);
 		drive.reset();
+	}
+
+	@Override
+	public void reset() {
+		m_state = AutoAlignStates.DONE;
+		m_timer.reset();
+		m_timer.start();
+		m_iterations = m_default_iterations;
 	}
 
 	@Override

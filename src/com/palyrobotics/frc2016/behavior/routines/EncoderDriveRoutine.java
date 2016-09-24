@@ -23,10 +23,10 @@ public class EncoderDriveRoutine extends Routine {
 	 * DONE = reached target or not operating
 	 */
 	public enum EncoderDriveRoutineStates {
-		START, DRIVING, DONE
+		START, DRIVING, DONE, IDLE
 	}
 
-	EncoderDriveRoutineStates m_state = EncoderDriveRoutineStates.DONE;
+	EncoderDriveRoutineStates m_state = EncoderDriveRoutineStates.IDLE;
 	private double m_distance;
 	private double m_velocity_setpoint;
 	
@@ -87,9 +87,7 @@ public class EncoderDriveRoutine extends Routine {
 	public RobotSetpoints update(Commands commands, RobotSetpoints existing_setpoints) {
 		EncoderDriveRoutineStates new_state = m_state;
 		RobotSetpoints setpoints = existing_setpoints;
-		
-		existing_setpoints.routine_status = RobotSetpoints.RoutineAction.RUNNING;
-		
+		System.out.println("Encoder Drive Update + " + m_state);
 		switch (m_state) {
 		case START:
 			m_timer.reset();
@@ -114,6 +112,10 @@ public class EncoderDriveRoutine extends Routine {
 			setpoints.drive_routine_action = RobotSetpoints.DriveRoutineState.NONE;
 			setpoints.drive_velocity_setpoint = RobotSetpoints.m_nullopt;
 			setpoints.encoder_drive_setpoint = RobotSetpoints.m_nullopt;
+			new_state = EncoderDriveRoutineStates.IDLE;
+			break;
+		case IDLE:
+			// Do nothing, don't interfere with other routines
 			break;
 		}
 		m_state = new_state;
@@ -122,6 +124,7 @@ public class EncoderDriveRoutine extends Routine {
 
 	@Override
 	public void cancel() {
+		System.out.println("Encoder drive routine cancel");
 		m_state = EncoderDriveRoutineStates.DONE;
 		m_timer.stop();
 		m_timer.reset();
@@ -131,6 +134,7 @@ public class EncoderDriveRoutine extends Routine {
 
 	@Override
 	public void reset() {
+		System.out.println("Encoder drive routine reset");
 		m_state = EncoderDriveRoutineStates.DONE;
 		drive.reset();
 		m_timer.reset();
@@ -138,7 +142,7 @@ public class EncoderDriveRoutine extends Routine {
 
 	@Override
 	public boolean isFinished() {
-		return m_state == EncoderDriveRoutineStates.DONE;
+		return m_state == EncoderDriveRoutineStates.IDLE;
 	}
 
 	@Override

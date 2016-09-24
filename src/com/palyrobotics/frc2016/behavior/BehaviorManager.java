@@ -1,13 +1,12 @@
 package com.palyrobotics.frc2016.behavior;
 
+import com.palyrobotics.frc2016.Constants;
 import com.palyrobotics.frc2016.HardwareAdaptor;
 import com.palyrobotics.frc2016.behavior.routines.*;
 import com.palyrobotics.frc2016.subsystems.*;
 import com.palyrobotics.lib.util.DriveSignal;
 import com.palyrobotics.lib.util.StateHolder;
 import com.palyrobotics.lib.util.Tappable;
-
-import edu.wpi.first.wpilibj.networktables.NetworkTable;
 
 public class BehaviorManager implements Tappable {
 
@@ -22,7 +21,6 @@ public class BehaviorManager implements Tappable {
 
 	private Routine m_cur_routine = null;
 	private RobotSetpoints m_setpoints;
-	private NetworkTable m_vision_table;
 	//    private ManualRoutine m_manual_routine = new ManualRoutine();
 
 	public RobotSetpoints getSetpoints() {
@@ -57,7 +55,6 @@ public class BehaviorManager implements Tappable {
 	public BehaviorManager() {
 		m_setpoints = new RobotSetpoints();
 		m_setpoints.reset();
-		m_vision_table = NetworkTable.getTable("visiondata");
 	}
 
 	public void update(Commands commands) {
@@ -66,11 +63,13 @@ public class BehaviorManager implements Tappable {
 
 		// If current routine exists and is finished, nullify it
 		if (m_cur_routine != null && m_cur_routine.isFinished()) {
+			System.out.println("cancel routine called");
 			setNewRoutine(null);
 		}
 
 		// Set TROUT routines
 		if (commands.cancel_current_routine) {
+			System.out.println("Cancel routine button");
 			setNewRoutine(null);
 		} else if(commands.encoder_drive_request == Commands.EncoderDriveRequest.ACTIVATE && !(m_cur_routine instanceof EncoderDriveRoutine)) {
 			setNewRoutine(new EncoderDriveRoutine(1000));
@@ -97,7 +96,7 @@ public class BehaviorManager implements Tappable {
 			intake.setSpeed(-Constants.kManualExhaustSpeed);
 		} else {
 			// Stop intake.
-			intake.setLeftRight(0.0, 0.0);
+//			intake.setLeftRight(0.0, 0.0);
 		}
 
 		// Parse latch commands because this is only open loop
@@ -128,10 +127,12 @@ public class BehaviorManager implements Tappable {
 		
 		//Encoder drive distance routine
 		if(m_setpoints.encoder_drive_setpoint.isPresent()) {
+			System.out.println("Encoder setpoint going");
 			drive.setOpenLoop(new DriveSignal(m_setpoints.drive_velocity_setpoint.get(), m_setpoints.drive_velocity_setpoint.get()));
 		}
 		// If auto-align has a setpoint to use, start turning angle
 		if(m_setpoints.auto_align_setpoint.isPresent()) {
+			System.out.println("Auto align setpoint present");
 			drive.setTurnSetPoint(m_setpoints.auto_align_setpoint.get());
 		}
 	}

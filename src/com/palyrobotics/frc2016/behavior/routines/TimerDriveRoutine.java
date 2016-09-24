@@ -13,10 +13,10 @@ import edu.wpi.first.wpilibj.Timer;
 public class TimerDriveRoutine extends Routine {
 
 	public enum TimerDriveRoutineStates {
-		START, DRIVING, DONE
+		START, DRIVING, DONE, IDLE
 	}
 
-	TimerDriveRoutineStates m_state = TimerDriveRoutineStates.START;
+	TimerDriveRoutineStates m_state = TimerDriveRoutineStates.IDLE;
 	Timer m_timer = new Timer();
 	// Default values for time and velocity setpoints
 	private double m_time_setpoint = 3;
@@ -69,6 +69,11 @@ public class TimerDriveRoutine extends Routine {
 			setpoints.drive_velocity_setpoint = RobotSetpoints.m_nullopt;
 			drive.reset();
 			setpoints.drive_routine_action = RobotSetpoints.DriveRoutineState.NONE;
+			
+			new_state = TimerDriveRoutineStates.IDLE;
+			break;
+		case IDLE:
+			// Do nothing, thus not interfering with other routines
 			break;
 		}
 		m_state = new_state;
@@ -92,7 +97,7 @@ public class TimerDriveRoutine extends Routine {
 
 	@Override
 	public boolean isFinished() {
-		return m_state == TimerDriveRoutineStates.DONE;
+		return m_state == TimerDriveRoutineStates.DONE || m_state == TimerDriveRoutineStates.IDLE;
 	}
 
 	@Override
