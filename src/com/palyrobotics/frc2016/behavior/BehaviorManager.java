@@ -102,17 +102,13 @@ public class BehaviorManager implements Tappable {
 			kShooter.lock();
 		} else if (commands.latch_request == Commands.LatchRequest.UNLOCK) {
 			kShooter.unlock();
-		} else {
-			;
 		}
 
 		// Parse grabbber commands because this is only open loop
 		if (commands.grabber_request == Commands.GrabberRequest.GRAB) {
-			;
+			kShooter.grab();
 		} else if (commands.grabber_request == Commands.GrabberRequest.RELEASE) {
-			;
-		} else {
-			;
+			kShooter.release();
 		}
 
 		// Parse shooter commands because this is only open loop
@@ -120,7 +116,6 @@ public class BehaviorManager implements Tappable {
 			kShooter.extend();
 		} else if (commands.shooter_request == Commands.ShooterRequest.RETRACT) {
 			kShooter.retract();
-		} else {
 		}
 		
 		//Timer based routine

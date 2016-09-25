@@ -80,6 +80,7 @@ public class HardwareAdaptor {
 
 	/*
 	 * SHOOTER/CATAPULT
+	 * TyrShooter comes with Grabber
 	 */
 
 	// Pneumatic solenoids, only instantiate if Tyr
@@ -99,7 +100,7 @@ public class HardwareAdaptor {
 					Constants.kGrabberSolenoidPortExtend, Constants.kGrabberSolenoidPortRetract);
 			kShooterMotor = new CheesySpeedController(new CANTalon(Constants.kTyrShooterMotorDeviceID), 
 					Constants.kTyrShooterMotorPDP);
-			kTyrShooter = new TyrShooter("shooter", kShooterMotor, kShooterSolenoid, kLatchSolenoid);
+			kTyrShooter = new TyrShooter("shooter", kShooterMotor, kShooterSolenoid, kLatchSolenoid, kGrabberSolenoid);
 		}
 	}
 
