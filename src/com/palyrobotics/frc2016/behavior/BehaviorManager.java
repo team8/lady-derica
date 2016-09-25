@@ -87,11 +87,11 @@ public class BehaviorManager implements Tappable {
 
 		// Intake commands parsing
 		if (commands.intake_request == Commands.IntakeRequest.INTAKE) {
-			// Run intake inwards.
-			intake.setLeftRight(Constants.kManualIntakeSpeed, -Constants.kManualExhaustSpeed);
+			// Run intake inwards (positive speed is intake)
+			intake.setSpeed(Constants.kManualIntakeSpeed);
 		} else if (commands.intake_request == Commands.IntakeRequest.EXHAUST) {
-			// Run intake outwards.
-			intake.setLeftRight(-Constants.kManualExhaustSpeed, Constants.kManualExhaustSpeed);
+			// Run intake outwards (negative speed is exhaust)
+			intake.setSpeed(-Constants.kManualExhaustSpeed);
 		} else {
 			// Stop intake.
 			intake.setLeftRight(0.0, 0.0);

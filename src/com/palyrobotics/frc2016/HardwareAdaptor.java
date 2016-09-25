@@ -67,14 +67,13 @@ public class HardwareAdaptor {
 			kIntake = new Intake("intake", kLeftIntakeMotor, kRightIntakeMotor);
 			System.out.println("Intake initialized");
 		} else if (Robot.name == RobotName.DERICA) {
-			System.out.println("Intake not initialized");
-//			CheesySpeedController kIntakeMotor = new CheesySpeedController(
-//					new VictorSP(Constants.kDericaIntakeMotorPWM),
-//					Constants.kDericaIntakeMotorPDP);
-//			CheesySpeedController kIntakeArmMotor = new CheesySpeedController(
-//					new VictorSP(Constants.kDericaArmIntakeMotorPWM),
-//					Constants.kDericaArmIntakeMotorPDP);
-//			kIntake = new Intake("intake", kIntakeMotor, kIntakeArmMotor);
+			CheesySpeedController kIntakeMotor = new CheesySpeedController(
+					new VictorSP(Constants.kDericaIntakeMotorPWM),
+					Constants.kDericaIntakeMotorPDP);
+			CheesySpeedController kIntakeArmMotor = new CheesySpeedController(
+					new VictorSP(Constants.kDericaArmIntakeMotorPWM),
+					Constants.kDericaArmIntakeMotorPDP);
+			kIntake = new Intake("intake", kIntakeMotor, kIntakeArmMotor);
 		}
 	}
 
