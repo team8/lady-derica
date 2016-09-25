@@ -15,6 +15,7 @@ public class OperatorInterface {
 	XboxController operatorStick = HardwareAdaptor.kOperatorStick;
 
 	Latch driveForwardLatch = new Latch();
+	private boolean grabber = false;
 
 	public void reset() {
 		m_commands = new Commands();
@@ -56,36 +57,41 @@ public class OperatorInterface {
 	
 	public Commands getTyrCommands() {
 		// Operator Stick - Intake Control
-		if (operatorStick.getLeftTriggerPressed()) {
+		if (operatorStick.getRightTriggerPressed()) {
 			m_commands.intake_request = Commands.IntakeRequest.INTAKE;
-		} else if (operatorStick.getButtonX()) {
+		} else if (operatorStick.getLeftTriggerPressed()) {
 			m_commands.intake_request = Commands.IntakeRequest.EXHAUST;
 		} else {
 			m_commands.intake_request = Commands.IntakeRequest.NONE;
 		}
 		// Operator Stick - Shooter Control
-		if (operatorStick.getButtonA()) {
+		if (operatorStick.getButtonB()) {
 			m_commands.shooter_request = Commands.ShooterRequest.EXTEND;
-		} else if (operatorStick.getButtonB()) {
+		} else if (operatorStick.getButtonX()) {
 			m_commands.shooter_request = Commands.ShooterRequest.RETRACT;
 		} else {
 			m_commands.shooter_request = Commands.ShooterRequest.NONE;
 		}
 		// Operator Stick - Latch Control
-		if (operatorStick.getLeftBumper()) {
+		if (operatorStick.getButtonA()) {
 			m_commands.latch_request = Commands.LatchRequest.LOCK;
-		} else if (operatorStick.getRightTriggerPressed()) {
+		} else if (operatorStick.getButtonY()) {
 			m_commands.latch_request = Commands.LatchRequest.UNLOCK;
 		} else {
 			m_commands.latch_request = Commands.LatchRequest.NONE;
 		}
 		// Operator Stick - Grabber Control
-		if (operatorStick.getRightBumper()) {
-			m_commands.grabber_request = Commands.GrabberRequest.RELEASE;
-		} else {
-			m_commands.grabber_request = Commands.GrabberRequest.GRAB;
+		if (operatorStick.getLeftBumper()) {
+			grabber = false;
+		} else if(operatorStick.getRightBumper()){
+			grabber = true;
 		}
-
+		
+		if(grabber) {
+			m_commands.grabber_request = Commands.GrabberRequest.GRAB;
+		} else {
+			m_commands.grabber_request = Commands.GrabberRequest.RELEASE;
+		}
 		// Operator Stick - Activate routine
 		if (driveForwardLatch.update(leftStick.getRawButton(6))) {
 			m_commands.timer_drive_request = Commands.TimerDriveRequest.ACTIVATE;
