@@ -48,6 +48,10 @@ public class HardwareAdaptor {
 			kRightDriveEncoder = new Encoder(
 					Constants.kDericaRightDriveEncoderDIOA, Constants.kDericaRightDriveEncoderDIOB);
 		}
+		System.out.println(kLeftDriveMotor);
+		System.out.println(kRightDriveMotor);
+		System.out.println(kLeftDriveEncoder);
+		System.out.println(kRightDriveEncoder);
 		kDrive = new Drive("drive", kLeftDriveMotor, kRightDriveMotor, kLeftDriveEncoder, kRightDriveEncoder);
 		System.out.println("DT Initialized");
 	}
@@ -68,10 +72,10 @@ public class HardwareAdaptor {
 			System.out.println("Intake initialized");
 		} else if (Robot.name == RobotName.DERICA) {
 			CheesySpeedController kIntakeMotor = new CheesySpeedController(
-					new VictorSP(Constants.kDericaIntakeMotorPWM),
+					new CANTalon(Constants.kDericaIntakeMotorPWM),
 					Constants.kDericaIntakeMotorPDP);
 			CheesySpeedController kIntakeArmMotor = new CheesySpeedController(
-					new VictorSP(Constants.kDericaArmIntakeMotorPWM),
+					new CANTalon(Constants.kDericaArmIntakeMotorPWM),
 					Constants.kDericaArmIntakeMotorPDP);
 			kIntake = new Intake("intake", kIntakeMotor, kIntakeArmMotor);
 		}

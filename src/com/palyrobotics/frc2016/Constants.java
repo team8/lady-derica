@@ -97,10 +97,10 @@ public class Constants extends ConstantsBase {
 	public static int kDericaRightDriveEncoderDIOB = 1;
 
 	// INTAKE
-	public static int kDericaIntakeMotorPWM;
-	public static int kDericaIntakeMotorPDP;
-	public static int kDericaArmIntakeMotorPWM;
-	public static int kDericaArmIntakeMotorPDP;
+	public static int kDericaIntakeMotorPWM = 7;
+	public static int kDericaIntakeMotorPDP = 1;
+	public static int kDericaArmIntakeMotorPWM = 8;
+	public static int kDericaArmIntakeMotorPDP = 0;
 
 
 	// Compressor Ports DON'T WORK

@@ -33,7 +33,7 @@ public class OperatorInterface {
 		// Operator Stick - Derica Intake Control
 		if (operatorStick.getLeftTriggerPressed()) {
 			m_commands.intake_request = Commands.IntakeRequest.INTAKE;
-		} else if (operatorStick.getButtonX()) {
+		} else if (operatorStick.getRightTriggerPressed()) {
 			m_commands.intake_request = Commands.IntakeRequest.EXHAUST;
 		} else {
 			m_commands.intake_request = Commands.IntakeRequest.NONE;
