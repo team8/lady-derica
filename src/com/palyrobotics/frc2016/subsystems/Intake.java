@@ -33,6 +33,7 @@ public class Intake extends Subsystem {
 			m_arm_motor = null;
 			break;
 		case DERICA:
+			// switch case falls through
 		default:
 			m_left_motor = motor1;
 			m_right_motor = null;
@@ -40,26 +41,41 @@ public class Intake extends Subsystem {
 			break;
 		}
 	}
-
+	
+	/**
+	 * Set intake to a single speed (both motors if Tyr)
+	 * Positive is to intake, negative is to exhaust
+	 * @param speed target speed (negative is exhaust)
+	 */
 	public void setSpeed(double speed) {
-		switch(Robot.name) {
-		case TYR:
-			m_left_motor.set(-speed);
-			break;
-		case DERICA:
-		default:
-			setLeftRight(speed, speed);			
-		}
+		setLeftRight(speed, speed);
 	}
-
+	
+	/**
+	 * Positive to intake, negative to exhaust
+	 * @param left_speed
+	 * @param right_speed N/A for Derica
+	 */
 	public void setLeftRight(double left_speed, double right_speed) {
-		//TODO Is there a better practice than null checking, is robot name checking better?
 		if(m_right_motor != null) {
-			m_left_motor.set(-left_speed);
+			m_left_motor.set(left_speed);
 			m_right_motor.set(-right_speed);
 		} else {
 			m_left_motor.set(-left_speed);
-			System.out.println("No right motor");
+		}
+	}
+	
+	/**
+	 * Moves the arm, if we are Derica
+	 * Positive will move arm up
+	 * Negative will move arm down
+	 * @param speed
+	 */
+	public void setArmSpeed(double speed) {
+		if(m_arm_motor != null) {
+			m_arm_motor.set(-speed);
+		} else {
+			System.err.println("Trying to move arm on Tyr!");
 		}
 	}
 

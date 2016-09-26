@@ -87,11 +87,11 @@ public class BehaviorManager implements Tappable {
 
 		// Intake commands parsing
 		if (commands.intake_request == Commands.IntakeRequest.INTAKE) {
-			// Run intake inwards.
-			intake.setLeftRight(Constants.kManualIntakeSpeed, -Constants.kManualExhaustSpeed);
+			// Run intake inwards (positive speed is intake)
+			intake.setSpeed(Constants.kManualIntakeSpeed);
 		} else if (commands.intake_request == Commands.IntakeRequest.EXHAUST) {
-			// Run intake outwards.
-			intake.setLeftRight(-Constants.kManualExhaustSpeed, Constants.kManualExhaustSpeed);
+			// Run intake outwards (negative speed is exhaust)
+			intake.setSpeed(-Constants.kManualExhaustSpeed);
 		} else {
 			// Stop intake.
 			intake.setLeftRight(0.0, 0.0);
@@ -102,17 +102,13 @@ public class BehaviorManager implements Tappable {
 			kShooter.lock();
 		} else if (commands.latch_request == Commands.LatchRequest.UNLOCK) {
 			kShooter.unlock();
-		} else {
-			;
 		}
 
 		// Parse grabbber commands because this is only open loop
 		if (commands.grabber_request == Commands.GrabberRequest.GRAB) {
-			;
+			kShooter.grab();
 		} else if (commands.grabber_request == Commands.GrabberRequest.RELEASE) {
-			;
-		} else {
-			;
+			kShooter.release();
 		}
 
 		// Parse shooter commands because this is only open loop
@@ -120,7 +116,6 @@ public class BehaviorManager implements Tappable {
 			kShooter.extend();
 		} else if (commands.shooter_request == Commands.ShooterRequest.RETRACT) {
 			kShooter.retract();
-		} else {
 		}
 		
 		//Timer based routine
