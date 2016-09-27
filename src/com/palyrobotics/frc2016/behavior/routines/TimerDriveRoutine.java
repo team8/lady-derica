@@ -52,7 +52,7 @@ public class TimerDriveRoutine extends Routine {
 		switch (m_state) {
 		case START:
 			setpoints.timer_drive_time_setpoint = Optional.of(m_time_setpoint);
-			setpoints.drive_routine_action = RobotSetpoints.DriveRoutineState.TIMER_DRIVE;
+			setpoints.drive_routine_action = RobotSetpoints.DriveRoutineAction.TIMER_DRIVE;
 			setpoints.drive_velocity_setpoint = Optional.of(m_velocity_setpoint);
 			m_timer.reset();
 			m_timer.start();
@@ -68,7 +68,7 @@ public class TimerDriveRoutine extends Routine {
 			setpoints.timer_drive_time_setpoint = RobotSetpoints.m_nullopt;
 			setpoints.drive_velocity_setpoint = RobotSetpoints.m_nullopt;
 			drive.reset();
-			setpoints.drive_routine_action = RobotSetpoints.DriveRoutineState.NONE;
+			setpoints.drive_routine_action = RobotSetpoints.DriveRoutineAction.NONE;
 			
 			new_state = TimerDriveRoutineStates.IDLE;
 			break;
@@ -81,7 +81,7 @@ public class TimerDriveRoutine extends Routine {
 	}
 
 	@Override
-	public void reset() {
+	public void start() {
 		m_state = TimerDriveRoutineStates.DONE;
 		m_timer.stop();
 		m_timer.reset();

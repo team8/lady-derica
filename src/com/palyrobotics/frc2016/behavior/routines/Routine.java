@@ -13,12 +13,12 @@ public abstract class Routine {
     protected Intake intake = HardwareAdaptor.kIntake;
     protected PowerDistributionPanel pdp = HardwareAdaptor.kPDP;
     
-    // Called when the next routine isn't null, so reset for next to work
-    public abstract void reset();
+    // Called to start a routine
+    public abstract void start();
 
     public abstract RobotSetpoints update(Commands commands, RobotSetpoints existing_setpoints);
     
-    // Called when this routine needs to end immediately (may not have a next routine)
+    // Called to stop a routine
     public abstract void cancel();
 
     public abstract boolean isFinished();

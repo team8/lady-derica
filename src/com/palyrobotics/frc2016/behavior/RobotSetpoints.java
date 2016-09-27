@@ -8,7 +8,7 @@ public class RobotSetpoints {
 		NONE, OPEN, CLOSE, PREFER_OPEN, PREFER_CLOSE
 	}
 	
-	public enum DriveRoutineState {
+	public enum DriveRoutineAction {
 		NONE, TIMER_DRIVE, ENCODER_DRIVE, ENCODER_TURN, GYRO_TURN, AUTO_ALIGN
 	}
 
@@ -16,7 +16,7 @@ public class RobotSetpoints {
 
 	// Actions for each subsystem
 	public IntakeAction intake_action;
-	public DriveRoutineState drive_routine_action;
+	public DriveRoutineAction drive_routine_action;
 
 	// Desired setpoints
 	public Optional<Double> auto_align_setpoint = m_nullopt;
@@ -26,7 +26,7 @@ public class RobotSetpoints {
 
 	public void reset() {
 		intake_action = IntakeAction.NONE;
-		drive_routine_action = DriveRoutineState.NONE;
+		drive_routine_action = DriveRoutineAction.NONE;
 		
 		auto_align_setpoint = m_nullopt;
 		encoder_drive_setpoint = m_nullopt;

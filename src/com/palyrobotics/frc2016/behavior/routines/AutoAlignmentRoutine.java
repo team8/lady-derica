@@ -4,7 +4,7 @@ import java.util.Optional;
 
 import com.palyrobotics.frc2016.behavior.Commands;
 import com.palyrobotics.frc2016.behavior.RobotSetpoints;
-import com.palyrobotics.frc2016.behavior.RobotSetpoints.DriveRoutineState;
+import com.palyrobotics.frc2016.behavior.RobotSetpoints.DriveRoutineAction;
 import com.palyrobotics.lib.util.DriveSignal;
 
 import edu.wpi.first.wpilibj.Timer;
@@ -55,7 +55,7 @@ public class AutoAlignmentRoutine extends Routine {
 			} else {
 				new_state = AutoAlignStates.DONE;
 			}
-			setpoints.drive_routine_action = DriveRoutineState.AUTO_ALIGN;
+			setpoints.drive_routine_action = DriveRoutineAction.AUTO_ALIGN;
 			break;
 		case SET_ANGLE:
 			// Wait for m_wait_time before reading vision data (latency)
@@ -89,7 +89,7 @@ public class AutoAlignmentRoutine extends Routine {
 		case DONE:
 			drive.reset();
 			setpoints.auto_align_setpoint = RobotSetpoints.m_nullopt;
-			setpoints.drive_routine_action = DriveRoutineState.NONE;
+			setpoints.drive_routine_action = DriveRoutineAction.NONE;
 			new_state = AutoAlignStates.IDLE;
 			break;
 		case IDLE:
@@ -109,7 +109,7 @@ public class AutoAlignmentRoutine extends Routine {
 	}
 
 	@Override
-	public void reset() {
+	public void start() {
 		m_state = AutoAlignStates.DONE;
 		m_timer.reset();
 		m_timer.start();

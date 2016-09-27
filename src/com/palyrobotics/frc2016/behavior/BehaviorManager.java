@@ -28,16 +28,22 @@ public class BehaviorManager implements Tappable {
 	}
 	
 	private void setNewRoutine(Routine new_routine) {
+		// Cancel if new routine diff from current routine
 		boolean needs_cancel = (new_routine != m_cur_routine) && (m_cur_routine != null);
 
-		boolean needs_reset = (new_routine != m_cur_routine) && (new_routine != null);
+		boolean needs_start = (new_routine != m_cur_routine) && (new_routine != null);
+		// Cancel old routine
 		if (needs_cancel) {
 			m_cur_routine.cancel();
+			// Reset all setpoints
+			m_setpoints.reset();
+		}
+		// Start next routine
+		if (needs_start) {
+			new_routine.start();
 		}
 		m_cur_routine = new_routine;
-		if (needs_reset) {
-			m_cur_routine.reset();
-		}
+
 	}
 
 	public Routine getCurrentRoutine() {
@@ -58,12 +64,10 @@ public class BehaviorManager implements Tappable {
 	}
 
 	public void update(Commands commands) {
-		//resets the state of the robot, the setpoints will be changed later by the current routine
-		m_setpoints.reset();
 
 		// If current routine exists and is finished, nullify it
 		if (m_cur_routine != null && m_cur_routine.isFinished()) {
-			System.out.println("cancel routine called");
+			System.out.println("Routine cancel called");
 			setNewRoutine(null);
 		}
 
@@ -124,15 +128,12 @@ public class BehaviorManager implements Tappable {
 		if(m_setpoints.timer_drive_time_setpoint.isPresent()) {
 			drive.setOpenLoop(new DriveSignal(m_setpoints.drive_velocity_setpoint.get(), m_setpoints.drive_velocity_setpoint.get()));
 		}
-		
 		//Encoder drive distance routine
 		if(m_setpoints.encoder_drive_setpoint.isPresent()) {
-			System.out.println("Encoder setpoint going");
 			drive.setOpenLoop(new DriveSignal(m_setpoints.drive_velocity_setpoint.get(), m_setpoints.drive_velocity_setpoint.get()));
 		}
 		// If auto-align has a setpoint to use, start turning angle
 		if(m_setpoints.auto_align_setpoint.isPresent()) {
-			System.out.println("Auto align setpoint present");
 			drive.setTurnSetPoint(m_setpoints.auto_align_setpoint.get());
 		}
 	}

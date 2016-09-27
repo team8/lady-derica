@@ -22,29 +22,32 @@ public class EncoderDriveRoutine extends Routine {
 	 * DRIVING = Waiting to reach drive setpoint
 	 * DONE = reached target or not operating
 	 */
-	public enum EncoderDriveRoutineStates {
-		START, DRIVING, DONE, IDLE
+	private enum EncoderDriveRoutineStates {
+		START, DRIVING, DONE
 	}
 
-	EncoderDriveRoutineStates m_state = EncoderDriveRoutineStates.IDLE;
+	EncoderDriveRoutineStates m_state = EncoderDriveRoutineStates.START;
 	private double m_distance;
 	private double m_velocity_setpoint;
+	private final double m_default_velocity_setpoint = 0.5;
 	
 	// Timeout after x seconds
 	private double m_timeout;
 	private final double m_default_timeout = 5;
 	Timer m_timer = new Timer();
 
+	private boolean m_is_new_state = true;
 	private Drive drive = HardwareAdaptor.kDrive;
 	
 	/**
 	 * Constructs with target distance
-	 * Uses default timeout
+	 * Uses default timeout and default velocity setpoint
 	 * @param distance Target distance to travel
 	 */
 	public EncoderDriveRoutine(double distance) {
 		this.m_distance = distance;
 		this.m_timeout = m_default_timeout;
+		setVelocity(m_default_velocity_setpoint);
 	}
 	
 	/**
@@ -55,6 +58,7 @@ public class EncoderDriveRoutine extends Routine {
 	public EncoderDriveRoutine(double distance, int timeout) {
 		this.m_distance = distance;
 		this.m_timeout = timeout;
+		setVelocity(m_default_velocity_setpoint);
 	}
 	
 	/**
@@ -87,44 +91,46 @@ public class EncoderDriveRoutine extends Routine {
 	public RobotSetpoints update(Commands commands, RobotSetpoints existing_setpoints) {
 		EncoderDriveRoutineStates new_state = m_state;
 		RobotSetpoints setpoints = existing_setpoints;
-		System.out.println("Encoder Drive Update + " + m_state);
 		switch (m_state) {
 		case START:
 			m_timer.reset();
 			m_timer.start();
-			setpoints.encoder_drive_setpoint = Optional.of(m_distance);
-			setpoints.drive_velocity_setpoint = Optional.of(m_velocity_setpoint);
+			// Only set the setpoint the first time the state is START 
+			if(m_is_new_state) {
+				setpoints.encoder_drive_setpoint = Optional.of(m_distance);
+				setpoints.drive_velocity_setpoint = Optional.of(m_velocity_setpoint);
+			}
 
-			setpoints.drive_routine_action = RobotSetpoints.DriveRoutineState.ENCODER_DRIVE;
+			setpoints.drive_routine_action = RobotSetpoints.DriveRoutineAction.ENCODER_DRIVE;
 			new_state = EncoderDriveRoutineStates.DRIVING;
 			break;
 		case DRIVING:
+			setpoints.encoder_drive_setpoint = Optional.of(m_distance);
+			setpoints.drive_velocity_setpoint = Optional.of(m_velocity_setpoint);
 			if(drive.m_right_encoder.getDistance() > m_distance) {
 				new_state = EncoderDriveRoutineStates.DONE;
 			}
 			if(m_timer.get() > m_timeout) {
 				new_state = EncoderDriveRoutineStates.DONE;
-				System.out.println("Encoder drive dist timed out!");
 			}
 			break;
 		case DONE:
 			drive.reset();
-			setpoints.drive_routine_action = RobotSetpoints.DriveRoutineState.NONE;
-			setpoints.drive_velocity_setpoint = RobotSetpoints.m_nullopt;
-			setpoints.encoder_drive_setpoint = RobotSetpoints.m_nullopt;
-			new_state = EncoderDriveRoutineStates.IDLE;
-			break;
-		case IDLE:
-			// Do nothing, don't interfere with other routines
 			break;
 		}
-		m_state = new_state;
+		
+		m_is_new_state = false;
+		if(new_state != m_state) {
+			m_state = new_state;
+			m_timer.reset();
+			m_is_new_state = true;
+		}
+		
 		return setpoints;
 	}
 
 	@Override
 	public void cancel() {
-		System.out.println("Encoder drive routine cancel");
 		m_state = EncoderDriveRoutineStates.DONE;
 		m_timer.stop();
 		m_timer.reset();
@@ -133,16 +139,14 @@ public class EncoderDriveRoutine extends Routine {
 	}
 
 	@Override
-	public void reset() {
-		System.out.println("Encoder drive routine reset");
-		m_state = EncoderDriveRoutineStates.DONE;
+	public void start() {
 		drive.reset();
 		m_timer.reset();
 	}
 
 	@Override
 	public boolean isFinished() {
-		return m_state == EncoderDriveRoutineStates.IDLE;
+		return m_state == EncoderDriveRoutineStates.DONE;
 	}
 
 	@Override
