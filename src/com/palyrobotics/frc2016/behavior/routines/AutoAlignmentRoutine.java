@@ -16,11 +16,12 @@ public class AutoAlignmentRoutine extends Routine {
 	 * Aligning = waiting while robot turns
 	 * Done = no goal spotted, or finished iterations
 	 */
-	public enum AutoAlignStates {
-		START, SET_ANGLE, ALIGNING, DONE, IDLE
+	private enum AutoAlignStates {
+		START, SET_ANGLE, ALIGNING, DONE
 	}
 
-	public AutoAlignStates m_state = AutoAlignStates.IDLE;
+	public AutoAlignStates m_state = AutoAlignStates.START;
+	private boolean m_is_new_state = true;
 	private NetworkTable table = NetworkTable.getTable("visiondata");
 	// Threshold angle for which we will turn
 	private final double m_min_angle = 3;
@@ -32,6 +33,7 @@ public class AutoAlignmentRoutine extends Routine {
 	// Timer used for waiting period for camera stabilization
 	private Timer m_timer = new Timer();
 	private final double m_wait_time = 1500; 
+	
 	
 	RobotSetpoints setpoints;
 
@@ -51,6 +53,7 @@ public class AutoAlignmentRoutine extends Routine {
 			if(m_iterations > 0) {
 				m_timer.reset();
 				m_timer.start();
+				System.out.println("Started auto align " + m_state);
 				new_state = AutoAlignStates.SET_ANGLE;
 			} else {
 				new_state = AutoAlignStates.DONE;
@@ -60,15 +63,20 @@ public class AutoAlignmentRoutine extends Routine {
 		case SET_ANGLE:
 			// Wait for m_wait_time before reading vision data (latency)
 			if(m_timer.get() < m_wait_time) {
+				System.out.println("Waiting for vision data");
 				break;
 			}
 			// If angle turnpoint has been set, then set this routine to waiting for alignment
 			if(existing_setpoints.auto_align_setpoint.isPresent()) {
+				System.out.println("Already set angle setpoint");
 				new_state = AutoAlignStates.ALIGNING;
 				break;
 			}
-			if(table.getNumber("skewangle", 100000) > m_min_angle) {
-				setpoints.auto_align_setpoint = Optional.of(table.getNumber("skewangle", 100000));
+//			if(table.getNumber("skewangle", 100000) > m_min_angle) {
+//				setpoints.auto_align_setpoint = Optional.of(table.getNumber("skewangle", 100000));
+			if(true) {
+				System.out.println("Manually set auto align setpoint");
+				setpoints.auto_align_setpoint = Optional.of(20.0);
 			} else {
 				System.out.println("No goal detected");
 				m_iterations = 0;
@@ -78,25 +86,27 @@ public class AutoAlignmentRoutine extends Routine {
 		case ALIGNING:
 			// If finished turning, start next sequence or finish
 			if(drive.controllerOnTarget()) {
+				System.out.println("Drive controller reached target");
 				m_iterations--;
 				if(m_iterations > 0) {
+					System.out.println("Starting new iteration");
 					new_state = AutoAlignStates.START;
 				} else {
+					System.out.println("Finished auto aligning");
 					new_state = AutoAlignStates.DONE;
 				}
 			}
 			break;
 		case DONE:
 			drive.reset();
-			setpoints.auto_align_setpoint = RobotSetpoints.m_nullopt;
-			setpoints.drive_routine_action = DriveRoutineAction.NONE;
-			new_state = AutoAlignStates.IDLE;
-			break;
-		case IDLE:
-			// Do nothing, let other routines be
 			break;
 		}
-		m_state = new_state;
+		System.out.println("New auto align state? "+m_is_new_state);
+		m_is_new_state = false;
+		if(m_state != new_state) {
+			m_state = new_state;
+			m_is_new_state = true;
+		}
 		return setpoints;
 	}
 
@@ -110,10 +120,11 @@ public class AutoAlignmentRoutine extends Routine {
 
 	@Override
 	public void start() {
-		m_state = AutoAlignStates.DONE;
 		m_timer.reset();
 		m_timer.start();
-		m_iterations = m_default_iterations;
+		if(m_iterations < 1) {
+			m_iterations = m_default_iterations;
+		}
 	}
 
 	@Override

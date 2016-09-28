@@ -78,7 +78,7 @@ public class BehaviorManager implements Tappable {
 		} else if(commands.encoder_drive_request == Commands.EncoderDriveRequest.ACTIVATE && !(m_cur_routine instanceof EncoderDriveRoutine)) {
 			setNewRoutine(new EncoderDriveRoutine(1000));
 		} else if (commands.timer_drive_request == Commands.TimerDriveRequest.ACTIVATE && !(m_cur_routine instanceof TimerDriveRoutine)) {
-			setNewRoutine(new TimerDriveRoutine());
+			setNewRoutine(new TimerDriveRoutine(5));
 		} else if (commands.auto_alignment_request == Commands.AutoAlignmentRequest.ACTIVATE && !(m_cur_routine instanceof AutoAlignmentRoutine)) {
 			setNewRoutine(new AutoAlignmentRoutine());
 		}
@@ -124,16 +124,17 @@ public class BehaviorManager implements Tappable {
 			kShooter.retract();
 		}
 		
-		//Timer based routine
-		if(m_setpoints.timer_drive_time_setpoint.isPresent()) {
-			drive.setOpenLoop(new DriveSignal(m_setpoints.drive_velocity_setpoint.get(), m_setpoints.drive_velocity_setpoint.get()));
-		}
 		//Encoder drive distance routine
 		if(m_setpoints.encoder_drive_setpoint.isPresent()) {
 			drive.setOpenLoop(new DriveSignal(m_setpoints.drive_velocity_setpoint.get(), m_setpoints.drive_velocity_setpoint.get()));
 		}
+		//Timer based routine
+		else if(m_setpoints.timer_drive_time_setpoint.isPresent()) {
+			drive.setOpenLoop(new DriveSignal(m_setpoints.drive_velocity_setpoint.get(), m_setpoints.drive_velocity_setpoint.get()));
+		}
 		// If auto-align has a setpoint to use, start turning angle
-		if(m_setpoints.auto_align_setpoint.isPresent()) {
+		else if(m_setpoints.auto_align_setpoint.isPresent()) {
+			System.out.println("Set auto align turn setpoint "+m_setpoints.auto_align_setpoint.get());
 			drive.setTurnSetPoint(m_setpoints.auto_align_setpoint.get());
 		}
 	}

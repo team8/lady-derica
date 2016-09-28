@@ -1,6 +1,5 @@
 package com.palyrobotics.frc2016;
 import com.palyrobotics.frc2016.behavior.RobotSetpoints;
-import com.palyrobotics.frc2016.behavior.RobotSetpoints.RoutineAction;
 import com.palyrobotics.frc2016.subsystems.Drive;
 import com.palyrobotics.lib.util.DriveSignal;
 
@@ -24,7 +23,7 @@ public class ProportionalDriveHelper {
 			return;
 		}
 
-		if(setpoints.routine_status == RoutineAction.RUNNING) {
+		if(setpoints.drive_routine_action != RobotSetpoints.DriveRoutineAction.NONE) {
 			return;
 		}
 

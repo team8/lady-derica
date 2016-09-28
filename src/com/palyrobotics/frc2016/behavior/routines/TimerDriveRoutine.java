@@ -12,15 +12,15 @@ import edu.wpi.first.wpilibj.Timer;
 
 public class TimerDriveRoutine extends Routine {
 
-	public enum TimerDriveRoutineStates {
+	private enum TimerDriveRoutineStates {
 		START, DRIVING, DONE
 	}
 
 	TimerDriveRoutineStates m_state = TimerDriveRoutineStates.START;
 	Timer m_timer = new Timer();
 	// Default values for time and velocity setpoints
-	private double m_time_setpoint = 3;
-	private double m_velocity_setpoint = 0.5;
+	private double m_time_setpoint;
+	private double m_velocity_setpoint;
 	
 	private boolean m_is_new_state = true;
 
@@ -31,7 +31,7 @@ public class TimerDriveRoutine extends Routine {
 	 * @param time How long to drive (seconds)
 	 */
 	public TimerDriveRoutine(double time) {
-		this.m_time_setpoint = time;
+		setTimeSetpoint(time);
 	}
 	
 	/**
@@ -40,7 +40,7 @@ public class TimerDriveRoutine extends Routine {
 	 * @param velocity What velocity to drive at (0 to 1)
 	 */
 	public TimerDriveRoutine(double time, double velocity) {
-		this.m_time_setpoint = time;
+		setTimeSetpoint(time);
 		setVelocity(velocity);
 	}
 	
@@ -71,10 +71,10 @@ public class TimerDriveRoutine extends Routine {
 		RobotSetpoints setpoints = existing_setpoints;
 		switch (m_state) {
 		case START:
-			m_timer.reset();
-			m_timer.start();
-			// Only set the setpoint the first time the state is START 
+			// Only set the setpoint the first time the state is START
 			if(m_is_new_state) {
+				m_timer.reset();
+				m_timer.start();
 				setpoints.timer_drive_time_setpoint = Optional.of(m_time_setpoint);
 				setpoints.drive_velocity_setpoint = Optional.of(m_velocity_setpoint);
 			}
@@ -86,19 +86,21 @@ public class TimerDriveRoutine extends Routine {
 			setpoints.timer_drive_time_setpoint = Optional.of(m_time_setpoint);
 			setpoints.drive_velocity_setpoint = Optional.of(m_velocity_setpoint);
 			if(m_timer.get() > m_time_setpoint) {
-				new_state = TimerDriveRoutineStates.DONE;
+				//new_state = TimerDriveRoutineStates.DONE;
+				cancel();
 			}
 			break;
 		case DONE:
 			drive.reset();
 			setpoints.drive_routine_action = RobotSetpoints.DriveRoutineAction.NONE;
+			setpoints.timer_drive_time_setpoint = RobotSetpoints.m_nullopt;
 			break;
 		}
 
 		m_is_new_state = false;
 		if(new_state != m_state) {
 			m_state = new_state;
-			m_timer.reset();
+			//m_timer.reset();
 			m_is_new_state = true;
 		}
 		
@@ -118,6 +120,7 @@ public class TimerDriveRoutine extends Routine {
 	public void start() {
 		drive.reset();
 		m_timer.reset();
+//		m_state = TimerDriveRoutineStates.START;
 	}
 	
 	@Override
