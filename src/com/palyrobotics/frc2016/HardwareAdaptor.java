@@ -71,7 +71,8 @@ public class HardwareAdaptor {
 			CheesySpeedController kRightIntakeMotor = new CheesySpeedController(
 					new VictorSP(Constants.kTyrRightIntakeMotorPWM),
 					Constants.kTyrRightIntakeMotorPDP);
-			kIntake = new Intake("intake", kLeftIntakeMotor, kRightIntakeMotor);
+			// null for lack of a potentiometer
+			kIntake = new Intake("intake", kLeftIntakeMotor, kRightIntakeMotor, null);
 			System.out.println("Intake initialized");
 		} else if (Robot.name == RobotName.DERICA) {
 			CheesySpeedController kIntakeMotor = new CheesySpeedController(
@@ -80,7 +81,8 @@ public class HardwareAdaptor {
 			CheesySpeedController kIntakeArmMotor = new CheesySpeedController(
 					new CANTalon(Constants.kDericaArmIntakeMotorPWM),
 					Constants.kDericaArmIntakeMotorPDP);
-			kIntake = new Intake("intake", kIntakeMotor, kIntakeArmMotor);
+			AnalogPotentiometer kArmPotentiometer = null;
+			kIntake = new Intake("intake", kIntakeMotor, kIntakeArmMotor, kArmPotentiometer);
 		}
 	}
 

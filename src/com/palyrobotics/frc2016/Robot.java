@@ -109,9 +109,9 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		if(Robot.name == RobotName.TYR) {
-			shooter.teleopControlShooter(operatorStick.getRightY());
+			shooter.update(operatorStick.getRightY());
 		} else if(Robot.name == RobotName.DERICA) {
-			intake.setArmSpeed(operatorStick.getRightY());
+			intake.update(operatorStick.getRightY());
 		}
 		pdh.pDrive(-leftStick.getY(), rightStick.getX(), behavior_manager.getSetpoints());
 		//cdh.cheesyDrive(-leftStick.getY(), rightStick.getX(), rightStick.getRawButton(1), true, behavior_manager.getSetpoints());
