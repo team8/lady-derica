@@ -28,7 +28,7 @@ public class Drive extends Subsystem implements Loopable {
 	public CheesySpeedController m_right_motor;
 	public Encoder m_left_encoder;
 	public Encoder m_right_encoder;
-	//    public GyroThread m_gyro;
+	
 	private DriveController m_controller = null;
 
 	// Encoder DPP

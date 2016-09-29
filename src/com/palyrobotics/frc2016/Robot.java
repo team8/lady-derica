@@ -42,7 +42,7 @@ public class Robot extends IterativeRobot {
 	//    MultiLooper looper = new MultiLooper("Controllers", 1 / 200.0, true);
 	//    MultiLooper slowLooper = new MultiLooper("SlowControllers", 1 / 100.0);
 
-	public static RobotName name = RobotName.DERICA;
+	public static RobotName name = RobotName.TYR;
 
 	AutoModeExecuter autoModeRunner = new AutoModeExecuter();
 

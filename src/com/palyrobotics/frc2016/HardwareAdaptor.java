@@ -17,7 +17,6 @@ public class HardwareAdaptor {
 	static CheesySpeedController kRightDriveMotor = null;
 	static Encoder kLeftDriveEncoder = null;
 	static Encoder kRightDriveEncoder = null;
-
 	// Instantiate drive motors
 	static {
 		if(Robot.name == RobotName.TYR) {
@@ -33,6 +32,7 @@ public class HardwareAdaptor {
 					Constants.kTyrLeftDriveEncoderDIOA, Constants.kTyrLeftDriveEncoderDIOB);
 			kRightDriveEncoder = new Encoder(
 					Constants.kTyrRightDriveEncoderDIOA, Constants.kTyrRightDriveEncoderDIOB);
+			
 		}
 		else if (Robot.name == RobotName.DERICA) {
 			kLeftDriveMotor = new CheesySpeedController(

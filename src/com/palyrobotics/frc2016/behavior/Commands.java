@@ -35,7 +35,7 @@ public class Commands {
     	NONE, ACTIVATE
     }
     
-    public enum AutoAlignmentRequest {
+    public enum AutoAlignRequest {
     	NONE, ACTIVATE
     }
 
@@ -50,8 +50,15 @@ public class Commands {
     // Routine requests
     public TimerDriveRequest timer_drive_request;
     public EncoderDriveRequest encoder_drive_request;
-    public AutoAlignmentRequest auto_alignment_request;
+    public AutoAlignRequest auto_align_request;
     
     // Allows you to cancel routine
     public boolean cancel_current_routine = false;
+    
+    // Reset all routine requests to NONE
+    public void resetRoutineRequests() {
+    	timer_drive_request = TimerDriveRequest.NONE;
+    	encoder_drive_request = EncoderDriveRequest.NONE;
+    	auto_align_request = AutoAlignRequest.NONE;
+    }
 }

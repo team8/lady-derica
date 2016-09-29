@@ -32,7 +32,7 @@ public class AutoAlignmentRoutine extends Routine {
 
 	// Timer used for waiting period for camera stabilization
 	private Timer m_timer = new Timer();
-	private final double m_wait_time = 1500; 
+	private final double m_wait_time = 1.5; 
 	
 	
 	RobotSetpoints setpoints;
@@ -101,7 +101,6 @@ public class AutoAlignmentRoutine extends Routine {
 			drive.reset();
 			break;
 		}
-		System.out.println("New auto align state? "+m_is_new_state);
 		m_is_new_state = false;
 		if(m_state != new_state) {
 			m_state = new_state;
@@ -112,7 +111,6 @@ public class AutoAlignmentRoutine extends Routine {
 
 	@Override
 	public void cancel() {
-		setpoints.auto_align_setpoint = RobotSetpoints.m_nullopt;
 		m_state = AutoAlignStates.DONE;
 		drive.setOpenLoop(DriveSignal.NEUTRAL);
 		drive.reset();

@@ -41,12 +41,16 @@ public class OperatorInterface {
 
 		// Operator Stick - derica Activate routine
 		if (driveForwardLatch.update(leftStick.getRawButton(6))) {
+			m_commands.resetRoutineRequests();
 			m_commands.timer_drive_request = Commands.TimerDriveRequest.ACTIVATE;
 		} else if(driveForwardLatch.update(leftStick.getRawButton(5))) {
+			m_commands.resetRoutineRequests();
 			m_commands.encoder_drive_request = Commands.EncoderDriveRequest.ACTIVATE;
+		} else if(rightStick.getRawButton(3) || rightStick.getRawButton(4)) {
+			m_commands.resetRoutineRequests();
+			m_commands.auto_align_request = Commands.AutoAlignRequest.ACTIVATE;
 		} else {
-			m_commands.timer_drive_request = Commands.TimerDriveRequest.NONE;
-			m_commands.encoder_drive_request = Commands.EncoderDriveRequest.NONE;
+			m_commands.resetRoutineRequests();
 		}
 
 		// Left Stick trigger cancels current routine
@@ -94,12 +98,16 @@ public class OperatorInterface {
 		}
 		// Operator Stick - Activate routine
 		if (driveForwardLatch.update(leftStick.getRawButton(6))) {
+			m_commands.resetRoutineRequests();
 			m_commands.timer_drive_request = Commands.TimerDriveRequest.ACTIVATE;
 		} else if(driveForwardLatch.update(leftStick.getRawButton(5))) {
+			m_commands.resetRoutineRequests();
 			m_commands.encoder_drive_request = Commands.EncoderDriveRequest.ACTIVATE;
+		} else if(rightStick.getRawButton(3) || rightStick.getRawButton(4)) {
+			m_commands.resetRoutineRequests();
+			m_commands.auto_align_request = Commands.AutoAlignRequest.ACTIVATE;
 		} else {
-			m_commands.timer_drive_request = Commands.TimerDriveRequest.NONE;
-			m_commands.encoder_drive_request = Commands.EncoderDriveRequest.NONE;
+			m_commands.resetRoutineRequests();
 		}
 
 		// Left Stick trigger cancels current routine

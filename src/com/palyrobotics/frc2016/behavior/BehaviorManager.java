@@ -79,7 +79,7 @@ public class BehaviorManager implements Tappable {
 			setNewRoutine(new EncoderDriveRoutine(1000));
 		} else if (commands.timer_drive_request == Commands.TimerDriveRequest.ACTIVATE && !(m_cur_routine instanceof TimerDriveRoutine)) {
 			setNewRoutine(new TimerDriveRoutine(5));
-		} else if (commands.auto_alignment_request == Commands.AutoAlignmentRequest.ACTIVATE && !(m_cur_routine instanceof AutoAlignmentRoutine)) {
+		} else if (commands.auto_align_request == Commands.AutoAlignRequest.ACTIVATE && !(m_cur_routine instanceof AutoAlignmentRoutine)) {
 			setNewRoutine(new AutoAlignmentRoutine());
 		}
 
