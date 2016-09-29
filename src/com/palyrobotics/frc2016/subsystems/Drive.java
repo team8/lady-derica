@@ -10,6 +10,7 @@ import com.palyrobotics.frc2016.subsystems.controllers.TurnInPlaceController;
 import com.palyrobotics.lib.trajectory.Path;
 import com.palyrobotics.lib.util.*;
 
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 //import com.team254.lib.util.gyro.GyroThread;
 import edu.wpi.first.wpilibj.Encoder;
 
@@ -28,7 +29,7 @@ public class Drive extends Subsystem implements Loop {
 	public CheesySpeedController m_right_motor;
 	public Encoder m_left_encoder;
 	public Encoder m_right_encoder;
-	
+	public ADXRS450_Gyro m_gyro;
 	private DriveController m_controller = null;
 
 	// Encoder DPP
@@ -40,7 +41,7 @@ public class Drive extends Subsystem implements Loop {
 
 	public Drive(String name, CheesySpeedController left_drive,
 			CheesySpeedController right_drive, Encoder left_encoder,
-			Encoder right_encoder) {
+			Encoder right_encoder, ADXRS450_Gyro gyro) {
 		super(name);
 		if(Robot.name == RobotName.TYR) {
 			m_wheelbase_width = 26.0;
@@ -60,7 +61,7 @@ public class Drive extends Subsystem implements Loop {
 		this.m_right_encoder = right_encoder;
 		this.m_left_encoder.setDistancePerPulse(m_inches_per_tick);
 		this.m_right_encoder.setDistancePerPulse(m_inches_per_tick);
-		//        this.m_gyro = gyro;
+		this.m_gyro = gyro;
 	}
 
 	public void setOpenLoop(DriveSignal signal) {
@@ -122,7 +123,13 @@ public class Drive extends Subsystem implements Loop {
 				states.put("right_signal", m_right_motor.get());
 				states.put("on_target", (m_controller != null && m_controller.onTarget()) ? 1.0 : 0.0);
 	}
-	
+
+	@Override
+	public void onStart() {
+	}
+	@Override
+	public void onStop() {
+	}
 	@Override
 	public void onLoop() {
 		if (m_controller == null) {
@@ -130,14 +137,7 @@ public class Drive extends Subsystem implements Loop {
 		}
 		setDriveOutputs(m_controller.update(getPhysicalPose()));
 	}
-	
-	@Override
-	public void onStart() {
-	}
-	
-	@Override
-	public void onStop() {
-	}
+
 	private void setDriveOutputs(DriveSignal signal) {
 		m_left_motor.set(signal.leftMotor);
 		m_right_motor.set(-signal.rightMotor);
@@ -169,8 +169,8 @@ public class Drive extends Subsystem implements Loop {
 				m_right_encoder.getDistance(),
 				m_left_encoder.getRate(),
 				m_right_encoder.getRate(),
-				0,
-				0);
+				Math.toRadians(m_gyro.getAngle()),
+				m_gyro.getRate());
 		return m_cached_pose;
 	}
 

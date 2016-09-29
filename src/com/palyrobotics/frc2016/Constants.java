@@ -28,6 +28,13 @@ public class Constants extends ConstantsBase {
 	public static double kDriveOnTargetError = 0.75;
 	public static double kDrivePathHeadingFollowKp = 0.01;
 
+	//Encoder Turn in Place Controller gains
+	public static double kEncoderTurnKp = 0;
+	public static double kEncoderTurnKi = 0;
+	public static double kEncoderTurnKd = 0;
+	public static double kTyrDegreeToDistance = 0;
+	public static double kDericaDegreeToDistance = 0;
+	
 	// TurnInPlaceController gains
 	public static double kTurnMaxSpeedRadsPerSec = 4.5;
 	public static double kTurnMaxAccelRadsPerSec2 = 4.5;

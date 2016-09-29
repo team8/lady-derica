@@ -77,7 +77,7 @@ public class AutoAlignmentRoutine extends Routine {
 			if(true) {
 				System.out.println("Manually set auto align setpoint");
 				int direction = (m_iterations%2 == 1) ? -1:1;
-				setpoints.auto_align_setpoint = Optional.of(direction * 2.0);
+				setpoints.auto_align_setpoint = Optional.of(direction * 20.0);
 			} else {
 				System.out.println("No goal detected");
 				m_iterations = 0;

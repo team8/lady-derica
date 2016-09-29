@@ -17,6 +17,8 @@ public class HardwareAdaptor {
 	static CheesySpeedController kRightDriveMotor = null;
 	static Encoder kLeftDriveEncoder = null;
 	static Encoder kRightDriveEncoder = null;
+	static ADXRS450_Gyro kGyro;
+
 	// Instantiate drive motors
 	static {
 		if(Robot.name == RobotName.TYR) {
@@ -32,7 +34,8 @@ public class HardwareAdaptor {
 					Constants.kTyrLeftDriveEncoderDIOA, Constants.kTyrLeftDriveEncoderDIOB);
 			kRightDriveEncoder = new Encoder(
 					Constants.kTyrRightDriveEncoderDIOA, Constants.kTyrRightDriveEncoderDIOB);
-			
+			kGyro = new ADXRS450_Gyro();
+
 		}
 		else if (Robot.name == RobotName.DERICA) {
 			kLeftDriveMotor = new CheesySpeedController(
@@ -52,7 +55,7 @@ public class HardwareAdaptor {
 		System.out.println(kRightDriveMotor);
 		System.out.println(kLeftDriveEncoder);
 		System.out.println(kRightDriveEncoder);
-		kDrive = new Drive("drive", kLeftDriveMotor, kRightDriveMotor, kLeftDriveEncoder, kRightDriveEncoder);
+		kDrive = new Drive("drive", kLeftDriveMotor, kRightDriveMotor, kLeftDriveEncoder, kRightDriveEncoder, kGyro);
 		System.out.println("DT Initialized");
 	}
 
