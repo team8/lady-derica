@@ -76,7 +76,8 @@ public class AutoAlignmentRoutine extends Routine {
 //				setpoints.auto_align_setpoint = Optional.of(table.getNumber("skewangle", 100000));
 			if(true) {
 				System.out.println("Manually set auto align setpoint");
-				setpoints.auto_align_setpoint = Optional.of(20.0);
+				int direction = (m_iterations%2 == 1) ? -1:1;
+				setpoints.auto_align_setpoint = Optional.of(direction * 2.0);
 			} else {
 				System.out.println("No goal detected");
 				m_iterations = 0;
@@ -84,6 +85,7 @@ public class AutoAlignmentRoutine extends Routine {
 			}
 			break;
 		case ALIGNING:
+			System.out.println("aligning, waiting on controller");
 			// If finished turning, start next sequence or finish
 			if(drive.controllerOnTarget()) {
 				System.out.println("Drive controller reached target");

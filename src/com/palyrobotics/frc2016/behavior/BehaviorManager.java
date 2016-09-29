@@ -126,7 +126,7 @@ public class BehaviorManager implements Tappable {
 		
 		//Encoder drive distance routine
 		if(m_setpoints.encoder_drive_setpoint.isPresent()) {
-			drive.setOpenLoop(new DriveSignal(m_setpoints.drive_velocity_setpoint.get(), m_setpoints.drive_velocity_setpoint.get()));
+//			drive.setOpenLoop(new DriveSignal(m_setpoints.drive_velocity_setpoint.get(), m_setpoints.drive_velocity_setpoint.get()));
 		}
 		//Timer based routine
 		else if(m_setpoints.timer_drive_time_setpoint.isPresent()) {
@@ -134,7 +134,6 @@ public class BehaviorManager implements Tappable {
 		}
 		// If auto-align has a setpoint to use, start turning angle
 		else if(m_setpoints.auto_align_setpoint.isPresent()) {
-			System.out.println("Set auto align turn setpoint "+m_setpoints.auto_align_setpoint.get());
 			drive.setTurnSetPoint(m_setpoints.auto_align_setpoint.get());
 		}
 	}

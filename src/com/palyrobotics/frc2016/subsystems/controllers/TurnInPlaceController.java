@@ -36,6 +36,7 @@ public class TurnInPlaceController implements Drive.DriveController {
 
     @Override
     public DriveSignal update(Pose pose) {
+    	System.out.println(pose.getHeading()+" "+mController.m_error+" "+pose.getHeadingVelocity()+" "+mController.get());
         mController.update(pose.getHeading(), pose.getHeadingVelocity());
         double turn = mController.get();
         return new DriveSignal(turn, -turn);

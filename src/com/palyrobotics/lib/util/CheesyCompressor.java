@@ -8,15 +8,23 @@ public class CheesyCompressor {
     protected Relay m_compressor_relay;
     protected DigitalInput m_pressure_switch;
 
-    Loopable updater = new Loopable() {
+    Loop updater = new Loop() {
         @Override
-        public void update() {
+        public void onLoop() {
             boolean turn_on = !m_pressure_switch.get();
             m_compressor_relay.set(turn_on ? Relay.Value.kOn : Relay.Value.kOff);
         }
+        @Override
+        public void onStop() {
+			// TODO Auto-generated method stub
+        }
+		@Override
+		public void onStart() {
+			// TODO Auto-generated method stub
+		}
     };
 
-    protected Looper looper = new Looper("Compressor", updater, 1.0 / (UPDATE_HZ * 1.0));
+    protected Looper looper = new Looper();
 
     public CheesyCompressor(Relay compressor_relay, DigitalInput pressure_switch) {
         m_compressor_relay = compressor_relay;

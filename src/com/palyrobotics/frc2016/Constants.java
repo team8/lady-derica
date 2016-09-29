@@ -3,6 +3,7 @@ package com.palyrobotics.frc2016;
 import com.palyrobotics.lib.util.ConstantsBase;
 
 public class Constants extends ConstantsBase {
+	// Chezy Drive tuning
 	public static double kDriveSensitivity = .75;
 	public static double kNegativeInertiaScalar = 5.0;
 
@@ -28,14 +29,14 @@ public class Constants extends ConstantsBase {
 	public static double kDrivePathHeadingFollowKp = 0.01;
 
 	// TurnInPlaceController gains
-	public static double kTurnMaxSpeedRadsPerSec = 5.25;
-	public static double kTurnMaxAccelRadsPerSec2 = 5.25;
+	public static double kTurnMaxSpeedRadsPerSec = 4.5;
+	public static double kTurnMaxAccelRadsPerSec2 = 4.5;
 	public static double kTurnKp = 3.0;
 	public static double kTurnKi = 0.18;
 	public static double kTurnKd = 0.23;
 	public static double kTurnKv = 0.085;
 	public static double kTurnKa = 0.075;
-	public static double kTurnOnTargetError = 0.0225;
+	public static double kTurnOnTargetError = 0.1;
 
 	// !!! End of editable Constants! !!!
 	public static int kEndEditableArea = 0;
@@ -113,7 +114,8 @@ public class Constants extends ConstantsBase {
 	public static double kControlLoopsDt = 0.005;
 
 	// !!! Control loop constants
-
+	public static double kLooperDt = 0.001;
+	
 	// Drive parameters
 	public static double kDriveEncoderCountsPerRev = 250.0;
 	public static double kDriveWheelSizeInches = 8; //pneumatic wheels

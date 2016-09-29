@@ -10,7 +10,6 @@ import com.palyrobotics.frc2016.subsystems.Intake;
 import com.palyrobotics.frc2016.subsystems.TyrShooter;
 import com.palyrobotics.lib.util.DriveSignal;
 import com.palyrobotics.lib.util.Looper;
-import com.palyrobotics.lib.util.MultiLooper;
 import com.palyrobotics.lib.util.SystemManager;
 import com.palyrobotics.lib.util.XboxController;
 
@@ -39,7 +38,7 @@ public class Robot extends IterativeRobot {
 		s_robot_state = state;
 	}
 
-	//    MultiLooper looper = new MultiLooper("Controllers", 1 / 200.0, true);
+	Looper subsystem_looper = new Looper();
 	//    MultiLooper slowLooper = new MultiLooper("SlowControllers", 1 / 100.0);
 
 	public static RobotName name = RobotName.TYR;
@@ -71,8 +70,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void robotInit() {
 		System.out.println("Start robotInit()");
-		//        HardwareAdaptor.kGyroThread.start();
-		//        slowLooper.addLoopable(drive);
+		subsystem_looper.register(drive);
 		//        SystemManager.getInstance().add(behavior_manager);
 		sensorTable = NetworkTable.getTable("Sensor");
 	}
@@ -93,7 +91,7 @@ public class Robot extends IterativeRobot {
 		//
 		//        // Start control loops
 		autoModeRunner.start();
-		//        looper.start();
+		subsystem_looper.start();
 		//        slowLooper.start();
 	}
 
@@ -104,10 +102,8 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopInit() {
 		setState(RobotState.TELEOP);
-
 		System.out.println("Start teleopInit()");
-
-		//        looper.start();
+		subsystem_looper.start();
 	}
 
 	@Override
@@ -145,11 +141,10 @@ public class Robot extends IterativeRobot {
 		behavior_manager.reset();
 
 		// Stop control loops
-		//        looper.stop();
-		//        slowLooper.stop();
-		//
-		//        // Stop controllers
-		//        drive.setOpenLoop(DriveSignal.NEUTRAL);
+		subsystem_looper.stop();
+
+		// Stop controllers
+		drive.setOpenLoop(DriveSignal.NEUTRAL);
 		//
 		//        // Reload constants
 		//        drive.reloadConstants();

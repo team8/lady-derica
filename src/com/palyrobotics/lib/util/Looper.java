@@ -1,60 +1,87 @@
 package com.palyrobotics.lib.util;
 
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.palyrobotics.frc2016.Constants;
+
+import edu.wpi.first.wpilibj.Notifier;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
- * A Looper is an easy way to create a timed task the gets
- * called periodically.
- * <p>
- * Just make a new Looper and give it a Loopable.
- *
- * @author Tom Bottiglieri
+ * This code runs all of the robot's loops. Loop objects are stored in a List
+ * object. They are started when the robot powers up and stopped after the
+ * match.
  */
 public class Looper {
+    public final double kPeriod = Constants.kLooperDt;
 
-    private double period = 1.0 / 100.0;
-    protected Loopable loopable;
-    private Timer looperUpdater;
-    protected String m_name;
+    private boolean running_;
 
-    public Looper(String name, Loopable loopable, double period) {
-        this.period = period;
-        this.loopable = loopable;
-        this.m_name = name;
-    }
-
-    private class UpdaterTask extends TimerTask {
-
-        private Looper looper;
-
-        public UpdaterTask(Looper looper) {
-            if (looper == null) {
-                throw new NullPointerException("Given Looper was null");
+    private final Notifier notifier_;
+    private final List<Loop> loops_;
+    private final Object taskRunningLock_ = new Object();
+    private double timestamp_ = 0;
+    private double dt_ = 0;
+    private final CrashTrackingRunnable runnable_ = new CrashTrackingRunnable() {
+        @Override
+        public void runCrashTracked() {
+            synchronized (taskRunningLock_) {
+                if (running_) {
+                    double now = Timer.getFPGATimestamp();
+                    for (Loop loop : loops_) {
+                        loop.onLoop();
+                    }
+                    dt_ = now - timestamp_;
+                    timestamp_ = now;
+                }
             }
-            this.looper = looper;
         }
+    };
 
-        public void run() {
-            looper.update();
-        }
+    public Looper() {
+        notifier_ = new Notifier((Runnable)runnable_);
+        running_ = false;
+        loops_ = new ArrayList<>();
     }
 
-    public void start() {
-        if (looperUpdater == null) {
-            looperUpdater = new Timer("Looper - " + this.m_name);
-            looperUpdater.schedule(new UpdaterTask(this), 0L, (long) (this.period * 1000));
-        }
-    }
-
-    public void stop() {
-        if (looperUpdater != null) {
-            looperUpdater.cancel();
-            looperUpdater = null;
+    public synchronized void register(Loop loop) {
+        synchronized (taskRunningLock_) {
+            loops_.add(loop);
         }
     }
 
-    private void update() {
-        loopable.update();
+    public synchronized void start() {
+        if (!running_) {
+            System.out.println("Starting loops");
+            synchronized (taskRunningLock_) {
+                timestamp_ = Timer.getFPGATimestamp();
+                for (Loop loop : loops_) {
+                    loop.onStart();
+                }
+                running_ = true;
+            }
+            notifier_.startPeriodic(kPeriod);
+        }
     }
+
+    public synchronized void stop() {
+        if (running_) {
+            System.out.println("Stopping loops");
+            notifier_.stop();
+            synchronized (taskRunningLock_) {
+                running_ = false;
+                for (Loop loop : loops_) {
+                    System.out.println("Stopping " + loop);
+                    loop.onStop();
+                }
+            }
+        }
+    }
+
+    public void outputToSmartDashboard() {
+        SmartDashboard.putNumber("looper_dt", dt_);
+    }
+
 }

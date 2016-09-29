@@ -46,6 +46,5 @@ public class EncoderDriveAction extends Action {
 		System.out.println("Starting EncoderDriveAction");
 		//setDistanceSetpoint is relative
 		drive.setDistanceSetpoint(distance);
-		drive.update();
 	}
 }

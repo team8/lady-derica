@@ -13,7 +13,7 @@ import com.palyrobotics.lib.util.*;
 //import com.team254.lib.util.gyro.GyroThread;
 import edu.wpi.first.wpilibj.Encoder;
 
-public class Drive extends Subsystem implements Loopable {
+public class Drive extends Subsystem implements Loop {
 
 	public interface DriveController {
 		DriveSignal update(Pose pose);
@@ -122,15 +122,22 @@ public class Drive extends Subsystem implements Loopable {
 				states.put("right_signal", m_right_motor.get());
 				states.put("on_target", (m_controller != null && m_controller.onTarget()) ? 1.0 : 0.0);
 	}
-
+	
 	@Override
-	public void update() {
+	public void onLoop() {
 		if (m_controller == null) {
 			return;
 		}
 		setDriveOutputs(m_controller.update(getPhysicalPose()));
 	}
-
+	
+	@Override
+	public void onStart() {
+	}
+	
+	@Override
+	public void onStop() {
+	}
 	private void setDriveOutputs(DriveSignal signal) {
 		m_left_motor.set(signal.leftMotor);
 		m_right_motor.set(-signal.rightMotor);
