@@ -1,7 +1,7 @@
 package com.palyrobotics.frc2016.subsystems.controllers;
 
-import com.palyrobotics.lib.trajectory.TrajectoryFollower;
-import com.palyrobotics.lib.util.Controller;
+import com.team254.lib.trajectory.TrajectoryFollower;
+import com.team254.lib.util.Controller;
 
 public class TrajectoryFollowingPositionController extends Controller {
     TrajectoryFollower m_follower;

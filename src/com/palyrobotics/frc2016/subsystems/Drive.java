@@ -7,8 +7,8 @@ import com.palyrobotics.frc2016.subsystems.controllers.DriveFinishLineController
 import com.palyrobotics.frc2016.subsystems.controllers.DrivePathController;
 import com.palyrobotics.frc2016.subsystems.controllers.DriveStraightController;
 import com.palyrobotics.frc2016.subsystems.controllers.TurnInPlaceController;
-import com.palyrobotics.lib.trajectory.Path;
-import com.palyrobotics.lib.util.*;
+import com.team254.lib.trajectory.Path;
+import com.team254.lib.util.*;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 //import com.team254.lib.util.gyro.GyroThread;

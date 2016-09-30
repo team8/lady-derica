@@ -4,8 +4,8 @@ import edu.wpi.first.wpilibj.Joystick;
 
 import com.palyrobotics.frc2016.Robot.RobotName;
 import com.palyrobotics.frc2016.behavior.Commands;
-import com.palyrobotics.lib.util.Latch;
-import com.palyrobotics.lib.util.XboxController;
+import com.palyrobotics.frc2016.util.XboxController;
+import com.team254.lib.util.Latch;
 
 public class OperatorInterface {
 	private Commands m_commands = new Commands();

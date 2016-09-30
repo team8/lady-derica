@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import com.palyrobotics.lib.util.BinaryInputDecoder;
+import com.team254.lib.util.BinaryInputDecoder;
 
 public class BinaryInputDecoderTest {
 

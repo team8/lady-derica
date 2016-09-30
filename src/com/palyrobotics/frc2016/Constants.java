@@ -1,6 +1,6 @@
 package com.palyrobotics.frc2016;
 
-import com.palyrobotics.lib.util.ConstantsBase;
+import com.team254.lib.util.ConstantsBase;
 
 public class Constants extends ConstantsBase {
 	// Chezy Drive tuning

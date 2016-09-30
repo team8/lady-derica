@@ -1,7 +1,7 @@
 package com.palyrobotics.frc2016.subsystems.controllers;
 
-import com.palyrobotics.lib.util.Controller;
-import com.palyrobotics.lib.util.SynchronousPID;
+import com.team254.lib.util.Controller;
+import com.team254.lib.util.SynchronousPID;
 
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 

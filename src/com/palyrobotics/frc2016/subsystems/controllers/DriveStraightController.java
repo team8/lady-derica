@@ -1,13 +1,13 @@
 package com.palyrobotics.frc2016.subsystems.controllers;
 
-import static com.palyrobotics.lib.trajectory.TrajectoryFollower.TrajectorySetpoint;
+import static com.team254.lib.trajectory.TrajectoryFollower.TrajectorySetpoint;
 
 import com.palyrobotics.frc2016.Constants;
 import com.palyrobotics.frc2016.subsystems.Drive;
-import com.palyrobotics.lib.trajectory.TrajectoryFollower;
-import com.palyrobotics.lib.util.DriveSignal;
-import com.palyrobotics.lib.util.Pose;
-import com.palyrobotics.lib.util.SynchronousPID;
+import com.team254.lib.trajectory.TrajectoryFollower;
+import com.team254.lib.util.DriveSignal;
+import com.team254.lib.util.Pose;
+import com.team254.lib.util.SynchronousPID;
 
 public class DriveStraightController implements Drive.DriveController {
 

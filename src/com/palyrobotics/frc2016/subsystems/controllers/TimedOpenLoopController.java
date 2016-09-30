@@ -1,6 +1,6 @@
 package com.palyrobotics.frc2016.subsystems.controllers;
 
-import com.palyrobotics.lib.util.Controller;
+import com.team254.lib.util.Controller;
 
 import edu.wpi.first.wpilibj.Timer;
 

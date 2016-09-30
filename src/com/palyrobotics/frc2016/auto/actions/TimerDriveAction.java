@@ -1,6 +1,6 @@
 package com.palyrobotics.frc2016.auto.actions;
 
-import com.palyrobotics.lib.util.DriveSignal;
+import com.team254.lib.util.DriveSignal;
 
 import edu.wpi.first.wpilibj.Timer;
 

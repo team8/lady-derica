@@ -1,9 +1,10 @@
 package com.palyrobotics.frc2016.subsystems;
 
 import com.palyrobotics.frc2016.subsystems.controllers.StrongHoldController;
-import com.palyrobotics.lib.util.CheesySpeedController;
-import com.palyrobotics.lib.util.StateHolder;
-import com.palyrobotics.lib.util.Subsystem;
+import com.team254.lib.util.CheesySpeedController;
+import com.team254.lib.util.Loop;
+import com.team254.lib.util.StateHolder;
+import com.team254.lib.util.Subsystem;
 
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -15,7 +16,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
  * @author Robbie, Nihar
  *
  */
-public class TyrShooter extends Subsystem {
+public class TyrShooter extends Subsystem implements Loop {
 	// Hardware components
 	CheesySpeedController m_shooter_motor;
 	DoubleSolenoid m_shooter_solenoid;
@@ -34,8 +35,32 @@ public class TyrShooter extends Subsystem {
 	// Shooter motor controller for holding position, null if no potentiometer available
 	StrongHoldController m_controller = null;
 	
+	@Override
+	public void onStart() {
+	}
+
+	/**
+	 * Runs the current controller if enabled and not null
+	 */
+	@Override
+	public void onLoop() {
+		if(m_controller != null) {
+			if(m_controller.isEnabled()) {
+				m_shooter_motor.set(m_controller.update());
+			}
+		}
+	}
+
+	@Override
+	public void onStop() {
+	}
+
+	
 	/**
 	 * Updates the shooter's motor output based on joystick input
+	 * Called in teleop
+	 * If there is an enabled controller that loop is executed in onLoop
+	 * @see TyrShooter#onLoop()
 	 */
 	public void update(double joystickInput) {
 		// If no potentiometer available, directly use joystick input scaled down
@@ -46,13 +71,7 @@ public class TyrShooter extends Subsystem {
 		
 		// If joystick is within deadzone, then hold position using potentiometer
 		if(joystickInput < kDeadzone) {
-			if(m_controller.isEnabled()) {
-				m_shooter_motor.set(m_controller.update());
-			}
-			else {
-				holdPosition();
-				m_shooter_motor.set(m_controller.update());
-			}
+			holdPosition();
 		} else {
 			cancelHoldPosition();
 			m_shooter_motor.set(joystickInput*kJoystickScaleFactor);

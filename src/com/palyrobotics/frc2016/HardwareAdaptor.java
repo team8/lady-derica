@@ -2,8 +2,8 @@ package com.palyrobotics.frc2016;
 
 import com.palyrobotics.frc2016.Robot.RobotName;
 import com.palyrobotics.frc2016.subsystems.*;
-import com.palyrobotics.lib.util.CheesySpeedController;
-import com.palyrobotics.lib.util.XboxController;
+import com.palyrobotics.frc2016.util.XboxController;
+import com.team254.lib.util.CheesySpeedController;
 
 import edu.wpi.first.wpilibj.*;
 

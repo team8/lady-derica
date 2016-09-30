@@ -1,7 +1,7 @@
 package com.palyrobotics.frc2016;
 import com.palyrobotics.frc2016.behavior.RobotSetpoints;
 import com.palyrobotics.frc2016.subsystems.Drive;
-import com.palyrobotics.lib.util.DriveSignal;
+import com.team254.lib.util.DriveSignal;
 
 import edu.wpi.first.wpilibj.DriverStation;
 

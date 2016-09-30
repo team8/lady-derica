@@ -2,9 +2,9 @@ package com.palyrobotics.frc2016.subsystems.controllers;
 
 import com.palyrobotics.frc2016.Constants;
 import com.palyrobotics.frc2016.subsystems.Drive;
-import com.palyrobotics.lib.util.DriveSignal;
-import com.palyrobotics.lib.util.Pose;
-import com.palyrobotics.lib.util.SynchronousPID;
+import com.team254.lib.util.DriveSignal;
+import com.team254.lib.util.Pose;
+import com.team254.lib.util.SynchronousPID;
 
 public class DriveFinishLineController implements Drive.DriveController {
     BangBangFinishLineController m_controller;

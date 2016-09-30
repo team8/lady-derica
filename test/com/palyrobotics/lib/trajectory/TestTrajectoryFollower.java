@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import com.palyrobotics.lib.trajectory.TrajectoryFollower;
+import com.team254.lib.trajectory.TrajectoryFollower;
 
 public class TestTrajectoryFollower {
 

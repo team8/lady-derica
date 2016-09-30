@@ -2,9 +2,9 @@ package com.palyrobotics.frc2016.subsystems.controllers;
 
 import com.palyrobotics.frc2016.Constants;
 import com.palyrobotics.frc2016.subsystems.Drive;
-import com.palyrobotics.lib.trajectory.TrajectoryFollower;
-import com.palyrobotics.lib.util.DriveSignal;
-import com.palyrobotics.lib.util.Pose;
+import com.team254.lib.trajectory.TrajectoryFollower;
+import com.team254.lib.util.DriveSignal;
+import com.team254.lib.util.Pose;
 
 /**
  * Controls the robot to turn in place

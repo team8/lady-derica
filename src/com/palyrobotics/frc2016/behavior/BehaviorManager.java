@@ -4,9 +4,9 @@ import com.palyrobotics.frc2016.Constants;
 import com.palyrobotics.frc2016.HardwareAdaptor;
 import com.palyrobotics.frc2016.behavior.routines.*;
 import com.palyrobotics.frc2016.subsystems.*;
-import com.palyrobotics.lib.util.DriveSignal;
-import com.palyrobotics.lib.util.StateHolder;
-import com.palyrobotics.lib.util.Tappable;
+import com.team254.lib.util.DriveSignal;
+import com.team254.lib.util.StateHolder;
+import com.team254.lib.util.Tappable;
 
 public class BehaviorManager implements Tappable {
 

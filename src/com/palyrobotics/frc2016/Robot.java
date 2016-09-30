@@ -8,10 +8,10 @@ import com.palyrobotics.frc2016.behavior.RobotSetpoints;
 import com.palyrobotics.frc2016.subsystems.Drive;
 import com.palyrobotics.frc2016.subsystems.Intake;
 import com.palyrobotics.frc2016.subsystems.TyrShooter;
-import com.palyrobotics.lib.util.DriveSignal;
-import com.palyrobotics.lib.util.Looper;
-import com.palyrobotics.lib.util.SystemManager;
-import com.palyrobotics.lib.util.XboxController;
+import com.palyrobotics.frc2016.util.XboxController;
+import com.team254.lib.util.DriveSignal;
+import com.team254.lib.util.Looper;
+import com.team254.lib.util.SystemManager;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
@@ -71,6 +71,11 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		System.out.println("Start robotInit()");
 		subsystem_looper.register(drive);
+		if(Robot.name == RobotName.TYR) {
+			subsystem_looper.register(shooter);
+		} else {
+			subsystem_looper.register(intake);
+		}
 		//        SystemManager.getInstance().add(behavior_manager);
 		sensorTable = NetworkTable.getTable("Sensor");
 	}
@@ -88,11 +93,10 @@ public class Robot extends IterativeRobot {
 		autoModeRunner.setAutoMode(mode);
 		// Prestart auto mode
 		mode.prestart();
-		//
-		//        // Start control loops
 		autoModeRunner.start();
+		// Start control loops
 		subsystem_looper.start();
-		//        slowLooper.start();
+		//slowLooper.start();
 	}
 
 	@Override
@@ -108,18 +112,17 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void teleopPeriodic() {
+		// Passes joystick control to subsystems for their processing
 		if(Robot.name == RobotName.TYR) {
 			shooter.update(operatorStick.getRightY());
 		} else if(Robot.name == RobotName.DERICA) {
 			intake.update(operatorStick.getRightY());
 		}
-		pdh.pDrive(-leftStick.getY(), rightStick.getX(), behavior_manager.getSetpoints());
-		//cdh.cheesyDrive(-leftStick.getY(), rightStick.getX(), rightStick.getRawButton(1), true, behavior_manager.getSetpoints());
+		// Pick one or the other drive scheme
+//		pdh.pDrive(-leftStick.getY(), rightStick.getX(), behavior_manager.getSetpoints());
+		cdh.cheesyDrive(-leftStick.getY(), rightStick.getX(), rightStick.getRawButton(1), true, behavior_manager.getSetpoints());
 		
-		//the behavior manager updates based on the commands from the operator interface.
-		//in the first part, various routines are called based on the requests from the operator interface(buttons)
-		//these routines should change the states of the RobotSetpoints only - NO MOVEMENT CODE
-		//the second part of the update method in behavior manager runs the physical subsystems based off the RobotSetpoints.
+		// Runs routines
 		behavior_manager.update(operator_interface.getCommands());
 
 		// Update sensorTable with encoder distances
