@@ -49,6 +49,9 @@ public class OperatorInterface {
 		} else if(rightStick.getRawButton(3) || rightStick.getRawButton(4)) {
 			m_commands.resetRoutineRequests();
 			m_commands.auto_align_request = Commands.AutoAlignRequest.ACTIVATE;
+		} else if(rightStick.getRawButton(2)) { 
+			m_commands.resetRoutineRequests();
+			m_commands.encoder_turn_angle_request = Commands.EncoderTurnAngleRequest.ACTIVATE;
 		} else {
 			m_commands.resetRoutineRequests();
 		}
@@ -106,6 +109,9 @@ public class OperatorInterface {
 		} else if(rightStick.getRawButton(3) || rightStick.getRawButton(4)) {
 			m_commands.resetRoutineRequests();
 			m_commands.auto_align_request = Commands.AutoAlignRequest.ACTIVATE;
+		} else if(rightStick.getRawButton(2)) { 
+			m_commands.resetRoutineRequests();
+			m_commands.encoder_turn_angle_request = Commands.EncoderTurnAngleRequest.ACTIVATE;
 		} else {
 			m_commands.resetRoutineRequests();
 		}

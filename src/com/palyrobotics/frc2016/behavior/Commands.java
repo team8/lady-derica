@@ -35,6 +35,12 @@ public class Commands {
     	NONE, ACTIVATE
     }
     
+    //Commands for Encoder Turn Angle
+    public enum EncoderTurnAngleRequest {
+    	NONE, ACTIVATE
+    }
+    
+    //Commands for AutoAlign
     public enum AutoAlignRequest {
     	NONE, ACTIVATE
     }
@@ -51,6 +57,7 @@ public class Commands {
     public TimerDriveRequest timer_drive_request;
     public EncoderDriveRequest encoder_drive_request;
     public AutoAlignRequest auto_align_request;
+    public EncoderTurnAngleRequest encoder_turn_angle_request;
     
     // Allows you to cancel routine
     public boolean cancel_current_routine = false;
@@ -60,5 +67,6 @@ public class Commands {
     	timer_drive_request = TimerDriveRequest.NONE;
     	encoder_drive_request = EncoderDriveRequest.NONE;
     	auto_align_request = AutoAlignRequest.NONE;
+    	encoder_turn_angle_request = EncoderTurnAngleRequest.NONE;
     }
 }

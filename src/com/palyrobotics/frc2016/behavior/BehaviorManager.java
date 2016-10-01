@@ -2,6 +2,7 @@ package com.palyrobotics.frc2016.behavior;
 
 import com.palyrobotics.frc2016.Constants;
 import com.palyrobotics.frc2016.HardwareAdaptor;
+import com.palyrobotics.frc2016.Robot;
 import com.palyrobotics.frc2016.behavior.routines.*;
 import com.palyrobotics.frc2016.subsystems.*;
 import com.team254.lib.util.DriveSignal;
@@ -77,10 +78,12 @@ public class BehaviorManager implements Tappable {
 			setNewRoutine(null);
 		} else if(commands.encoder_drive_request == Commands.EncoderDriveRequest.ACTIVATE && !(m_cur_routine instanceof EncoderDriveRoutine)) {
 			setNewRoutine(new EncoderDriveRoutine(1000));
-		} else if (commands.timer_drive_request == Commands.TimerDriveRequest.ACTIVATE && !(m_cur_routine instanceof TimerDriveRoutine)) {
+		} else if(commands.timer_drive_request == Commands.TimerDriveRequest.ACTIVATE && !(m_cur_routine instanceof TimerDriveRoutine)) {
 			setNewRoutine(new TimerDriveRoutine(5));
-		} else if (commands.auto_align_request == Commands.AutoAlignRequest.ACTIVATE && !(m_cur_routine instanceof AutoAlignmentRoutine)) {
+		} else if(commands.auto_align_request == Commands.AutoAlignRequest.ACTIVATE && !(m_cur_routine instanceof AutoAlignmentRoutine)) {
 			setNewRoutine(new AutoAlignmentRoutine());
+		} else if(commands.encoder_turn_angle_request == Commands.EncoderTurnAngleRequest.ACTIVATE && !(m_cur_routine instanceof EncoderTurnAngleRoutine)) {
+			setNewRoutine(new EncoderTurnAngleRoutine(90, 0.5));
 		}
 
 		//changes the setpoints according to the current routine update
@@ -135,6 +138,10 @@ public class BehaviorManager implements Tappable {
 		// If auto-align has a setpoint to use, start turning angle
 		else if(m_setpoints.auto_align_setpoint.isPresent()) {
 			drive.setTurnSetPoint(m_setpoints.auto_align_setpoint.get());
+		}
+		//Encoder Turn Angle
+		else if(m_setpoints.encoder_turn_setpoint_left.isPresent()) {
+			drive.setOpenLoop(new DriveSignal(m_setpoints.encoder_turn_setpoint_left.get(), -m_setpoints.encoder_turn_setpoint_left.get()));
 		}
 	}
 

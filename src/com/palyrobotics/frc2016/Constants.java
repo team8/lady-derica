@@ -34,6 +34,7 @@ public class Constants extends ConstantsBase {
 	public static double kEncoderTurnKd = 0;
 	public static double kTyrDegreeToDistance = 0;
 	public static double kDericaDegreeToDistance = 0;
+	public static double kEncoderTurnError = 5;
 	
 	// TurnInPlaceController gains
 	public static double kTurnMaxSpeedRadsPerSec = 4.5;
