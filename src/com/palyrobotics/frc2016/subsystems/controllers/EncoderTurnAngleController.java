@@ -53,19 +53,6 @@ public class EncoderTurnAngleController implements Drive.DriveController {
 		rightSpeed = Math.max(-maxVel, 
 				Math.min(maxVel, Constants.kEncoderTurnKp*rightP + Constants.kEncoderTurnKi*rightI + Constants.kEncoderTurnKd*rightD));
 		
-		System.out.println("left P" + Constants.kEncoderTurnKp*leftP);
-		System.out.println("left I" + Constants.kEncoderTurnKi*leftI);
-		System.out.println("left D" + Constants.kEncoderTurnKd*leftD);
-		System.out.println("right P" + Constants.kEncoderTurnKp*rightP);
-		System.out.println("right I" + Constants.kEncoderTurnKi*rightI);
-		System.out.println("right D" + Constants.kEncoderTurnKd*rightD);
-		System.out.println("angle error" + leftP/kDegreeToDistance);
-		System.out.println("left speed:" + leftSpeed);
-		System.out.println("right speed:" + rightSpeed);
-		System.out.println("--------------------------------");
-		
-//		System.out.println("ERROR" + leftP);
-		
 		return new DriveSignal(leftSpeed, rightSpeed);
 	}
 
@@ -83,8 +70,8 @@ public class EncoderTurnAngleController implements Drive.DriveController {
 				rightTarget,
 				leftSpeed,
 				rightSpeed,
-				HardwareAdaptor.kDrive.m_gyro.getAngle(),
-				HardwareAdaptor.kDrive.m_gyro.getRate());
+				HardwareAdaptor.kDrive.getPhysicalPose().getHeading(),
+				HardwareAdaptor.kDrive.getPhysicalPose().getHeadingVelocity());
 	}
 
 	@Override

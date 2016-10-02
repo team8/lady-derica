@@ -26,7 +26,7 @@ public class AutoModeSelector {
     public AutoModeSelector() {
         registerAutonomous(new DoNothingAutoMode());
         registerAutonomous(new DriveForwardAutoMode());
-        registerAutonomous(new WaitForwardBackwardAutoMode(3, 3, -100));
+        registerAutonomous(new WaitForwardBackwardAutoMode(3.0, 3.0, -200));
     }
 
     public AutoMode getAutoMode() {

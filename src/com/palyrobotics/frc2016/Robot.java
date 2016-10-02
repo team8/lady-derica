@@ -128,7 +128,8 @@ public class Robot extends IterativeRobot {
 		// Update sensorTable with encoder distances
 		sensorTable.putString("left", String.valueOf(HardwareAdaptor.kLeftDriveEncoder.getDistance()));
 		sensorTable.putString("right", String.valueOf(HardwareAdaptor.kRightDriveEncoder.getDistance()));
-		//    	System.out.println("Encoders "+ String.valueOf(HardwareAdaptor.kLeftDriveEncoder.getDistance()+" "+String.valueOf(HardwareAdaptor.kRightDriveEncoder.getDistance())));
+//		System.out.println("Gyro: " + drive.getPhysicalPose().getHeading());
+//		System.out.println("Encoders "+ String.valueOf(HardwareAdaptor.kLeftDriveEncoder.getDistance()+" "+String.valueOf(HardwareAdaptor.kRightDriveEncoder.getDistance())));
 	}
 
 	@Override
@@ -149,8 +150,8 @@ public class Robot extends IterativeRobot {
 		// Stop controllers
 		drive.setOpenLoop(DriveSignal.NEUTRAL);
 		//
-		//        // Reload constants
-		//        drive.reloadConstants();
+		// Reload constants
+		drive.reloadConstants();
 		//
 		System.gc();
 
@@ -159,5 +160,8 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void disabledPeriodic() {
+//		System.out.println("Gyro: " + drive.getPhysicalPose().getHeading());
+//		System.out.println("Left: " + drive.getPhysicalPose().getLeftDistance());
+//		System.out.println("Right: " + drive.getPhysicalPose().getRightDistance());
 	}
 }

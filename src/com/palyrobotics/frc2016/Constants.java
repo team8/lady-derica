@@ -15,32 +15,32 @@ public class Constants extends ConstantsBase {
 	public static double kAutoIntakeSpeed = 1.0;
 
 	// DriveStraightController gains
-	public static double kDriveMaxSpeedInchesPerSec = 120.0;
-	public static double kDriveMaxAccelInchesPerSec2 = 107.0;
+	public static double kDriveMaxSpeedInchesPerSec = 100.0;
+	public static double kDriveMaxAccelInchesPerSec2 = 85.0;
 	public static double kDrivePositionKp = 0.7;
 	public static double kDrivePositionKi = 0;
 	public static double kDrivePositionKd = 0;
-	public static double kDriveStraightKp = 3.0;
-	public static double kDriveStraightKi = 0;
-	public static double kDriveStraightKd = 0;
 	public static double kDrivePositionKv = 0.008;
 	public static double kDrivePositionKa = 0.0017;
-	public static double kDriveOnTargetError = 0.75;
+	public static double kDriveStraightKp = 2.0;
+	public static double kDriveStraightKi = 0;
+	public static double kDriveStraightKd = 0.02;
+	public static double kDriveOnTargetError = 1.5;
 	public static double kDrivePathHeadingFollowKp = 0.01;
 
 	//Encoder Turn in Place Controller gains
 	public static double kEncoderTurnKp = 0.07;
-	public static double kEncoderTurnKi = 0.6;
+	public static double kEncoderTurnKi = 0.01;
 	public static double kEncoderTurnKd = 0.007;
 	public static double kTyrDegreeToDistance = 0;
-	public static double kDericaDegreeToDistance = 0.183069519*8/7;
+	public static double kDericaDegreeToDistance = 0.209;
 	public static double kAcceptableEncoderTurnError = 2;
 	public static double kAcceptableGyroTurnStopSpeed = 0.2;
 	
 	// Gyro Turn in Place controller gains
-	public static double kGyroTurnKp = 0.07;
-	public static double kGyroTurnKi = 0.6;
-	public static double kGyroTurnKd = 0.007;
+	public static double kGyroTurnKp = 0.18E-1;
+	public static double kGyroTurnKi = 0.02;
+	public static double kGyroTurnKd = 0.014E-1;
 	public static double kAcceptableGyroTurnError = 2;
 
 	

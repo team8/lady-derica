@@ -64,7 +64,7 @@ public class AutoAlignmentRoutine extends Routine {
 		case SET_ANGLE:
 			// Wait for m_wait_time before reading vision data (latency)
 			if(m_timer.get() < m_wait_time) {
-				System.out.println("Waiting for vision data");
+//				System.out.println("Waiting for vision data");
 				break;
 			}
 			// If angle turnpoint has been set, then set this routine to waiting for alignment
@@ -76,8 +76,8 @@ public class AutoAlignmentRoutine extends Routine {
 //			if(table.getNumber("skewangle", 100000) > m_min_angle) {
 //				setpoints.auto_align_setpoint = Optional.of(table.getNumber("skewangle", 100000));
 			if(true) {
-				System.out.println("Manually set auto align setpoint");
 				int direction = (m_iterations%2 == 1) ? -1:1;
+				System.out.println("Manually set auto align setpoint "+direction*20.0);
 				setpoints.auto_align_setpoint = Optional.of(direction * 20.0);
 				System.out.println("SETPOINT:" + direction * 20.0);
 			} else {
@@ -87,7 +87,7 @@ public class AutoAlignmentRoutine extends Routine {
 			}
 			break;
 		case ALIGNING:
-			System.out.println("aligning, waiting on controller");
+//			System.out.println("aligning, waiting on controller");
 			// If finished turning, start next sequence or finish
 			if(drive.controllerOnTarget()) {
 				System.out.println("Drive controller reached target");

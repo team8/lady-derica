@@ -4,46 +4,50 @@ import com.team254.lib.util.DriveSignal;
 
 public class EncoderDriveAction extends Action {
 
-	private int distance;
-	private int startPoint;
+	private double distance;
+	private double startPoint;
 	
-	public EncoderDriveAction(int distance) {
+	public EncoderDriveAction(double distance) {
 		this.distance = distance;
-		startPoint = drive.m_right_encoder.get();
 	}
 	
 	@Override
 	public boolean isFinished() {
-		if(distance >= 0) {
-			if(drive.m_right_encoder.get() < startPoint + distance) {
-				return false;
-			}
-			
-			else return true;
-		}
-		
-		else {
-			if(drive.m_right_encoder.get() > startPoint + distance) {
-				return false;
-			}
-			else return true;
-		}
+		return drive.controllerOnTarget();
+//		if(distance >= 0) {
+//			if(drive.getPhysicalPose().getRightDistance() < startPoint + distance) {
+//				return false;
+//			}
+//			
+//			else return true;
+//		}
+//		
+//		else {
+//			if(drive.getPhysicalPose().getRightDistance() > startPoint + distance) {
+//				return false;
+//			}
+//			else return true;
+//		}
 	}
 
 	@Override
 	public void update() {
-		System.out.println("encoder " + drive.m_right_encoder.get());
+		System.out.println("left encoder: " + drive.getPhysicalPose().getRightDistance());
+		System.out.println("right encoder: " + drive.getPhysicalPose().getLeftDistance());
 	}
 
 	@Override
 	public void done() {
 		System.out.println("EncoderDriveAction done");
-		drive.setOpenLoop(new DriveSignal(0, 0));
+		drive.setOpenLoop(DriveSignal.NEUTRAL);
 	}
 
 	@Override
 	public void start() {
 		System.out.println("Starting EncoderDriveAction");
+		drive.reset();
+		startPoint = drive.getPhysicalPose().getRightDistance();
+		System.out.println(startPoint);
 		//setDistanceSetpoint is relative
 		drive.setDistanceSetpoint(distance);
 	}

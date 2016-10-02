@@ -4,6 +4,7 @@ import com.palyrobotics.frc2016.Constants;
 import com.palyrobotics.frc2016.Robot;
 import com.palyrobotics.frc2016.Robot.RobotName;
 import com.palyrobotics.frc2016.subsystems.controllers.EncoderTurnAngleController;
+import com.palyrobotics.frc2016.subsystems.controllers.GyroTurnAngleController;
 import com.palyrobotics.frc2016.subsystems.controllers.team254.DriveFinishLineController;
 import com.palyrobotics.frc2016.subsystems.controllers.team254.DrivePathController;
 import com.palyrobotics.frc2016.subsystems.controllers.team254.DriveStraightController;
@@ -26,11 +27,11 @@ public class Drive extends Subsystem implements Loop {
 
 	}
 
-	public CheesySpeedController m_left_motor;
-	public CheesySpeedController m_right_motor;
-	public Encoder m_left_encoder;
-	public Encoder m_right_encoder;
-	public ADXRS450_Gyro m_gyro;
+	private CheesySpeedController m_left_motor;
+	private CheesySpeedController m_right_motor;
+	protected Encoder m_left_encoder;
+	protected Encoder m_right_encoder;
+	protected ADXRS450_Gyro m_gyro;
 	private DriveController m_controller = null;
 
 	// Encoder DPP
@@ -82,16 +83,44 @@ public class Drive extends Subsystem implements Loop {
 				distance,
 				vel_to_use);
 	}
-
-	public void setTurnSetPoint(double heading) {
-		setTurnSetPoint(heading, Constants.kTurnMaxSpeedRadsPerSec);
+	
+	public void setAutoAlignSetpoint(double heading) {
+		// Check if already turning to that setpoint
+		if(m_controller instanceof GyroTurnAngleController) {
+//			if(m_controller.getCurrentSetpoint().getHeading()-getPhysicalPose().getHeading() != heading) {
+//				// New auto align iteration
+//				System.out.println("New auto align setpoint");
+//				setGyroTurnAngleSetpoint(heading);
+//			}
+		} else {
+			System.out.println("Started auto align controller");
+			setGyroTurnAngleSetpoint(heading, 0.25);
+		}
+	}
+	
+	public void setTurnSetpoint(double heading) {
+		setTurnSetpoint(heading, Constants.kTurnMaxSpeedRadsPerSec);
 	}
 
-	public void setTurnSetPoint(double heading, double velocity) {
+	public void setTurnSetpoint(double heading, double velocity) {
 		velocity = Math.min(Constants.kTurnMaxSpeedRadsPerSec, Math.max(velocity, 0));
 		m_controller = new TurnInPlaceController(getPoseToContinueFrom(true), heading, velocity);
 	}
 
+	public void setEncoderTurnAngleSetpoint(double heading) {
+		setEncoderTurnAngleSetpoint(heading, 1);
+	}
+	public void setEncoderTurnAngleSetpoint(double heading, double maxVel) {
+		m_controller = new EncoderTurnAngleController(getPoseToContinueFrom(true), heading, maxVel);
+	}
+	
+	public void setGyroTurnAngleSetpoint(double heading) {
+		setGyroTurnAngleSetpoint(heading, 0.7);
+	}
+	public void setGyroTurnAngleSetpoint(double heading, double maxVel) {
+		m_controller = new GyroTurnAngleController(getPoseToContinueFrom(true), heading, maxVel);
+	}
+	
 	public void reset() {
 		m_left_encoder.reset();
 		m_right_encoder.reset();
@@ -108,14 +137,6 @@ public class Drive extends Subsystem implements Loop {
 		m_controller = new DriveFinishLineController(distance, heading, 1.0);
 	}
 
-	public void setEncoderTurnAngleSetpoint(double angle) {
-		m_controller = new EncoderTurnAngleController(getPoseToContinueFrom(true), angle, 1);
-	}
-	
-	public void setEncoderTurnAngleSetpoint(double angle, double maxVel) {
-		m_controller = new EncoderTurnAngleController(getPoseToContinueFrom(true), angle, maxVel);
-	}
-	
 	@Override
 	public void getState(StateHolder states) {
 		//        states.put("gyro_angle", m_gyro.getAngle());

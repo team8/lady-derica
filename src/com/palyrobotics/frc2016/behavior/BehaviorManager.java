@@ -81,9 +81,11 @@ public class BehaviorManager implements Tappable {
 		} else if(commands.timer_drive_request == Commands.TimerDriveRequest.ACTIVATE && !(m_cur_routine instanceof TimerDriveRoutine)) {
 			setNewRoutine(new TimerDriveRoutine(5));
 		} else if(commands.auto_align_request == Commands.AutoAlignRequest.ACTIVATE && !(m_cur_routine instanceof AutoAlignmentRoutine)) {
+//			System.out.println("Auto align activated");
 			setNewRoutine(new AutoAlignmentRoutine());
-		} else if(commands.encoder_turn_angle_request == Commands.EncoderTurnAngleRequest.ACTIVATE && !(m_cur_routine instanceof EncoderTurnAngleRoutine)) {
-			setNewRoutine(new EncoderTurnAngleRoutine(90, 0.5));
+		} else if(commands.turn_angle_request == Commands.TurnAngleRequest.ACTIVATE && !(m_cur_routine instanceof TurnAngleRoutine)) {
+			System.out.println("Turn angle activated");
+			setNewRoutine(new TurnAngleRoutine(45, 0.3));
 		}
 
 		//changes the setpoints according to the current routine update
@@ -137,7 +139,8 @@ public class BehaviorManager implements Tappable {
 		}
 		// If auto-align has a setpoint to use, start turning angle
 		else if(m_setpoints.auto_align_setpoint.isPresent()) {
-			drive.setEncoderTurnAngleSetpoint((m_setpoints.auto_align_setpoint.get()),0.5);
+			drive.setAutoAlignSetpoint(m_setpoints.auto_align_setpoint.get());
+//			drive.setGyroTurnAngleSetpoint((m_setpoints.auto_align_setpoint.get()),0.5);
 		}
 	}
 

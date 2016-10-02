@@ -21,21 +21,20 @@ public class GyroTurnAngleController implements Drive.DriveController {
 	private double I;
 	private double D;
 	
-	private double headingVelocity;
-	private final Drive kDrive;
+	private Drive kDrive = HardwareAdaptor.kDrive;
 	
 	private Pose mPriorSetpoint;
 	
-	public GyroTurnAngleController(Pose priorSetpoint, double angle, double maxVel, final Drive drive) {
+	public GyroTurnAngleController(Pose priorSetpoint, double heading, double maxVel) {
 		this.maxVel = maxVel;
 		mPriorSetpoint = priorSetpoint;
-		targetAngle = priorSetpoint.getHeading();
-		kDrive = drive;
+		targetAngle = heading;
+		System.out.println("Target angle: "+targetAngle);
 	}
 	
 	@Override
 	public DriveSignal update(Pose pose) {
-		P = targetAngle - pose.getHeading();
+		P = targetAngle - (pose.getHeading()-mPriorSetpoint.getHeading());
 		
 		I = I + P * Constants.kLooperDt;
 		
@@ -44,9 +43,9 @@ public class GyroTurnAngleController implements Drive.DriveController {
 		double leftSpeed = Math.max(-maxVel, 
 				Math.min(maxVel, Constants.kGyroTurnKp*P + Constants.kGyroTurnKi*I + Constants.kGyroTurnKd*D));
 		double rightSpeed = -leftSpeed;
-//		System.out.println("ERROR" + P);
-		
-		return new DriveSignal(leftSpeed, -rightSpeed);
+//		System.out.println("PID calc: " + Constants.kGyroTurnKp*P + Constants.kGyroTurnKi*I + Constants.kGyroTurnKd*D);
+//		System.out.println("Left speed "+leftSpeed);
+		return new DriveSignal(leftSpeed, rightSpeed);
 	}
 
 	@Override
@@ -62,8 +61,12 @@ public class GyroTurnAngleController implements Drive.DriveController {
 
 	@Override
 	public boolean onTarget() {
-		if(Math.abs(kDrive.getPhysicalPose().getHeading()-targetAngle) < Constants.kAcceptableGyroTurnError &&
+		System.out.println("Heading: "+kDrive.getPhysicalPose().getHeading());
+		System.out.println("Heading velocity: "+kDrive.getPhysicalPose().getHeadingVelocity());
+		System.out.println(Math.abs(kDrive.getPhysicalPose().getHeading()-mPriorSetpoint.getHeading()-targetAngle));
+		if(Math.abs(kDrive.getPhysicalPose().getHeading()-mPriorSetpoint.getHeading()-targetAngle) < Constants.kAcceptableGyroTurnError &&
 				kDrive.getPhysicalPose().getHeadingVelocity() < Constants.kAcceptableGyroTurnStopSpeed) {
+			System.out.println("Gyro turn on target");
 			return true;
 		} else return false;
 	}

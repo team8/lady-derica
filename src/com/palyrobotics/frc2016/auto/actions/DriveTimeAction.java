@@ -4,11 +4,11 @@ import com.team254.lib.util.DriveSignal;
 
 import edu.wpi.first.wpilibj.Timer;
 
-public class TimerDriveAction extends Action {
+public class DriveTimeAction extends Action {
 
 	private Timer timer = new Timer();
 	
-	private int runTime;
+	private double runTime;
 	private double leftSpeed;
 	private double rightSpeed;
 	
@@ -17,7 +17,7 @@ public class TimerDriveAction extends Action {
 	 * 
 	 * @param runTime how long this action runs
 	 */
-	public TimerDriveAction(int runTime) {
+	public DriveTimeAction(double runTime) {
 		this.runTime = runTime;
 		this.leftSpeed = 0.5;
 		this.rightSpeed = 0.5;
@@ -30,7 +30,7 @@ public class TimerDriveAction extends Action {
 	 * @param leftSpeed the speed of the left motor
 	 * @param rightSpeed the speed of the right motor
 	 */
-	public TimerDriveAction(int runTime, double leftSpeed, double rightSpeed) {
+	public DriveTimeAction(int runTime, double leftSpeed, double rightSpeed) {
 		this.runTime = runTime;
 		this.leftSpeed = leftSpeed;
 		this.rightSpeed = rightSpeed;

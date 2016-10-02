@@ -3,13 +3,13 @@ package com.palyrobotics.frc2016.auto.modes;
 import com.palyrobotics.frc2016.auto.AutoMode;
 import com.palyrobotics.frc2016.auto.AutoModeEndedException;
 import com.palyrobotics.frc2016.auto.actions.EncoderDriveAction;
-import com.palyrobotics.frc2016.auto.actions.TimerDriveAction;
+import com.palyrobotics.frc2016.auto.actions.DriveTimeAction;
 
 public class WaitForwardBackwardAutoMode extends AutoMode{
 	
-	private int waitTime;
-	private int driveTime;
-	private int backDistance;
+	private double waitTime;
+	private double driveTime;
+	private double backDistance;
 	
 	/**
 	 * 
@@ -17,7 +17,7 @@ public class WaitForwardBackwardAutoMode extends AutoMode{
 	 * @param driveTime time to drive forwards
 	 * @param backDistance distance to back up
 	 */
-	public WaitForwardBackwardAutoMode(int waitTime, int driveTime, int backDistance) {
+	public WaitForwardBackwardAutoMode(double waitTime, double driveTime, double backDistance) {
 		this.waitTime = waitTime;
 		this.driveTime = driveTime;
 		this.backDistance = backDistance;
@@ -25,7 +25,8 @@ public class WaitForwardBackwardAutoMode extends AutoMode{
 	
 	protected void routine() throws AutoModeEndedException {
 		waitTime(waitTime);
-		runAction(new TimerDriveAction(driveTime));
+		runAction(new DriveTimeAction(driveTime));
+		waitTime(0.5);
 		runAction(new EncoderDriveAction(backDistance));
 	}
 

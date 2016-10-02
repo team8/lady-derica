@@ -6,20 +6,20 @@ import com.palyrobotics.frc2016.behavior.RobotSetpoints;
 import com.palyrobotics.frc2016.subsystems.Drive;
 import com.team254.lib.util.DriveSignal;
 
-public class EncoderTurnAngleRoutine extends Routine {
+public class TurnAngleRoutine extends Routine {
 
 	private Drive drive = HardwareAdaptor.kDrive;
 	
 	private double angle;
 	private double maxVel;
 	
-	private EncoderTurnAngleStates m_state = EncoderTurnAngleStates.START;
+	private States m_state = States.START;
 	
-	private enum EncoderTurnAngleStates {
+	private enum States {
 		START, TURNING, DONE
 	}
 	
-	public EncoderTurnAngleRoutine(double angle, double maxVel) {
+	public TurnAngleRoutine(double angle, double maxVel) {
 		this.angle = angle;
 		this.maxVel = maxVel;
 	}
@@ -27,6 +27,7 @@ public class EncoderTurnAngleRoutine extends Routine {
 	@Override
 	public void start() {
 		drive.reset();
+		m_state = States.START;
 	}
 
 	@Override
@@ -35,15 +36,16 @@ public class EncoderTurnAngleRoutine extends Routine {
 		
 		switch(m_state) {
 		case START:
-			drive.setEncoderTurnAngleSetpoint(angle, maxVel);
+			System.out.println("Set setpoint: "+angle);
+			drive.setGyroTurnAngleSetpoint(angle, maxVel);
 			
 			setpoints.drive_routine_action = RobotSetpoints.DriveRoutineAction.ENCODER_TURN;
-			m_state = EncoderTurnAngleStates.TURNING;
+			m_state = States.TURNING;
 			break;
 			
 		case TURNING:
 			if(drive.controllerOnTarget()) {
-				m_state = EncoderTurnAngleStates.DONE;
+				m_state = States.DONE;
 			}
 			break;
 			
@@ -57,14 +59,14 @@ public class EncoderTurnAngleRoutine extends Routine {
 	
 	@Override
 	public void cancel() {
-		m_state = EncoderTurnAngleStates.DONE;
+		m_state = States.DONE;
 		drive.setOpenLoop(DriveSignal.NEUTRAL);
 		drive.reset();
 	}
 
 	@Override
 	public boolean isFinished() {
-		return m_state == EncoderTurnAngleStates.DONE;
+		return m_state == States.DONE;
 	}
 
 	@Override

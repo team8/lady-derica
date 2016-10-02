@@ -107,7 +107,7 @@ public class EncoderDriveRoutine extends Routine {
 		case DRIVING:
 			setpoints.encoder_drive_setpoint = Optional.of(m_distance);
 			setpoints.drive_velocity_setpoint = Optional.of(m_velocity_setpoint);
-			if(drive.m_right_encoder.getDistance() > m_distance) {
+			if(drive.getPhysicalPose().getRightDistance() > m_distance) {
 				new_state = EncoderDriveRoutineStates.DONE;
 			}
 			if(m_timer.get() > m_timeout) {
