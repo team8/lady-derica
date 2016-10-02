@@ -53,6 +53,7 @@ public class AutoAlignmentRoutine extends Routine {
 			if(m_iterations > 0) {
 				m_timer.reset();
 				m_timer.start();
+				drive.reset();
 				System.out.println("Started auto align " + m_state);
 				new_state = AutoAlignStates.SET_ANGLE;
 			} else {
@@ -78,6 +79,7 @@ public class AutoAlignmentRoutine extends Routine {
 				System.out.println("Manually set auto align setpoint");
 				int direction = (m_iterations%2 == 1) ? -1:1;
 				setpoints.auto_align_setpoint = Optional.of(direction * 20.0);
+				System.out.println("SETPOINT:" + direction * 20.0);
 			} else {
 				System.out.println("No goal detected");
 				m_iterations = 0;

@@ -47,9 +47,10 @@ public class HardwareAdaptor {
 							new CANTalon(Constants.kDericaRightDriveBackMotorDeviceID)}, 
 					new int[]{Constants.kDericaRightDriveBackMotorPDP, Constants.kDericaRightDriveBackMotorPDP});
 			kLeftDriveEncoder = new Encoder(
-					Constants.kDericaLeftDriveEncoderDIOA, Constants.kDericaLeftDriveEncoderDIOB);
+					Constants.kDericaLeftDriveEncoderDIOA, Constants.kDericaLeftDriveEncoderDIOB, true);
 			kRightDriveEncoder = new Encoder(
 					Constants.kDericaRightDriveEncoderDIOA, Constants.kDericaRightDriveEncoderDIOB);
+			kGyro = new ADXRS450_Gyro();
 		}
 		System.out.println(kLeftDriveMotor);
 		System.out.println(kRightDriveMotor);

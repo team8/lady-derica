@@ -29,12 +29,12 @@ public class Constants extends ConstantsBase {
 	public static double kDrivePathHeadingFollowKp = 0.01;
 
 	//Encoder Turn in Place Controller gains
-	public static double kEncoderTurnKp = 0;
-	public static double kEncoderTurnKi = 0;
-	public static double kEncoderTurnKd = 0;
+	public static double kEncoderTurnKp = 0.07;
+	public static double kEncoderTurnKi = 0.6;
+	public static double kEncoderTurnKd = 0.007;
 	public static double kTyrDegreeToDistance = 0;
-	public static double kDericaDegreeToDistance = 0;
-	public static double kEncoderTurnError = 5;
+	public static double kDericaDegreeToDistance = 0.183069519*8/7;
+	public static double kEncoderTurnError = 2;
 	
 	// TurnInPlaceController gains
 	public static double kTurnMaxSpeedRadsPerSec = 4.5;

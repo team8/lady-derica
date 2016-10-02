@@ -137,11 +137,7 @@ public class BehaviorManager implements Tappable {
 		}
 		// If auto-align has a setpoint to use, start turning angle
 		else if(m_setpoints.auto_align_setpoint.isPresent()) {
-			drive.setTurnSetPoint(m_setpoints.auto_align_setpoint.get());
-		}
-		//Encoder Turn Angle
-		else if(m_setpoints.encoder_turn_setpoint_left.isPresent()) {
-			drive.setOpenLoop(new DriveSignal(m_setpoints.encoder_turn_setpoint_left.get(), -m_setpoints.encoder_turn_setpoint_left.get()));
+			drive.setEncoderTurnAngleSetpoint((m_setpoints.auto_align_setpoint.get()),0.5);
 		}
 	}
 

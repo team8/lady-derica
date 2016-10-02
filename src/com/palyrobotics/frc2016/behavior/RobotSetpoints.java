@@ -23,8 +23,6 @@ public class RobotSetpoints {
 	public Optional<Double> encoder_drive_setpoint = m_nullopt;
 	public Optional<Double> timer_drive_time_setpoint = m_nullopt;
 	public Optional<Double> drive_velocity_setpoint = m_nullopt;
-	public Optional<Double> encoder_turn_setpoint_left = m_nullopt;
-	public Optional<Double> encoder_turn_setpoint_right = m_nullopt;
 
 	public void reset() {
 		intake_action = IntakeAction.NONE;
@@ -33,7 +31,5 @@ public class RobotSetpoints {
 		auto_align_setpoint = m_nullopt;
 		encoder_drive_setpoint = m_nullopt;
 		timer_drive_time_setpoint = m_nullopt;
-		encoder_turn_setpoint_left = m_nullopt;
-		encoder_turn_setpoint_right = m_nullopt;
 	}
 }

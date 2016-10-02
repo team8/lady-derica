@@ -6,6 +6,7 @@ import com.palyrobotics.frc2016.Robot.RobotName;
 import com.palyrobotics.frc2016.subsystems.controllers.DriveFinishLineController;
 import com.palyrobotics.frc2016.subsystems.controllers.DrivePathController;
 import com.palyrobotics.frc2016.subsystems.controllers.DriveStraightController;
+import com.palyrobotics.frc2016.subsystems.controllers.EncoderTurnAngleController;
 import com.palyrobotics.frc2016.subsystems.controllers.TurnInPlaceController;
 import com.team254.lib.trajectory.Path;
 import com.team254.lib.util.*;
@@ -53,7 +54,7 @@ public class Drive extends Subsystem implements Loop {
 			m_wheelbase_width = 22.0;
 			m_turn_slip_factor = 1.2;
 			// TODO: Encoder DPP's
-			m_inches_per_tick = 1;
+			m_inches_per_tick = 0.07033622;
 		}
 		this.m_left_motor = left_drive;
 		this.m_right_motor = right_drive;
@@ -107,6 +108,14 @@ public class Drive extends Subsystem implements Loop {
 		m_controller = new DriveFinishLineController(distance, heading, 1.0);
 	}
 
+	public void setEncoderTurnAngleSetpoint(double angle) {
+		m_controller = new EncoderTurnAngleController(getPoseToContinueFrom(true), angle, 1);
+	}
+	
+	public void setEncoderTurnAngleSetpoint(double angle, double maxVel) {
+		m_controller = new EncoderTurnAngleController(getPoseToContinueFrom(true), angle, maxVel);
+	}
+	
 	@Override
 	public void getState(StateHolder states) {
 		//        states.put("gyro_angle", m_gyro.getAngle());
@@ -169,7 +178,7 @@ public class Drive extends Subsystem implements Loop {
 				m_right_encoder.getDistance(),
 				m_left_encoder.getRate(),
 				m_right_encoder.getRate(),
-				Math.toRadians(m_gyro.getAngle()),
+				m_gyro.getAngle(),
 				m_gyro.getRate());
 		return m_cached_pose;
 	}

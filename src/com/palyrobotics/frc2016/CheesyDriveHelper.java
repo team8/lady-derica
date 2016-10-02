@@ -25,6 +25,7 @@ public class CheesyDriveHelper {
 
 	public void cheesyDrive(double throttle, double wheel, boolean isQuickTurn,
 			boolean isHighGear, RobotSetpoints setpoints) {
+//		System.out.println("Gyro Angle: " + drive.m_gyro.getAngle());
 		if (DriverStation.getInstance().isAutonomous()) {
 			return;
 		}
