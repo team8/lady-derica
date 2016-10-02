@@ -1,4 +1,4 @@
-package com.palyrobotics.frc2016.subsystems.controllers;
+package com.palyrobotics.frc2016.subsystems.controllers.team254;
 
 import static com.team254.lib.trajectory.TrajectoryFollower.TrajectorySetpoint;
 

@@ -3,11 +3,11 @@ package com.palyrobotics.frc2016.subsystems;
 import com.palyrobotics.frc2016.Constants;
 import com.palyrobotics.frc2016.Robot;
 import com.palyrobotics.frc2016.Robot.RobotName;
-import com.palyrobotics.frc2016.subsystems.controllers.DriveFinishLineController;
-import com.palyrobotics.frc2016.subsystems.controllers.DrivePathController;
-import com.palyrobotics.frc2016.subsystems.controllers.DriveStraightController;
 import com.palyrobotics.frc2016.subsystems.controllers.EncoderTurnAngleController;
-import com.palyrobotics.frc2016.subsystems.controllers.TurnInPlaceController;
+import com.palyrobotics.frc2016.subsystems.controllers.team254.DriveFinishLineController;
+import com.palyrobotics.frc2016.subsystems.controllers.team254.DrivePathController;
+import com.palyrobotics.frc2016.subsystems.controllers.team254.DriveStraightController;
+import com.palyrobotics.frc2016.subsystems.controllers.team254.TurnInPlaceController;
 import com.team254.lib.trajectory.Path;
 import com.team254.lib.util.*;
 

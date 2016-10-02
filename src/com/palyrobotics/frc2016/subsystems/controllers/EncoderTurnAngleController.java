@@ -89,8 +89,8 @@ public class EncoderTurnAngleController implements Drive.DriveController {
 
 	@Override
 	public boolean onTarget() {
-		if(Math.abs(leftP/kDegreeToDistance) < Constants.kEncoderTurnError && 
-				Math.abs(rightP/kDegreeToDistance) < Constants.kEncoderTurnError && leftD == 0 && rightD == 0) {
+		if(Math.abs(leftP/kDegreeToDistance) < Constants.kAcceptableEncoderTurnError && 
+				Math.abs(rightP/kDegreeToDistance) < Constants.kAcceptableEncoderTurnError && leftD == 0 && rightD == 0) {
 			return true;
 		} else return false;
 	}
