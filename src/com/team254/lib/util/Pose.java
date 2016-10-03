@@ -51,14 +51,20 @@ public class Pose {
     public double getHeadingVelocity() {
         return m_heading_velocity;
     }
-
+    
     public class RelativePoseGenerator {
         private Pose m_base_pose;
 
         public RelativePoseGenerator() {
             m_base_pose = Pose.this;
         }
-
+      
+        /**
+         * Creates a relative pose representing the difference between this pose object
+         * and the pose passed to it
+         * @author Team 254
+         *
+         */
         public Pose get(Pose pose) {
             return new Pose(
                     pose.getLeftDistance() - m_base_pose.getLeftDistance(),
@@ -84,5 +90,19 @@ public class Pose {
                 && other_pose.getRightVelocity() == getRightVelocity()
                 && other_pose.getHeading() == getHeading()
                 && other_pose.getHeadingVelocity() == getHeadingVelocity();
+    }
+    
+    /**
+     * Create a copy of the Pose (to not use the same reference)
+     * @return A copy of the pose
+     */
+    public Pose copy() {
+    	return new Pose(
+    			m_left_distance,
+    			m_right_distance, 
+    			m_left_velocity,
+    			m_right_velocity,
+    			m_heading,
+    			m_heading_velocity);
     }
 }

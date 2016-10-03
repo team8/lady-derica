@@ -15,7 +15,6 @@ public class OperatorInterface {
 	XboxController operatorStick = HardwareAdaptor.kOperatorStick;
 
 	Latch driveForwardLatch = new Latch();
-	private boolean grabber = false;
 
 	public void reset() {
 		m_commands = new Commands();
@@ -90,16 +89,11 @@ public class OperatorInterface {
 		}
 		// Operator Stick - Grabber Control
 		if (operatorStick.getLeftBumper()) {
-			grabber = false;
-		} else if(operatorStick.getRightBumper()){
-			grabber = true;
+			m_commands.grabber_request = Commands.GrabberRequest.RELEASE;
+		} else {
+			m_commands.grabber_request = Commands.GrabberRequest.GRAB;
 		}
 		
-		if(grabber) {
-			m_commands.grabber_request = Commands.GrabberRequest.GRAB;
-		} else {
-			m_commands.grabber_request = Commands.GrabberRequest.RELEASE;
-		}
 		// Operator Stick - Activate routine
 		if (driveForwardLatch.update(leftStick.getRawButton(6))) {
 			m_commands.resetRoutineRequests();

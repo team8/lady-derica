@@ -77,9 +77,10 @@ public class BehaviorManager implements Tappable {
 			System.out.println("Cancel routine button");
 			setNewRoutine(null);
 		} else if(commands.encoder_drive_request == Commands.EncoderDriveRequest.ACTIVATE && !(m_cur_routine instanceof EncoderDriveRoutine)) {
-			setNewRoutine(new EncoderDriveRoutine(1000));
-		} else if(commands.timer_drive_request == Commands.TimerDriveRequest.ACTIVATE && !(m_cur_routine instanceof TimerDriveRoutine)) {
-			setNewRoutine(new TimerDriveRoutine(5));
+			setNewRoutine(new EncoderDriveRoutine(500));
+		} else if(commands.timer_drive_request == Commands.TimerDriveRequest.ACTIVATE && !(m_cur_routine instanceof DriveTimeRoutine)) {
+			System.out.println("Setting routine");
+			setNewRoutine(new DriveTimeRoutine(3, 0.5));
 		} else if(commands.auto_align_request == Commands.AutoAlignRequest.ACTIVATE && !(m_cur_routine instanceof AutoAlignmentRoutine)) {
 //			System.out.println("Auto align activated");
 			setNewRoutine(new AutoAlignmentRoutine());
@@ -131,7 +132,7 @@ public class BehaviorManager implements Tappable {
 		
 		//Encoder drive distance routine
 		if(m_setpoints.encoder_drive_setpoint.isPresent()) {
-//			drive.setOpenLoop(new DriveSignal(m_setpoints.drive_velocity_setpoint.get(), m_setpoints.drive_velocity_setpoint.get()));
+			drive.setOpenLoop(new DriveSignal(m_setpoints.drive_velocity_setpoint.get(), m_setpoints.drive_velocity_setpoint.get()));
 		}
 		//Timer based routine
 		else if(m_setpoints.timer_drive_time_setpoint.isPresent()) {

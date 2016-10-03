@@ -54,6 +54,7 @@ public class AutoAlignmentRoutine extends Routine {
 				m_timer.reset();
 				m_timer.start();
 				drive.reset();
+				setpoints.auto_align_setpoint = RobotSetpoints.m_nullopt;
 				System.out.println("Started auto align " + m_state);
 				new_state = AutoAlignStates.SET_ANGLE;
 			} else {
@@ -64,7 +65,6 @@ public class AutoAlignmentRoutine extends Routine {
 		case SET_ANGLE:
 			// Wait for m_wait_time before reading vision data (latency)
 			if(m_timer.get() < m_wait_time) {
-//				System.out.println("Waiting for vision data");
 				break;
 			}
 			// If angle turnpoint has been set, then set this routine to waiting for alignment
@@ -77,6 +77,7 @@ public class AutoAlignmentRoutine extends Routine {
 //				setpoints.auto_align_setpoint = Optional.of(table.getNumber("skewangle", 100000));
 			if(true) {
 				int direction = (m_iterations%2 == 1) ? -1:1;
+				System.out.println(m_iterations);
 				System.out.println("Manually set auto align setpoint "+direction*20.0);
 				setpoints.auto_align_setpoint = Optional.of(direction * 20.0);
 				System.out.println("SETPOINT:" + direction * 20.0);
@@ -131,7 +132,7 @@ public class AutoAlignmentRoutine extends Routine {
 
 	@Override
 	public boolean isFinished() {
-		return m_state == AutoAlignStates.DONE;
+		return m_state == AutoAlignStates.DONE && m_iterations == 0;
 	}
 
 	@Override

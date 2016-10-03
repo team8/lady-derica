@@ -10,13 +10,13 @@ import com.team254.lib.util.DriveSignal;
 
 import edu.wpi.first.wpilibj.Timer;
 
-public class TimerDriveRoutine extends Routine {
+public class DriveTimeRoutine extends Routine {
 
-	private enum TimerDriveRoutineStates {
+	private enum DriveTimeRoutineStates {
 		START, DRIVING, DONE
 	}
 
-	TimerDriveRoutineStates m_state = TimerDriveRoutineStates.START;
+	DriveTimeRoutineStates m_state = DriveTimeRoutineStates.START;
 	Timer m_timer = new Timer();
 	// Default values for time and velocity setpoints
 	private double m_time_setpoint;
@@ -25,21 +25,13 @@ public class TimerDriveRoutine extends Routine {
 	private boolean m_is_new_state = true;
 
 	private Drive drive = HardwareAdaptor.kDrive;
-	
-	/**
-	 * Constructs with a specified time setpoint
-	 * @param time How long to drive (seconds)
-	 */
-	public TimerDriveRoutine(double time) {
-		setTimeSetpoint(time);
-	}
-	
+		
 	/**
 	 * Constructs with a specified time setpoint and velocity
 	 * @param time How long to drive (seconds)
 	 * @param velocity What velocity to drive at (0 to 1)
 	 */
-	public TimerDriveRoutine(double time, double velocity) {
+	public DriveTimeRoutine(double time, double velocity) {
 		setTimeSetpoint(time);
 		setVelocity(velocity);
 	}
@@ -67,7 +59,7 @@ public class TimerDriveRoutine extends Routine {
 	//Routines just change the states of the robotsetpoints, which the behavior manager then moves the physical subsystems based on.
 	@Override
 	public RobotSetpoints update(Commands commands, RobotSetpoints existing_setpoints) {
-		TimerDriveRoutineStates new_state = m_state;
+		DriveTimeRoutineStates new_state = m_state;
 		RobotSetpoints setpoints = existing_setpoints;
 		switch (m_state) {
 		case START:
@@ -75,25 +67,29 @@ public class TimerDriveRoutine extends Routine {
 			if(m_is_new_state) {
 				m_timer.reset();
 				m_timer.start();
-				setpoints.timer_drive_time_setpoint = Optional.of(m_time_setpoint);
-				setpoints.drive_velocity_setpoint = Optional.of(m_velocity_setpoint);
+				setpoints.timer_drive_time_setpoint = RobotSetpoints.m_nullopt;
+				setpoints.drive_velocity_setpoint = RobotSetpoints.m_nullopt;
 			}
 
 			setpoints.drive_routine_action = RobotSetpoints.DriveRoutineAction.TIMER_DRIVE;
-			new_state = TimerDriveRoutineStates.DRIVING;
+			new_state = DriveTimeRoutineStates.DRIVING;
 			break;
 		case DRIVING:
 			setpoints.timer_drive_time_setpoint = Optional.of(m_time_setpoint);
 			setpoints.drive_velocity_setpoint = Optional.of(m_velocity_setpoint);
-			if(m_timer.get() > m_time_setpoint) {
-				//new_state = TimerDriveRoutineStates.DONE;
-				cancel();
+			if(m_timer.get() >= m_time_setpoint) {
+//				setpoints.timer_drive_time_setpoint = RobotSetpoints.m_nullopt;
+//				setpoints.drive_velocity_setpoint = RobotSetpoints.m_nullopt;
+//				cancel();
+				new_state = DriveTimeRoutineStates.DONE;
 			}
 			break;
 		case DONE:
 			drive.reset();
+			System.out.println("DONE called");
 			setpoints.drive_routine_action = RobotSetpoints.DriveRoutineAction.NONE;
 			setpoints.timer_drive_time_setpoint = RobotSetpoints.m_nullopt;
+			setpoints.drive_velocity_setpoint = RobotSetpoints.m_nullopt;
 			break;
 		}
 
@@ -109,23 +105,25 @@ public class TimerDriveRoutine extends Routine {
 
 	@Override
 	public void cancel() {
-		m_state = TimerDriveRoutineStates.DONE;
+		m_state = DriveTimeRoutineStates.DONE;
+		System.out.println("Cancelling");
 		m_timer.stop();
 		m_timer.reset();
-		drive.setOpenLoop(DriveSignal.NEUTRAL);
 		drive.reset();
+		drive.setOpenLoop(DriveSignal.NEUTRAL);
 	}
 	
 	@Override
 	public void start() {
 		drive.reset();
 		m_timer.reset();
-//		m_state = TimerDriveRoutineStates.START;
+		m_state = DriveTimeRoutineStates.START;
 	}
 	
 	@Override
 	public boolean isFinished() {
-		return m_state == TimerDriveRoutineStates.DONE;
+		// allow
+		return m_state == DriveTimeRoutineStates.DONE && m_is_new_state==false;
 	}
 
 	@Override

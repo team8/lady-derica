@@ -35,13 +35,13 @@ public class Constants extends ConstantsBase {
 	public static double kTyrDegreeToDistance = 0;
 	public static double kDericaDegreeToDistance = 0.209;
 	public static double kAcceptableEncoderTurnError = 2;
-	public static double kAcceptableGyroTurnStopSpeed = 0.2;
 	
 	// Gyro Turn in Place controller gains
 	public static double kGyroTurnKp = 0.18E-1;
-	public static double kGyroTurnKi = 0.02;
+	public static double kGyroTurnKi = 0.04;
 	public static double kGyroTurnKd = 0.014E-1;
-	public static double kAcceptableGyroTurnError = 2;
+	public static double kAcceptableGyroTurnError = 2.5;
+	public static double kAcceptableGyroTurnStopSpeed = 1.2;
 
 	
 	// TurnInPlaceController gains
