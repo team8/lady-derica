@@ -25,6 +25,17 @@ public class Commands {
     	NONE, EXTEND, RETRACT
     }
     
+    // Commands for Catapult Winch
+    
+    public enum WinchRequest {
+    	NONE, WIND
+    }
+    
+    // Commands for Winch Locking Pin
+    public enum PinRequest {
+    	NONE, LOCK, UNLOCK
+    }
+    
     // Commands for TimerDriveRoutine
     public enum TimerDriveRequest {
     	NONE, ACTIVATE
@@ -52,6 +63,8 @@ public class Commands {
     public GrabberRequest grabber_request;
     public LatchRequest latch_request;
     public ShooterRequest shooter_request;
+    public WinchRequest winch_request;
+    public PinRequest pin_request;
     
     // Routine requests
     public TimerDriveRequest timer_drive_request;

@@ -2,7 +2,7 @@ package com.palyrobotics.frc2016.auto.actions;
 
 import edu.wpi.first.wpilibj.Timer;
 
-public class TimeoutAction extends Action {
+public class TimeoutAction implements Action {
     double m_timeout;
     double m_time_start;
 

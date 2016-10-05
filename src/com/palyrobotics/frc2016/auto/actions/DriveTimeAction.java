@@ -4,7 +4,12 @@ import com.team254.lib.util.DriveSignal;
 
 import edu.wpi.first.wpilibj.Timer;
 
-public class DriveTimeAction extends Action {
+/**
+ * Drives for a specific period of time
+ * @author Nihar, Eric
+ *
+ */
+public class DriveTimeAction implements Action {
 
 	private Timer timer = new Timer();
 	
@@ -30,7 +35,7 @@ public class DriveTimeAction extends Action {
 	 * @param leftSpeed the speed of the left motor
 	 * @param rightSpeed the speed of the right motor
 	 */
-	public DriveTimeAction(int runTime, double leftSpeed, double rightSpeed) {
+	public DriveTimeAction(double runTime, double leftSpeed, double rightSpeed) {
 		this.runTime = runTime;
 		this.leftSpeed = leftSpeed;
 		this.rightSpeed = rightSpeed;
@@ -41,19 +46,18 @@ public class DriveTimeAction extends Action {
 		if(timer.get() < runTime) {
 			return false;
 		}
-		
 		else return true;
 	}
 
 	@Override
 	public void update() {
-		System.out.println("Time:" + timer.get());
+		System.out.println("Drive Time:" + timer.get());
 	}
 
 	@Override
 	public void done() {
 		System.out.println("TimerDriveForwardAction done");
-		drive.setOpenLoop(new DriveSignal(0, 0));
+		drive.setOpenLoop(DriveSignal.NEUTRAL);
 	}
 
 	@Override

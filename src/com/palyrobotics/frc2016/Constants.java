@@ -7,8 +7,6 @@ public class Constants extends ConstantsBase {
 	public static double kDriveSensitivity = .75;
 	public static double kNegativeInertiaScalar = 5.0;
 
-	public static final double lowBarDistance = 0;
-
 	// Manual control speed tuning
 	public static double kManualIntakeSpeed = 1.0;
 	public static double kManualExhaustSpeed = 1.0;
@@ -127,7 +125,9 @@ public class Constants extends ConstantsBase {
 	public static int kPressureSwitchDIO = 1;
 
 	// !!! Physical constants
-
+	public static final double kLowBarDistance = 0;
+	public static final double kBreachDistance = 0;
+	
 	// !!! Program constants
 	public static double kControlLoopsDt = 0.005;
 

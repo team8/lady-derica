@@ -19,6 +19,7 @@ public class BehaviorManager implements Tappable {
 
 	protected TyrShooter kShooter = HardwareAdaptor.kTyrShooter;
 	protected Intake intake = HardwareAdaptor.kIntake;
+	protected DericaShooter catapult;
 
 	private Routine m_cur_routine = null;
 	private RobotSetpoints m_setpoints;
@@ -142,6 +143,21 @@ public class BehaviorManager implements Tappable {
 		else if(m_setpoints.auto_align_setpoint.isPresent()) {
 			drive.setAutoAlignSetpoint(m_setpoints.auto_align_setpoint.get());
 //			drive.setGyroTurnAngleSetpoint((m_setpoints.auto_align_setpoint.get()),0.5);
+		} // Parse winch commands because this is only open loop
+		
+		
+		if (commands.winch_request == Commands.WinchRequest.WIND) {
+			// Temporary speed, replace with a constant later
+			catapult.wind(1);
+		}
+		
+		// Parse pin commands because this is only open loop
+		if (commands.pin_request == Commands.PinRequest.LOCK) {
+			catapult.lock();
+		} else if (commands.pin_request == Commands.PinRequest.UNLOCK) {
+			catapult.unlock();
+		} else {
+			;
 		}
 	}
 

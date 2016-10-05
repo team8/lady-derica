@@ -2,12 +2,12 @@ package com.palyrobotics.frc2016.auto.actions;
 
 import com.team254.lib.util.DriveSignal;
 
-public class EncoderDriveAction extends Action {
+public class DriveDistanceAction implements Action {
 
 	private double distance;
 	private double startPoint;
 	
-	public EncoderDriveAction(double distance) {
+	public DriveDistanceAction(double distance) {
 		this.distance = distance;
 	}
 	

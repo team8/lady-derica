@@ -2,7 +2,7 @@ package com.palyrobotics.frc2016.auto.modes;
 
 import com.palyrobotics.frc2016.auto.AutoMode;
 import com.palyrobotics.frc2016.auto.AutoModeEndedException;
-import com.palyrobotics.frc2016.auto.actions.EncoderDriveAction;
+import com.palyrobotics.frc2016.auto.actions.DriveDistanceAction;
 import com.palyrobotics.frc2016.auto.actions.DriveTimeAction;
 
 public class WaitForwardBackwardAutoMode extends AutoMode{
@@ -27,7 +27,7 @@ public class WaitForwardBackwardAutoMode extends AutoMode{
 		waitTime(waitTime);
 		runAction(new DriveTimeAction(driveTime));
 		waitTime(0.5);
-		runAction(new EncoderDriveAction(backDistance));
+		runAction(new DriveDistanceAction(backDistance));
 	}
 
 	public void prestart() {
