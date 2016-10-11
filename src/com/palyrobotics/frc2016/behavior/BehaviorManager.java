@@ -107,7 +107,7 @@ public class BehaviorManager implements Tappable {
 			intake.setSpeed(-Constants.kManualExhaustSpeed);
 		} else {
 			// Stop intake.
-//			intake.setLeftRight(0.0, 0.0);
+			intake.setSpeed(0.0);
 		}
 
 		// Parse latch commands because this is only open loop

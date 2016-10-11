@@ -26,7 +26,7 @@ public class WaitForwardBackwardAutoMode extends AutoMode{
 	protected void routine() throws AutoModeEndedException {
 		waitTime(waitTime);
 		runAction(new DriveTimeAction(driveTime));
-		waitTime(0.5);
+		waitTime(1);
 		runAction(new DriveDistanceAction(backDistance));
 	}
 

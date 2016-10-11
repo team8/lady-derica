@@ -73,18 +73,20 @@ public class AutoAlignmentRoutine extends Routine {
 				new_state = AutoAlignStates.ALIGNING;
 				break;
 			}
-//			if(table.getNumber("skewangle", 100000) > m_min_angle) {
-//				setpoints.auto_align_setpoint = Optional.of(table.getNumber("skewangle", 100000));
-			if(true) {
-				int direction = (m_iterations%2 == 1) ? -1:1;
-				System.out.println(m_iterations);
-				System.out.println("Manually set auto align setpoint "+direction*20.0);
-				setpoints.auto_align_setpoint = Optional.of(direction * 20.0);
-				System.out.println("SETPOINT:" + direction * 20.0);
-			} else {
+			// Check for no goal, then already aligned, otherwise set setpoint
+			double skewAngle = table.getNumber("skewangle", 10000);
+			if(skewAngle == 10000) {
+				System.out.println(skewAngle);
 				System.out.println("No goal detected");
 				m_iterations = 0;
-				new_state = AutoAlignStates.DONE;
+				new_state = AutoAlignStates.DONE;				
+			}
+			else if(Math.abs(skewAngle) <= m_min_angle) {
+				System.out.println("Already aligned");
+			} else {
+				skewAngle = (skewAngle >=0) ? skewAngle-2:skewAngle+2;
+				setpoints.auto_align_setpoint = Optional.of(skewAngle);
+				System.out.println("setpoint #"+m_iterations+": "+setpoints.auto_align_setpoint.get());				
 			}
 			break;
 		case ALIGNING:

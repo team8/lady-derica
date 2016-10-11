@@ -71,6 +71,9 @@ public class Constants extends ConstantsBase {
 	public static int kTyrRightDriveBackMotorDeviceID = 4;
 	public static int kTyrRightDriveFrontMotorPDP = 14; // Found using tyr code
 	public static int kTyrRightDriveBackMotorPDP = 15;
+	// Gear switching solenoid
+	public static int kTyrDriveSolenoidExtend = 0;
+	public static int kTyrDriveSolenoidRetract = 7;
 	// DIO Encoders
 	public static int kTyrLeftDriveEncoderDIOA = 1;
 	public static int kTyrLeftDriveEncoderDIOB = 0;
@@ -91,8 +94,8 @@ public class Constants extends ConstantsBase {
 	public static int kShooterSolenoidPortRetract = 2;
 	public static int kLatchSolenoidPortExtend = 1;
 	public static int kLatchSolenoidPortRetract = 6;
-	public static int kGrabberSolenoidPortExtend = 0;
-	public static int kGrabberSolenoidPortRetract = 7;
+	public static int kGrabberSolenoidPortExtend = 4;
+	public static int kGrabberSolenoidPortRetract = 3;
 
 	/*
 	 * DERICA

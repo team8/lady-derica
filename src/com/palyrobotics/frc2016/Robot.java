@@ -40,7 +40,7 @@ public class Robot extends IterativeRobot {
 
 	Looper subsystem_looper = new Looper();
 
-	public static RobotName name = RobotName.DERICA;
+	public static RobotName name = RobotName.TYR;
 
 	AutoModeExecuter autoModeRunner = new AutoModeExecuter();
 

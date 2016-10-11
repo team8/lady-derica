@@ -55,7 +55,7 @@ public class GyroTurnAngleController implements Drive.DriveController {
 
 	@Override
 	public boolean onTarget() {
-		System.out.println(Math.abs(setpoint.getHeading()-kDrive.getPhysicalPose().getHeading()));
+		System.out.println("Gyro Turn angle error: " + String.valueOf(Math.abs(setpoint.getHeading()-kDrive.getPhysicalPose().getHeading())).substring(0, 4));
 		if(Math.abs(setpoint.getHeading()-kDrive.getPhysicalPose().getHeading()) < Constants.kAcceptableGyroTurnError &&
 				Math.abs(kDrive.getPhysicalPose().getHeadingVelocity()) < Constants.kAcceptableGyroTurnStopSpeed) {
 			System.out.println("Gyro turn on target");
