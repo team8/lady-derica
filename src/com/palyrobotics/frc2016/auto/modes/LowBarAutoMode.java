@@ -14,13 +14,11 @@ import com.palyrobotics.frc2016.auto.actions.ParallelAction;
 
 public class LowBarAutoMode extends AutoMode {
 	
-	public static final double mCompressorWaitTime = 5;
-	public static final double m_drive_timeout = 5;
+	public static final double mCompressorWaitTime = 3;
 
 	@Override
 	protected void routine() throws AutoModeEndedException {
 		waitTime(mCompressorWaitTime); //Waits for compressor
-		//TODO: actions to move the shooter and grabber down are empty
 		ArrayList<Action> crossLowBar = new ArrayList<Action>(2);
 		crossLowBar.add(new DriveDistanceAction(Constants.kLowBarDistance));
 		if(Robot.name == RobotName.TYR) {

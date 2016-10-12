@@ -13,6 +13,8 @@ import com.team254.lib.trajectory.Path;
 import com.team254.lib.util.*;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 //import com.team254.lib.util.gyro.GyroThread;
 import edu.wpi.first.wpilibj.Encoder;
 
@@ -26,14 +28,18 @@ public class Drive extends Subsystem implements Loop {
 		public boolean onTarget();
 
 	}
-
+	private DoubleSolenoid m_shifter_solenoid = null;
 	private CheesySpeedController m_left_motor;
 	private CheesySpeedController m_right_motor;
 	protected Encoder m_left_encoder;
 	protected Encoder m_right_encoder;
 	protected ADXRS450_Gyro m_gyro;
 	private DriveController m_controller = null;
-
+	
+	// Derica is always considered high gear
+	public enum DriveGear {HIGH, LOW}
+	public DriveGear mGear;
+	
 	// Encoder DPP
 	protected final double m_inches_per_tick;
 
@@ -43,7 +49,7 @@ public class Drive extends Subsystem implements Loop {
 
 	public Drive(String name, CheesySpeedController left_drive,
 			CheesySpeedController right_drive, Encoder left_encoder,
-			Encoder right_encoder, ADXRS450_Gyro gyro) {
+			Encoder right_encoder, ADXRS450_Gyro gyro, DoubleSolenoid shifter_solenoid) {
 		super(name);
 		if(Robot.name == RobotName.TYR) {
 			m_wheelbase_width = 26.0;
@@ -56,6 +62,7 @@ public class Drive extends Subsystem implements Loop {
 			m_turn_slip_factor = 1.2;
 			// TODO: Encoder DPP's
 			m_inches_per_tick = 0.07033622;
+			mGear = DriveGear.HIGH;
 		}
 		this.m_left_motor = left_drive;
 		this.m_right_motor = right_drive;
@@ -64,11 +71,29 @@ public class Drive extends Subsystem implements Loop {
 		this.m_left_encoder.setDistancePerPulse(m_inches_per_tick);
 		this.m_right_encoder.setDistancePerPulse(m_inches_per_tick);
 		this.m_gyro = gyro;
+		this.m_shifter_solenoid = shifter_solenoid;
 	}
 
 	public void setOpenLoop(DriveSignal signal) {
 		m_controller = null;
 		setDriveOutputs(signal);
+	}
+	
+	public void setGear(DriveGear targetGear) {
+		if(Robot.name == RobotName.DERICA) {
+			System.err.println("No gear shifting on Derica");
+			return;
+		}
+		if(targetGear == DriveGear.HIGH) {
+			//TODO Which is high and which is low?
+			m_shifter_solenoid.set(Value.kForward);
+		} else {
+			m_shifter_solenoid.set(Value.kReverse);
+		}
+	}
+	
+	public boolean isHighGear() {
+		return mGear == DriveGear.HIGH;
 	}
 
 	public void setDistanceSetpoint(double distance) {

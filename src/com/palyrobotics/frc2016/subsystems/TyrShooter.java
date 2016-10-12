@@ -1,7 +1,9 @@
 package com.palyrobotics.frc2016.subsystems;
 
+import com.palyrobotics.frc2016.subsystems.controllers.ConstantVoltageController;
 import com.palyrobotics.frc2016.subsystems.controllers.StrongHoldController;
 import com.team254.lib.util.CheesySpeedController;
+import com.team254.lib.util.Controller;
 import com.team254.lib.util.Loop;
 import com.team254.lib.util.StateHolder;
 import com.team254.lib.util.Subsystem;
@@ -32,8 +34,17 @@ public class TyrShooter extends Subsystem implements Loop {
 	final double kI = 0;
 	final double kD = 0;
 	final double kTolerance = 1; // Tolerance for the hold arm controller
-	// Shooter motor controller for holding position, null if no potentiometer available
-	StrongHoldController m_controller = null;
+	// For raising and lowering the shooters at constant voltages
+	static final double kLoweringVoltage = -0.9;
+	static final double kRaisingVoltage = 1;
+	// Shooter motor controller for holding position, or raising/lowering shooter
+	Controller m_controller = null;
+	
+	// Used mainly for autonomous raising and lowering of the shooter
+	public enum WantedShooterState {
+		RAISED, LOWERED, NONE
+	}
+	public WantedShooterState mWantedState = WantedShooterState.NONE;
 	
 	@Override
 	public void onStart() {
@@ -44,10 +55,13 @@ public class TyrShooter extends Subsystem implements Loop {
 	 */
 	@Override
 	public void onLoop() {
-		if(m_controller != null) {
-			if(m_controller.isEnabled()) {
-				m_shooter_motor.set(m_controller.update());
+		if(m_controller instanceof StrongHoldController) {
+			if(((StrongHoldController) m_controller).isEnabled()) {
+				m_shooter_motor.set(((StrongHoldController) m_controller).update());
 			}
+		}
+		else if(m_controller instanceof ConstantVoltageController) {
+			m_shooter_motor.set(((ConstantVoltageController) m_controller).get());
 		}
 	}
 
@@ -55,6 +69,18 @@ public class TyrShooter extends Subsystem implements Loop {
 	public void onStop() {
 	}
 
+	/**
+	 * Resets the shooter
+	 * Should be done in teleop init to clear out autonomous
+	 */
+	public void reset() {
+		// Reset controller
+		if(m_controller instanceof ConstantVoltageController) {
+			m_controller = new StrongHoldController(kP, kI, kD, kTolerance, m_potentiometer);
+			((StrongHoldController) m_controller).disable();
+		}
+		mWantedState = WantedShooterState.NONE;
+	}
 	
 	/**
 	 * Updates the shooter's motor output based on joystick input
@@ -62,9 +88,9 @@ public class TyrShooter extends Subsystem implements Loop {
 	 * If there is an enabled controller that loop is executed in onLoop
 	 * @see TyrShooter#onLoop()
 	 */
-	public void update(double joystickInput) {
+	public void update(double joystickInput) {		
 		// If no potentiometer available, directly use joystick input scaled down
-		if(m_controller == null) {
+		if(m_potentiometer == null) {
 			m_shooter_motor.set(joystickInput*kJoystickScaleFactor);
 			return;
 		}
@@ -79,26 +105,61 @@ public class TyrShooter extends Subsystem implements Loop {
 	}
 	
 	/**
-	 * Tells the shooter to hold position at the target angle
+	 * Used for autonomous
+	 * Directs the shooter to a desired position
 	 */
-	public void holdPosition() {
-		if(m_controller == null) {
-			System.err.println("No shooter controller!");
-			return;
+	public void setWantedState(WantedShooterState wantedState) {
+		mWantedState = wantedState;
+		switch(mWantedState) {
+		case NONE:
+			if(m_controller instanceof ConstantVoltageController) {
+				m_controller = null;
+			}
+			break;
+		case RAISED:
+			if(!(m_controller instanceof ConstantVoltageController)) {
+				m_controller = new ConstantVoltageController(kRaisingVoltage);
+			}
+			break;
+		case LOWERED:
+			if(!(m_controller instanceof ConstantVoltageController)) {
+				m_controller = new ConstantVoltageController(kLoweringVoltage);
+			}
+			break;
 		}
-		m_controller.enable();
-		m_controller.setPositionSetpoint(m_potentiometer.get());
 	}
 	
 	/**
-	 * 
+	 * Tells the shooter to hold position at the target angle
+	 */
+	public void holdPosition() {
+		// Continue using current hold postion controller if possible
+		if(m_controller instanceof StrongHoldController) {
+			((StrongHoldController) m_controller).enable();
+			((StrongHoldController) m_controller).setPositionSetpoint(m_potentiometer.get());			
+			return;
+		} 
+		// No potentiometer -> no shooter hold
+		else if(m_potentiometer == null) {
+			System.err.println("No shooter controller!");			
+		} 
+		// Start new hold position controller
+		else {
+			m_controller = new StrongHoldController(kP, kI, kD, kTolerance, m_potentiometer);
+			((StrongHoldController) m_controller).enable();
+			((StrongHoldController) m_controller).setPositionSetpoint(m_potentiometer.get());			
+		}
+	}
+	
+	/**
+	 * Cancels the hold position controller
 	 */
 	public void cancelHoldPosition() {
-		if(m_controller == null) {
-			System.err.println("No shooter controller!");
+		if(m_controller instanceof StrongHoldController) {
+			((StrongHoldController) m_controller).disable();
 			return;
 		}
-		m_controller.disable();
+		else System.err.println("No shooter controller!");
 	}
 	
 	/**
@@ -142,16 +203,7 @@ public class TyrShooter extends Subsystem implements Loop {
 	public void release() {
 		this.m_grabber_solenoid.set(Value.kReverse);
 	}
-	
-	/**
-	 * Fires at once, by extending the shooter solenoid (freed spring)
-	 * and then immediately unlocking the latch
-	 */
-	public void fire() {
-		extend();
-		unlock();
-	}
-	
+		
 	@Override
 	public void getState(StateHolder states) {
 		states.put("m_shooter", this.m_shooter_motor.get());
@@ -181,9 +233,10 @@ public class TyrShooter extends Subsystem implements Loop {
 		this.m_latch_solenoid = latch_solenoid;
 		this.m_grabber_solenoid = grabber_solenoid;
 		this.m_potentiometer = shooter_potentiometer;
+		// Default controller for holding position
 		this.m_controller = new StrongHoldController(kP, kI, kD, kTolerance, m_potentiometer);
 		// for safety
-		m_controller.setPositionSetpoint(m_potentiometer.get());
+		((StrongHoldController) m_controller).setPositionSetpoint(m_potentiometer.get());
 	}
 	
 	/**

@@ -4,6 +4,7 @@ import org.json.simple.JSONArray;
 
 import com.palyrobotics.frc2016.auto.modes.DoNothingAutoMode;
 import com.palyrobotics.frc2016.auto.modes.DriveForwardAutoMode;
+import com.palyrobotics.frc2016.auto.modes.LowBarHighGoalAutoMode;
 import com.palyrobotics.frc2016.auto.modes.WaitForwardBackwardAutoMode;
 
 import java.util.ArrayList;
@@ -18,7 +19,11 @@ public class AutoModeSelector {
         }
         return instance;
     }
-
+    
+    /**
+     * Add an AutoMode to list to choose from
+     * @param auto AutoMode to add
+     */
     public void registerAutonomous(AutoMode auto) {
         autoModes.add(auto);
     }
@@ -27,12 +32,22 @@ public class AutoModeSelector {
         registerAutonomous(new DoNothingAutoMode());
         registerAutonomous(new DriveForwardAutoMode());
         registerAutonomous(new WaitForwardBackwardAutoMode(3.0, 3.0, -200));
+        registerAutonomous(new LowBarHighGoalAutoMode());
     }
-
+    
+    /**
+     * Get the currently selected AutoMode
+     * @return AutoMode currently selected
+     */
     public AutoMode getAutoMode() {
         return autoModes.get(selectedIndex);
     }
     
+    /**
+     * Get the AutoMode at specified index
+     * @param index index of desired AutoMode
+     * @return AutoMode at specified index
+     */
     public AutoMode getAutoMode(int index) {
         return autoModes.get(index);
     }

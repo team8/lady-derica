@@ -82,20 +82,15 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit() {
 		setState(RobotState.AUTONOMOUS);
+		drive.reset();
 
-		//        HardwareAdaptor.kGyroThread.rezero();
-		//        HardwareAdaptor.kGyroThread.reset();
-
-		HardwareAdaptor.kLeftDriveEncoder.reset();
-		HardwareAdaptor.kRightDriveEncoder.reset();
-		AutoMode mode = AutoModeSelector.getInstance().getAutoMode(2);
+		AutoMode mode = AutoModeSelector.getInstance().getAutoMode();
 		autoModeRunner.setAutoMode(mode);
 		// Prestart auto mode
 		mode.prestart();
 		autoModeRunner.start();
 		// Start control loops
 		subsystem_looper.start();
-		//slowLooper.start();
 	}
 
 	@Override
@@ -119,7 +114,7 @@ public class Robot extends IterativeRobot {
 		}
 		// Pick one or the other drive scheme
 //		pdh.pDrive(-leftStick.getY(), rightStick.getX(), behavior_manager.getSetpoints());
-		cdh.cheesyDrive(-leftStick.getY(), rightStick.getX(), rightStick.getRawButton(1), true, behavior_manager.getSetpoints());
+		cdh.cheesyDrive(-leftStick.getY(), rightStick.getX(), rightStick.getRawButton(1), drive.isHighGear(), behavior_manager.getSetpoints());
 		
 		// Runs routines
 		behavior_manager.update(operator_interface.getCommands());

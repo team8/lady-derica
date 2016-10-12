@@ -128,7 +128,7 @@ public class Constants extends ConstantsBase {
 	public static int kPressureSwitchDIO = 1;
 
 	// !!! Physical constants
-	public static final double kLowBarDistance = 0;
+	public static final double kLowBarDistance = 5*12;
 	public static final double kBreachDistance = 0;
 	
 	// !!! Program constants
