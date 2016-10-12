@@ -83,7 +83,6 @@ public class Robot extends IterativeRobot {
 	public void autonomousInit() {
 		setState(RobotState.AUTONOMOUS);
 		drive.reset();
-
 		AutoMode mode = AutoModeSelector.getInstance().getAutoMode();
 		autoModeRunner.setAutoMode(mode);
 		// Prestart auto mode
@@ -102,6 +101,9 @@ public class Robot extends IterativeRobot {
 		setState(RobotState.TELEOP);
 		System.out.println("Start teleopInit()");
 		subsystem_looper.start();
+		if(Robot.name == RobotName.TYR) {
+			shooter.reset();
+		}
 	}
 
 	@Override

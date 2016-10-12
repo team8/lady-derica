@@ -84,9 +84,9 @@ public class OperatorInterface {
 			m_commands.intake_request = Commands.IntakeRequest.NONE;
 		}
 		// Operator Stick - Shooter Control
-		if (operatorStick.getButtonB()) {
+		if (operatorStick.getButtonX()) {
 			m_commands.shooter_request = Commands.ShooterRequest.EXTEND;
-		} else if (operatorStick.getButtonX()) {
+		} else if (operatorStick.getButtonB()) {
 			m_commands.shooter_request = Commands.ShooterRequest.RETRACT;
 		} else {
 			m_commands.shooter_request = Commands.ShooterRequest.NONE;

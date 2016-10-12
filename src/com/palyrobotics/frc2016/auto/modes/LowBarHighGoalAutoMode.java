@@ -29,7 +29,7 @@ public class LowBarHighGoalAutoMode extends AutoMode {
 		crossLowBar.add(new DriveDistanceAction(Constants.kLowBarDistance));
 		ArrayList<Action> prepareGoal = new ArrayList<Action>(2);
 		if(Robot.name == RobotName.TYR) {
-			crossLowBar.add(new GetLowAction());
+//			crossLowBar.add(new GetLowAction());
 			prepareGoal.add(new RaiseShooterAction());
 		} else {
 			// TODO: Does Derica have any restrictions or simultaneous actions to run
@@ -39,14 +39,14 @@ public class LowBarHighGoalAutoMode extends AutoMode {
 		prepareGoal.add(new AutoAlignAction());
 		runAction(new ParallelAction(prepareGoal));
 		runAction(new ShootAction());
+		waitTime(0.5);
 		/* Bring shooter down if extra time */
 		runAction(new GetLowAction());
 	}
 
 	@Override
 	public void prestart() {
-		// TODO Auto-generated method stub
-		
+		System.out.println("Starting low bar high goal auto!");
 	}
 
 }

@@ -55,7 +55,7 @@ public class Drive extends Subsystem implements Loop {
 			m_wheelbase_width = 26.0;
 			m_turn_slip_factor = 1.2;
 			// TODO: Encoder DPP's
-			m_inches_per_tick = 1;
+			m_inches_per_tick = 0.05;
 		}
 		else {
 			m_wheelbase_width = 22.0;

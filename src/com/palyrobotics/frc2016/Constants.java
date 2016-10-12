@@ -15,7 +15,7 @@ public class Constants extends ConstantsBase {
 	public static double kAutoIntakeSpeed = 1.0;
 
 	// DriveStraightController gains
-	public static double kDriveMaxSpeedInchesPerSec = 100.0;
+	public static double kDriveMaxSpeedInchesPerSec = 80.0;
 	public static double kDriveMaxAccelInchesPerSec2 = 85.0;
 	public static double kDrivePositionKp = 0.7;
 	public static double kDrivePositionKi = 0;
@@ -24,7 +24,7 @@ public class Constants extends ConstantsBase {
 	public static double kDrivePositionKa = 0.0017;
 	public static double kDriveStraightKp = 2.0;
 	public static double kDriveStraightKi = 0;
-	public static double kDriveStraightKd = 0.02;
+	public static double kDriveStraightKd = 0.04;
 	public static double kDriveOnTargetError = 1.5;
 	public static double kDrivePathHeadingFollowKp = 0.01;
 

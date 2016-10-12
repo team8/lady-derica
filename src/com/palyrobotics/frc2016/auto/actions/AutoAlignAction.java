@@ -11,7 +11,7 @@ public class AutoAlignAction implements Action {
 	@Override
 	public boolean isFinished() {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override
@@ -22,14 +22,12 @@ public class AutoAlignAction implements Action {
 
 	@Override
 	public void done() {
-		// TODO Auto-generated method stub
-
+		System.out.println("Finished auto align");
 	}
 
 	@Override
 	public void start() {
-		// TODO Auto-generated method stub
-
+		System.out.println("Starting auto align");
 	}
 
 }

@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class AutoModeSelector {
     private static AutoModeSelector instance = null;
     private ArrayList<AutoMode> autoModes = new ArrayList<AutoMode>();
-    int selectedIndex = 1;
+    int selectedIndex = 3;
     public static AutoModeSelector getInstance() {
         if (instance == null) {
             instance = new AutoModeSelector();

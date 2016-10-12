@@ -35,8 +35,8 @@ public class TyrShooter extends Subsystem implements Loop {
 	final double kD = 0;
 	final double kTolerance = 1; // Tolerance for the hold arm controller
 	// For raising and lowering the shooters at constant voltages
-	static final double kLoweringVoltage = -0.9;
-	static final double kRaisingVoltage = 1;
+	static final double kLoweringVoltage = -0.1;
+	static final double kRaisingVoltage = 0.5;
 	// Shooter motor controller for holding position, or raising/lowering shooter
 	Controller m_controller = null;
 	
@@ -61,6 +61,7 @@ public class TyrShooter extends Subsystem implements Loop {
 			}
 		}
 		else if(m_controller instanceof ConstantVoltageController) {
+			//System.out.println("Shooter voltage: "+((ConstantVoltageController) m_controller).get());
 			m_shooter_motor.set(((ConstantVoltageController) m_controller).get());
 		}
 	}
@@ -117,14 +118,10 @@ public class TyrShooter extends Subsystem implements Loop {
 			}
 			break;
 		case RAISED:
-			if(!(m_controller instanceof ConstantVoltageController)) {
-				m_controller = new ConstantVoltageController(kRaisingVoltage);
-			}
+			m_controller = new ConstantVoltageController(kRaisingVoltage);
 			break;
 		case LOWERED:
-			if(!(m_controller instanceof ConstantVoltageController)) {
-				m_controller = new ConstantVoltageController(kLoweringVoltage);
-			}
+			m_controller = new ConstantVoltageController(kLoweringVoltage);
 			break;
 		}
 	}
@@ -166,14 +163,14 @@ public class TyrShooter extends Subsystem implements Loop {
 	 * Locks the shooter (latch triggered)
 	 */
 	public void lock() {
-		m_latch_solenoid.set(Value.kForward);
+		m_latch_solenoid.set(Value.kReverse);
 	}
 	
 	/**
 	 * Unlocks the shooter (latch) allowing it to fire
 	 */
 	public void unlock() {
-		m_latch_solenoid.set(Value.kReverse);
+		m_latch_solenoid.set(Value.kForward);
 	}
 	
 	/**

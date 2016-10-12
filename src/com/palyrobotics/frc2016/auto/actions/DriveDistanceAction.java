@@ -14,26 +14,12 @@ public class DriveDistanceAction implements Action {
 	@Override
 	public boolean isFinished() {
 		return drive.controllerOnTarget();
-//		if(distance >= 0) {
-//			if(drive.getPhysicalPose().getRightDistance() < startPoint + distance) {
-//				return false;
-//			}
-//			
-//			else return true;
-//		}
-//		
-//		else {
-//			if(drive.getPhysicalPose().getRightDistance() > startPoint + distance) {
-//				return false;
-//			}
-//			else return true;
-//		}
 	}
 
 	@Override
 	public void update() {
-		System.out.println("left encoder: " + drive.getPhysicalPose().getRightDistance());
-		System.out.println("right encoder: " + drive.getPhysicalPose().getLeftDistance());
+//		System.out.println("left encoder: " + drive.getPhysicalPose().getRightDistance());
+//		System.out.println("right encoder: " + drive.getPhysicalPose().getLeftDistance());
 	}
 
 	@Override

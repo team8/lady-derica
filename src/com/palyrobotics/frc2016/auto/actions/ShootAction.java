@@ -48,7 +48,7 @@ public class ShootAction implements Action {
 
 	@Override
 	public void done() {
-		System.out.println("Shooting now");
+		System.out.println("Shots fired");
 	}
 
 }
