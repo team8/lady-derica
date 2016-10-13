@@ -48,5 +48,9 @@ public class LowBarHighGoalAutoMode extends AutoMode {
 	public void prestart() {
 		System.out.println("Starting low bar high goal auto!");
 	}
-
+	
+	@Override
+	public String toString() {
+		return "LowBar_HighGoal";
+	}
 }

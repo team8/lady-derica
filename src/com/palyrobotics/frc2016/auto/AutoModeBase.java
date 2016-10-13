@@ -7,7 +7,7 @@ public abstract class AutoModeBase {
     protected boolean m_active = false;
 
     protected abstract void routine() throws AutoModeEndedException;
-
+    public abstract String toString();
     public abstract void prestart();
 
     public void run() {

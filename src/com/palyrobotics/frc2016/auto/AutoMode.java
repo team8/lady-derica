@@ -14,5 +14,5 @@ public abstract class AutoMode extends AutoModeBase {
 
     public void waitTime(double seconds) throws AutoModeEndedException {
         runAction(new TimeoutAction(seconds));
-    }
+    }    
 }

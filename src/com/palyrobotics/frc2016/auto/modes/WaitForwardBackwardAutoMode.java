@@ -33,4 +33,9 @@ public class WaitForwardBackwardAutoMode extends AutoMode{
 	public void prestart() {
 		System.out.println("Starting WaitForwardBackwardAutoMode");
 	}
+	
+	@Override
+	public String toString() {
+		return "WaitForwardBackward";
+	}
 }

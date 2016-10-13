@@ -33,5 +33,9 @@ public class CrossBDHighGoalMode extends AutoMode {
 		// TODO Auto-generated method stub
 		
 	}
-
+	
+	@Override
+	public String toString() {
+		return "Cross_BD" + ((mAttemptShot) ? "_HighGoal" : "");
+	}
 }

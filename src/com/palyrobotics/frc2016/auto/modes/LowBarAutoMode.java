@@ -34,5 +34,9 @@ public class LowBarAutoMode extends AutoMode {
 		drive.reset();
 		//TODO: reset all other subsystems
 	}
-
+	
+	@Override
+	public String toString() {
+		return "LowBar";
+	}
 }
