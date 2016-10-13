@@ -119,7 +119,7 @@ public class Drive extends Subsystem implements Loop {
 //			}
 		} else {
 			System.out.println("Started auto align controller");
-			setGyroTurnAngleSetpoint(heading, 0.25);
+			setGyroTurnAngleSetpoint(heading, 0.45);
 		}
 	}
 	
@@ -187,7 +187,7 @@ public class Drive extends Subsystem implements Loop {
 	}
 	@Override
 	public void onLoop() {
-		if (m_controller == null) {
+		if(!hasController()) {
 			return;
 		}
 		setDriveOutputs(m_controller.update(getPhysicalPose()));
