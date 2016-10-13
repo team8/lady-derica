@@ -21,7 +21,7 @@ public class AutoAlignAction implements Action {
 	
 	@Override
 	public boolean isFinished() {
-		if(Math.abs(skewAngle) < 3 || skewAngle == 10000) {
+		if(Math.abs(skewAngle) < 3 || skewAngle == 10002 || skewAngle == 9998) {
 			return true;
 		} 
 		else return false;
@@ -30,8 +30,8 @@ public class AutoAlignAction implements Action {
 	@Override
 	public void update() {
 		skewAngle = table.getNumber("skewangle", 10000);
-		skewAngle = (skewAngle >=0) ? skewAngle-2:skewAngle+2;
 		if(!drive.hasController()) {
+			skewAngle = (skewAngle >=0) ? skewAngle-2:skewAngle+2;
 			drive.setAutoAlignSetpoint(skewAngle);
 		}
 	}
