@@ -1,7 +1,13 @@
 package com.palyrobotics.frc2016.auto.modes;
 
+import com.palyrobotics.frc2016.Constants;
 import com.palyrobotics.frc2016.auto.AutoMode;
 import com.palyrobotics.frc2016.auto.AutoModeEndedException;
+import com.palyrobotics.frc2016.auto.actions.AutoAlignAction;
+import com.palyrobotics.frc2016.auto.actions.DriveDistanceAction;
+import com.palyrobotics.frc2016.auto.actions.ParallelAction;
+import com.palyrobotics.frc2016.auto.actions.RaiseShooterAction;
+import com.palyrobotics.frc2016.auto.actions.ShootAction;
 import com.palyrobotics.frc2016.subsystems.Drive.DriveGear;
 
 /**
@@ -23,15 +29,20 @@ public class CrossBDHighGoalMode extends AutoMode {
 	
 	@Override
 	protected void routine() throws AutoModeEndedException {
-		// TODO Auto-generated method stub
 		waitTime(mCompressorWaitTime);
 		drive.setGear(DriveGear.HIGH);
+		runAction(new DriveDistanceAction(Constants.kBreachDistance));
+		
+		if(mAttemptShot) {
+			runAction(new AutoAlignAction());
+			runAction(new RaiseShooterAction());
+			runAction(new ShootAction());
+		}
 	}
 
 	@Override
 	public void prestart() {
-		// TODO Auto-generated method stub
-		
+		System.out.println("Starting BD cross auto"+ ((mAttemptShot)? " w/ High Goal":""));
 	}
 	
 	@Override
