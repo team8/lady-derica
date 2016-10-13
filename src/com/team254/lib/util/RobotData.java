@@ -1,7 +1,6 @@
-package com.palyrobotics.frc2016;
+package com.team254.lib.util;
 
-import com.team254.lib.util.StateHolder;
-import com.team254.lib.util.Tappable;
+import com.palyrobotics.frc2016.HardwareAdaptor;
 
 import edu.wpi.first.wpilibj.Timer;
 

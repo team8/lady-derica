@@ -2,6 +2,7 @@ package com.palyrobotics.frc2016.subsystems;
 
 import com.palyrobotics.frc2016.subsystems.controllers.ConstantVoltageController;
 import com.palyrobotics.frc2016.subsystems.controllers.StrongHoldController;
+import com.palyrobotics.frc2016.util.Dashboard;
 import com.team254.lib.util.CheesySpeedController;
 import com.team254.lib.util.Controller;
 import com.team254.lib.util.Loop;
@@ -191,6 +192,7 @@ public class TyrShooter extends Subsystem implements Loop {
 	 * Toggles grabber down
 	 */
 	public void grab() {
+		mDashboard.getTable().putString("grabbermicrostate", "Grabbing");
 		this.m_grabber_solenoid.set(Value.kForward);
 	}
 	
@@ -198,6 +200,7 @@ public class TyrShooter extends Subsystem implements Loop {
 	 * Releases the grabber
 	 */
 	public void release() {
+		mDashboard.getTable().putString("grabbermicrostate", "Raised");
 		this.m_grabber_solenoid.set(Value.kReverse);
 	}
 		

@@ -8,9 +8,13 @@ import com.palyrobotics.frc2016.behavior.RobotSetpoints;
 import com.palyrobotics.frc2016.subsystems.Drive;
 import com.palyrobotics.frc2016.subsystems.Intake;
 import com.palyrobotics.frc2016.subsystems.TyrShooter;
+import com.palyrobotics.frc2016.util.CheesyDriveHelper;
+import com.palyrobotics.frc2016.util.Dashboard;
+import com.palyrobotics.frc2016.util.ProportionalDriveHelper;
 import com.palyrobotics.frc2016.util.XboxController;
 import com.team254.lib.util.DriveSignal;
 import com.team254.lib.util.Looper;
+import com.team254.lib.util.RobotData;
 import com.team254.lib.util.SystemManager;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -23,28 +27,23 @@ public class Robot extends IterativeRobot {
 	public enum RobotName {
 		TYR, DERICA
 	}
+	public static RobotName name = RobotName.TYR;
 
 	public enum RobotState {
 		DISABLED, AUTONOMOUS, TELEOP
 	}
-
 	public static RobotState s_robot_state = RobotState.DISABLED;
-
 	public static RobotState getState() {
 		return s_robot_state;
 	}
-
 	public static void setState(RobotState state) {
 		s_robot_state = state;
 	}
 
 	Looper subsystem_looper = new Looper();
 
-	public static RobotName name = RobotName.TYR;
-
 	AutoModeExecuter autoModeRunner = new AutoModeExecuter();
-
-	
+	// Subsystems
 	Drive drive = HardwareAdaptor.kDrive;
 	TyrShooter shooter = HardwareAdaptor.kTyrShooter;
 	Intake intake = HardwareAdaptor.kIntake;
@@ -60,6 +59,7 @@ public class Robot extends IterativeRobot {
 	Joystick rightStick = HardwareAdaptor.kRightStick;
 	XboxController operatorStick = HardwareAdaptor.kOperatorStick;
 
+	Dashboard mDashboard = Dashboard.getInstance();
 	NetworkTable sensorTable;
 
 	static {
@@ -77,6 +77,7 @@ public class Robot extends IterativeRobot {
 		}
 		//        SystemManager.getInstance().add(behavior_manager);
 		sensorTable = NetworkTable.getTable("Sensor");
+		mDashboard.init();
 	}
 
 	@Override
@@ -94,6 +95,7 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void autonomousPeriodic() {
+		mDashboard.update();
 	}
 
 	@Override
@@ -124,8 +126,7 @@ public class Robot extends IterativeRobot {
 		// Update sensorTable with encoder distances
 		sensorTable.putString("left", String.valueOf(HardwareAdaptor.kLeftDriveEncoder.getDistance()));
 		sensorTable.putString("right", String.valueOf(HardwareAdaptor.kRightDriveEncoder.getDistance()));
-//		System.out.println("Gyro: " + drive.getPhysicalPose().getHeading());
-//		System.out.println("Encoders "+ String.valueOf(HardwareAdaptor.kLeftDriveEncoder.getDistance()+" "+String.valueOf(HardwareAdaptor.kRightDriveEncoder.getDistance())));
+		mDashboard.update();
 	}
 
 	@Override

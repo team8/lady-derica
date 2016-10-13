@@ -1,4 +1,4 @@
-package com.palyrobotics.frc2016;
+package com.palyrobotics.frc2016.util;
 import com.palyrobotics.frc2016.behavior.RobotSetpoints;
 import com.palyrobotics.frc2016.subsystems.Drive;
 import com.team254.lib.util.DriveSignal;
