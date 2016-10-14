@@ -10,6 +10,10 @@ public class Commands {
         NONE, INTAKE, EXHAUST
     }
     
+    public enum LowGoalShooterRequest {
+    	NONE, SHOOT, LOAD
+    }
+    
     // Commands for Grabber
     public enum GrabberRequest {
     	GRAB, RELEASE
@@ -64,6 +68,7 @@ public class Commands {
     public ShooterRequest shooter_request;
     public WinchRequest winch_request;
     public PinRequest pin_request;
+    public LowGoalShooterRequest low_request;
     
     // Routine requests
     public TimerDriveRequest timer_drive_request;
@@ -82,5 +87,6 @@ public class Commands {
     	turn_angle_request = TurnAngleRequest.NONE;
     	winch_request = WinchRequest.NONE;
     	pin_request = PinRequest.NONE;
+    	low_request = LowGoalShooterRequest.NONE;
     }
 }

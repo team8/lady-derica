@@ -5,6 +5,7 @@ import com.palyrobotics.frc2016.HardwareAdaptor;
 import com.palyrobotics.frc2016.Robot;
 import com.palyrobotics.frc2016.behavior.routines.*;
 import com.palyrobotics.frc2016.subsystems.*;
+import com.palyrobotics.frc2016.subsystems.LowGoalShooter.WantedLowGoalState;
 import com.team254.lib.util.DriveSignal;
 import com.team254.lib.util.StateHolder;
 import com.team254.lib.util.Tappable;
@@ -20,6 +21,7 @@ public class BehaviorManager implements Tappable {
 	protected TyrShooter kShooter = HardwareAdaptor.kTyrShooter;
 	protected Intake intake = HardwareAdaptor.kIntake;
 	protected DericaShooter catapult = HardwareAdaptor.kCatapult;
+	protected LowGoalShooter k_low_shooter = HardwareAdaptor.kLowGoalShooter;
 
 	private Routine m_cur_routine = null;
 	private RobotSetpoints m_setpoints;
@@ -108,6 +110,18 @@ public class BehaviorManager implements Tappable {
 		} else {
 			// Stop intake.
 			intake.setSpeed(0.0);
+		}
+		
+		if (Robot.name == Robot.RobotName.DERICA) {
+			if (commands.low_request == Commands.LowGoalShooterRequest.LOAD) {
+				k_low_shooter.setWantedState(WantedLowGoalState.INTAKING);
+			}
+			else if (commands.low_request == Commands.LowGoalShooterRequest.SHOOT) {
+				k_low_shooter.setWantedState(WantedLowGoalState.SHOOTING);
+			}
+			else {
+				k_low_shooter.stopMotor();
+			}
 		}
 
 		// Parse latch commands because this is only open loop

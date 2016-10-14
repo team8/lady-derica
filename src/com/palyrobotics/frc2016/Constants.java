@@ -11,6 +11,9 @@ public class Constants extends ConstantsBase {
 	public static double kManualIntakeSpeed = 1.0;
 	public static double kManualExhaustSpeed = 1.0;
 
+	public static double kManualLowGoalShootSpeed = 1.0;
+	public static double kManuelLowGoalLoadSpeed = 1.0;
+
 	// Autonomous intake speed
 	public static double kAutoIntakeSpeed = 1.0;
 	public static double kDistanceToDriveToAccumulateExtra = 12 * 2;

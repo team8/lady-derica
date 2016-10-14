@@ -32,11 +32,20 @@ public class OperatorInterface {
 	public Commands getDericaCommands() {
 		// Operator Stick - Derica Intake Control
 		if (operatorStick.getLeftTriggerPressed()) {
-			m_commands.intake_request = Commands.IntakeRequest.INTAKE;
-		} else if (operatorStick.getRightTriggerPressed()) {
 			m_commands.intake_request = Commands.IntakeRequest.EXHAUST;
+		} else if (operatorStick.getLeftBumper()) {
+			m_commands.intake_request = Commands.IntakeRequest.INTAKE;
 		} else {
 			m_commands.intake_request = Commands.IntakeRequest.NONE;
+		}
+		if (operatorStick.getRightTriggerPressed()) {
+			m_commands.low_request = Commands.LowGoalShooterRequest.SHOOT;
+		}
+		else if (operatorStick.getRightBumper()) {
+			m_commands.low_request = Commands.LowGoalShooterRequest.LOAD;
+		}
+		else {
+			m_commands.low_request = Commands.LowGoalShooterRequest.NONE;
 		}
 
 		m_commands.resetRoutineRequests();
