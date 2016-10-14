@@ -81,14 +81,19 @@ public class Constants extends ConstantsBase {
 	public static int kTyrRightDriveEncoderDIOB = 3;
 
 	// INTAKE
-	public static int kTyrLeftIntakeMotorPWM = 1;
+	public static int kTyrLeftIntakeMotorDeviceID = 1;
 	public static int kTyrLeftIntakeMotorPDP = 7;
-	public static int kTyrRightIntakeMotorPWM = 0;
+	public static int kTyrRightIntakeMotorDeviceID = 0;
 	public static int kTyrRightIntakeMotorPDP = 8;
 
 	// SHOOTER
 	public static int kTyrShooterMotorDeviceID = 8;
 	public static int kTyrShooterMotorPDP = 3; 
+	
+	//BREACHER
+	public static int kBreacherMotorDeviceID = 5;
+	public static int kBreacherMotorPDP = 10;
+	
 	// Solenoids (shooter, latch, grabber)
 	public static int kShooterSolenoidPortExtend = 5;
 	public static int kShooterSolenoidPortRetract = 2;

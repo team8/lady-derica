@@ -5,6 +5,7 @@ import com.palyrobotics.frc2016.auto.AutoModeExecuter;
 import com.palyrobotics.frc2016.auto.AutoModeSelector;
 import com.palyrobotics.frc2016.behavior.BehaviorManager;
 import com.palyrobotics.frc2016.behavior.RobotSetpoints;
+import com.palyrobotics.frc2016.subsystems.Breacher;
 import com.palyrobotics.frc2016.subsystems.Drive;
 import com.palyrobotics.frc2016.subsystems.Intake;
 import com.palyrobotics.frc2016.subsystems.TyrShooter;
@@ -47,6 +48,7 @@ public class Robot extends IterativeRobot {
 	Drive drive = HardwareAdaptor.kDrive;
 	TyrShooter shooter = HardwareAdaptor.kTyrShooter;
 	Intake intake = HardwareAdaptor.kIntake;
+	Breacher breacher = HardwareAdaptor.kBreacher;
 	PowerDistributionPanel pdp = HardwareAdaptor.kPDP;
 
 	BehaviorManager behavior_manager = new BehaviorManager();
@@ -72,6 +74,7 @@ public class Robot extends IterativeRobot {
 		subsystem_looper.register(drive);
 		if(Robot.name == RobotName.TYR) {
 			subsystem_looper.register(shooter);
+			subsystem_looper.register(breacher);
 		} else {
 			subsystem_looper.register(intake);
 		}
@@ -113,6 +116,7 @@ public class Robot extends IterativeRobot {
 		// Passes joystick control to subsystems for their processing
 		if(Robot.name == RobotName.TYR) {
 			shooter.update(operatorStick.getRightY());
+			breacher.update(operatorStick.getLeftY());
 		} else if(Robot.name == RobotName.DERICA) {
 			intake.update(operatorStick.getRightY());
 		}

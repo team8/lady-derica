@@ -70,10 +70,10 @@ public class HardwareAdaptor {
 	static {
 		if(Robot.name == RobotName.TYR) {
 			CheesySpeedController kLeftIntakeMotor = new CheesySpeedController(
-					new VictorSP(Constants.kTyrLeftIntakeMotorPWM),
+					new VictorSP(Constants.kTyrLeftIntakeMotorDeviceID),
 					Constants.kTyrLeftIntakeMotorPDP);
 			CheesySpeedController kRightIntakeMotor = new CheesySpeedController(
-					new VictorSP(Constants.kTyrRightIntakeMotorPWM),
+					new VictorSP(Constants.kTyrRightIntakeMotorDeviceID),
 					Constants.kTyrRightIntakeMotorPDP);
 			// null for lack of a potentiometer
 			kIntake = new Intake("intake", kLeftIntakeMotor, kRightIntakeMotor, null);
@@ -90,13 +90,13 @@ public class HardwareAdaptor {
 		}
 	}
 	
-    public static DericaShooter kCatapult = new DericaShooter("catapult", null, null, null, null, null);
-
 	/*
 	 * SHOOTER/CATAPULT
 	 * TyrShooter comes with Grabber
 	 */
 
+	public static DericaShooter kCatapult = new DericaShooter("catapult", null, null, null, null, null);
+	
 	// Pneumatic solenoids, only instantiate if Tyr
 	static DoubleSolenoid kShooterSolenoid = null;
 	static DoubleSolenoid kLatchSolenoid = null;
@@ -118,6 +118,17 @@ public class HardwareAdaptor {
 		}
 	}
 
+	/*
+	 * BREACHER
+	 */
+	public static Breacher kBreacher = null;
+	public static CheesySpeedController kBreacherMotor = null;
+	
+	static {
+		kBreacherMotor = new CheesySpeedController(new CANTalon(Constants.kBreacherMotorDeviceID), Constants.kBreacherMotorPDP);
+		kBreacher = new Breacher("breacher", kBreacherMotor);
+	}
+	
 	public static PowerDistributionPanel kPDP = new PowerDistributionPanel();
 
 	// Compressor
