@@ -13,6 +13,10 @@ public class Constants extends ConstantsBase {
 
 	// Autonomous intake speed
 	public static double kAutoIntakeSpeed = 1.0;
+	public static double kDistanceToDriveToAccumulateExtra = 12 * 2;
+	
+	// Auto low goal shooter expel 
+	public static double kAutoShooterExpelTime = .5;
 
 	// DriveStraightController gains
 	public static double kDriveMaxSpeedInchesPerSec = 80.0;
@@ -127,6 +131,9 @@ public class Constants extends ConstantsBase {
 	public static int kDericaIntakeMotorPDP = 1;
 	public static int kDericaArmIntakeMotorPWM = 8;
 	public static int kDericaArmIntakeMotorPDP = 0;
+	public static int kDericaLowGoalShooterPWM = 0;
+	public static int kDericaLowGoalShooterPDP = 3;
+
 
 
 	// Compressor Ports DON'T WORK

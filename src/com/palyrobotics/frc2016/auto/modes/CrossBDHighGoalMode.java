@@ -34,7 +34,6 @@ public class CrossBDHighGoalMode extends AutoMode {
 		waitTime(mCompressorWaitTime);
 		drive.setGear(DriveGear.HIGH);
 		runAction(new DriveDistanceAction(Constants.kBreachDistance));
-		
 		if(mAttemptShot && Robot.name==RobotName.TYR) {
 			runAction(new AutoAlignAction());
 			runAction(new RaiseShooterAction());
@@ -43,12 +42,14 @@ public class CrossBDHighGoalMode extends AutoMode {
 	}
 
 	@Override
-	public void prestart() {
-		System.out.println("Starting BD cross auto"+ ((mAttemptShot)? " w/ High Goal":""));
-	}
-	
-	@Override
 	public String toString() {
-		return "Cross_BD" + ((mAttemptShot) ? "_HighGoal" : "");
+		// TODO Auto-generated method stub
+		return "";
+	}
+
+	@Override
+	public void prestart() {
+		// TODO Auto-generated method stub
+		
 	}
 }

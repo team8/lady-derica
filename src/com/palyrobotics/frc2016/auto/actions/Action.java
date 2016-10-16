@@ -3,6 +3,7 @@ package com.palyrobotics.frc2016.auto.actions;
 import com.palyrobotics.frc2016.HardwareAdaptor;
 import com.palyrobotics.frc2016.subsystems.Drive;
 import com.palyrobotics.frc2016.subsystems.Intake;
+import com.palyrobotics.frc2016.subsystems.LowGoalShooter;
 import com.palyrobotics.frc2016.subsystems.TyrShooter;
 
 /**
@@ -16,6 +17,7 @@ public interface Action {
 	public final Drive drive = HardwareAdaptor.kDrive;
 	public final TyrShooter tyrShooter = HardwareAdaptor.kTyrShooter;
 	public final Intake intake = HardwareAdaptor.kIntake;
+	public final LowGoalShooter lowShooter = HardwareAdaptor.kLowGoalShooter;
 
     /**
      * Returns whether or not the code has finished execution. When implementing

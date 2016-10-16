@@ -95,8 +95,6 @@ public class HardwareAdaptor {
 	 * TyrShooter comes with Grabber
 	 */
 
-	public static DericaShooter kCatapult = new DericaShooter("catapult", null, null, null, null, null);
-	
 	// Pneumatic solenoids, only instantiate if Tyr
 	static DoubleSolenoid kShooterSolenoid = null;
 	static DoubleSolenoid kLatchSolenoid = null;
@@ -104,6 +102,9 @@ public class HardwareAdaptor {
 	static CheesySpeedController kShooterMotor = null;
 	
 	public static TyrShooter kTyrShooter = null;
+    public static DericaShooter kCatapult = null;
+    public static LowGoalShooter kLowGoalShooter = null;
+
 	static {
 		if(Robot.name == RobotName.TYR){
 			kShooterSolenoid = new DoubleSolenoid(
@@ -115,6 +116,10 @@ public class HardwareAdaptor {
 			kShooterMotor = new CheesySpeedController(new CANTalon(Constants.kTyrShooterMotorDeviceID), 
 					Constants.kTyrShooterMotorPDP);
 			kTyrShooter = new TyrShooter("shooter", kShooterMotor, kShooterSolenoid, kLatchSolenoid, kGrabberSolenoid);
+		} else {
+			kCatapult = new DericaShooter("catapult", null, null, null, null, null);
+			kLowGoalShooter = new LowGoalShooter("low goal shooter", new CheesySpeedController(
+		    		new CANTalon(Constants.kDericaLowGoalShooterPWM), Constants.kDericaLowGoalShooterPDP));
 		}
 	}
 
@@ -125,8 +130,10 @@ public class HardwareAdaptor {
 	public static CheesySpeedController kBreacherMotor = null;
 	
 	static {
-		kBreacherMotor = new CheesySpeedController(new CANTalon(Constants.kBreacherMotorDeviceID), Constants.kBreacherMotorPDP);
-		kBreacher = new Breacher("breacher", kBreacherMotor);
+		if(Robot.name == RobotName.TYR) {
+			kBreacherMotor = new CheesySpeedController(new CANTalon(Constants.kBreacherMotorDeviceID), Constants.kBreacherMotorPDP);
+			kBreacher = new Breacher("breacher", kBreacherMotor);
+		}
 	}
 	
 	public static PowerDistributionPanel kPDP = new PowerDistributionPanel();
