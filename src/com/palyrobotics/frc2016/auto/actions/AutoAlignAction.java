@@ -26,9 +26,10 @@ public class AutoAlignAction implements Action {
 	@Override
 	public void update() {
 		skewAngle = table.getNumber("skewangle", 10000);
+		skewAngle /= 2;
 		if(!drive.hasController() && (Math.abs(skewAngle) >= 3)) {
 			// Offset the skew by 2
-			skewAngle = (skewAngle >=0) ? skewAngle-2:skewAngle+2;
+//			skewAngle = (skewAngle >=0) ? skewAngle-2:skewAngle+2;
 			drive.setAutoAlignSetpoint(skewAngle);
 		}
 	}

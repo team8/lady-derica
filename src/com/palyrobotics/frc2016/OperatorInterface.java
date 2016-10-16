@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.Joystick;
 
 import com.palyrobotics.frc2016.Robot.RobotName;
 import com.palyrobotics.frc2016.behavior.Commands;
+import com.palyrobotics.frc2016.subsystems.Drive.DriveGear;
 import com.palyrobotics.frc2016.util.XboxController;
 import com.team254.lib.util.Latch;
 
@@ -106,21 +107,18 @@ public class OperatorInterface {
 			m_commands.grabber_request = Commands.GrabberRequest.GRAB;
 		}
 		
-		// Operator Stick - Activate routine
-		if (driveForwardLatch.update(leftStick.getRawButton(6))) {
-			m_commands.resetRoutineRequests();
-			m_commands.timer_drive_request = Commands.TimerDriveRequest.ACTIVATE;
-		} else if(driveForwardLatch.update(leftStick.getRawButton(5))) {
-			m_commands.resetRoutineRequests();
-			m_commands.encoder_drive_request = Commands.EncoderDriveRequest.ACTIVATE;
-		} else if(rightStick.getRawButton(3) || rightStick.getRawButton(4)) {
+		// Right Stick - Activate routine
+		if(rightStick.getRawButton(2)) {
 			m_commands.resetRoutineRequests();
 			m_commands.auto_align_request = Commands.AutoAlignRequest.ACTIVATE;
-		} else if(rightStick.getRawButton(2)) { 
-			m_commands.resetRoutineRequests();
-			m_commands.turn_angle_request = Commands.TurnAngleRequest.ACTIVATE;
 		} else {
 			m_commands.resetRoutineRequests();
+		}
+		
+		if(rightStick.getRawButton(4)) {
+			HardwareAdaptor.kDrive.setGear(DriveGear.LOW);
+		} else if(rightStick.getRawButton(6)) {
+			HardwareAdaptor.kDrive.setGear(DriveGear.HIGH);
 		}
 		
 		// Left Stick trigger cancels current routine

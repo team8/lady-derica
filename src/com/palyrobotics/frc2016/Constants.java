@@ -22,6 +22,7 @@ public class Constants extends ConstantsBase {
 	public static double kDrivePositionKd = 0;
 	public static double kDrivePositionKv = 0.008;
 	public static double kDrivePositionKa = 0.0017;
+	// PID Tuning for turning to straighten
 	public static double kDriveStraightKp = 2.0;
 	public static double kDriveStraightKi = 0;
 	public static double kDriveStraightKd = 0.04;
@@ -134,7 +135,8 @@ public class Constants extends ConstantsBase {
 
 	// !!! Physical constants
 	public static final double kLowBarDistance = 5*12;
-	public static final double kBreachDistance = 0;
+	// 95.5 inches from start defense to 12 ft from goal
+	public static final double kBreachDistance = 95.5 + 10;
 	
 	// !!! Program constants
 	public static double kControlLoopsDt = 0.005;

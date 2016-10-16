@@ -55,15 +55,15 @@ public class LowBarHighGoalAutoMode extends AutoMode {
 		if(Robot.name == RobotName.TYR) {
 			crossLowBar.add(new GetLowAction());
 			prepareGoal.add(new RaiseShooterAction());
-			prepareGoal.add(new IntakeAction(1));
+			prepareGoal.add(new IntakeAction(1.0));
 		} else {
 			// TODO: Does Derica have any restrictions or simultaneous actions to run
 		}
-//		runAction(new ParallelAction(crossLowBar));
+		runAction(new ParallelAction(crossLowBar));
 		/* Auto Align then high goal */
 //		prepareGoal.add(new AutoAlignAction());
 		
-		runAction(new DrivePathAction(path));
+//		runAction(new DrivePathAction(path));
 		runAction(new AutoAlignAction());
 		runAction(new ParallelAction(prepareGoal));
 		runAction(new ShootAction());

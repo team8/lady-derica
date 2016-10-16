@@ -74,8 +74,8 @@ public class AutoAlignmentRoutine extends Routine {
 				break;
 			}
 			// Check for no goal, then already aligned, otherwise set setpoint
-			double skewAngle = table.getNumber("skewangle", 10000);
-			if(skewAngle == 10000) {
+			double skewAngle = table.getNumber("skewangle", 10000)/2;
+			if(skewAngle == 10000/2) {
 				System.out.println(skewAngle);
 				System.out.println("No goal detected");
 				m_iterations = 0;
@@ -84,7 +84,7 @@ public class AutoAlignmentRoutine extends Routine {
 			else if(Math.abs(skewAngle) <= m_min_angle) {
 				System.out.println("Already aligned");
 			} else {
-				skewAngle = (skewAngle >=0) ? skewAngle-2:skewAngle+2;
+//				skewAngle = (skewAngle >=0) ? skewAngle-2:skewAngle+2;
 				setpoints.auto_align_setpoint = Optional.of(skewAngle);
 				System.out.println("setpoint #"+m_iterations+": "+setpoints.auto_align_setpoint.get());				
 			}
