@@ -1,8 +1,11 @@
 package com.palyrobotics.frc2016.subsystems;
 
 import com.palyrobotics.frc2016.Robot;
+import com.palyrobotics.frc2016.subsystems.TyrShooter.WantedShooterState;
+import com.palyrobotics.frc2016.subsystems.controllers.ConstantVoltageController;
 import com.palyrobotics.frc2016.subsystems.controllers.StrongHoldController;
 import com.team254.lib.util.CheesySpeedController;
+import com.team254.lib.util.Controller;
 import com.team254.lib.util.Loop;
 import com.team254.lib.util.StateHolder;
 import com.team254.lib.util.Subsystem;
@@ -15,6 +18,15 @@ import edu.wpi.first.wpilibj.AnalogPotentiometer;
  * @author Nihar
  */
 public class Intake extends Subsystem implements Loop {
+	// Used mainly for autonomous raising and lowering of the shooter
+	public enum WantedIntakeState {
+		INTAKING, EXPELLING, NONE
+	}
+	public WantedIntakeState mWantedState = WantedIntakeState.NONE;
+	
+	static final double kIntakeVoltage = 1;
+	static final double kExpelVoltage = -1;
+	
 	// One of the following will be null depending on the robot
 	CheesySpeedController m_left_motor = null;
 	CheesySpeedController m_right_motor = null;
@@ -22,7 +34,7 @@ public class Intake extends Subsystem implements Loop {
 	
 	// Potentiometer may exist for Derica intake's arm, if null, disables holding position
 	AnalogPotentiometer m_arm_potentiometer = null;
-	StrongHoldController m_controller = null;
+	Controller m_controller = null;
 	
 	// Tuning constants
 	final double kDeadzone = 0.1; // Range to ignore joystick output and hold position instead
@@ -73,11 +85,12 @@ public class Intake extends Subsystem implements Loop {
 		} else {
 			if(joystickInput < kDeadzone) {
 				// If already holding position use that
-				if(!m_controller.isEnabled()) {
-					m_controller.setPositionSetpoint(m_arm_potentiometer.get());
+				if(!(m_controller instanceof StrongHoldController) && m_arm_potentiometer != null) {
+					m_controller = new StrongHoldController(kP, kI, kD, kTolerance, m_arm_potentiometer);
+					((StrongHoldController)m_controller).setPositionSetpoint(m_arm_potentiometer.get());
 				}
 			} else {
-				m_controller.disable();
+				m_controller = null;
 				m_arm_motor.set(-joystickInput*kJoystickScaleFactor);
 			}
 		}
@@ -89,14 +102,38 @@ public class Intake extends Subsystem implements Loop {
 	}
 	
 	/**
+	 * Used for autonomous
+	 * Directs the shooter to a desired position
+	 */
+	public void setWantedState(WantedIntakeState wantedState) {
+		mWantedState = wantedState;
+		switch(mWantedState) {
+		case NONE:
+			if(m_controller instanceof ConstantVoltageController) {
+				m_controller = null;
+			}
+			break;
+		case INTAKING:
+			m_controller = new ConstantVoltageController(kIntakeVoltage);
+			break;
+		case EXPELLING:
+			m_controller = new ConstantVoltageController(kExpelVoltage);
+			break;
+		}
+	}
+	
+	/**
 	 * Runs control loop to position intake if applicable
 	 */
 	@Override
 	public void onLoop() {
-		if(m_controller != null) {
-			if(m_controller.isEnabled()) {
-				m_arm_motor.set(m_controller.update());
+		if(m_controller instanceof StrongHoldController) {
+			if(((StrongHoldController) m_controller).isEnabled()) {
+				m_arm_motor.set(((StrongHoldController) m_controller).update());
 			}
+		} else if(m_controller instanceof ConstantVoltageController) {
+			//System.out.println("Shooter voltage: "+((ConstantVoltageController) m_controller).get());
+			setSpeed(((ConstantVoltageController) m_controller).get());
 		}
 	}
 

@@ -29,6 +29,7 @@ public class GetLowAction implements Action {
 	@Override
 	public void done() {
 		System.out.println("Brought shooter down");
+		tyrShooter.setWantedState(WantedShooterState.NONE);
 	}
 
 	@Override

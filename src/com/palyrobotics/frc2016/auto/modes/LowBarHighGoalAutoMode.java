@@ -12,6 +12,7 @@ import com.palyrobotics.frc2016.auto.actions.AutoAlignAction;
 import com.palyrobotics.frc2016.auto.actions.DriveDistanceAction;
 import com.palyrobotics.frc2016.auto.actions.DrivePathAction;
 import com.palyrobotics.frc2016.auto.actions.GetLowAction;
+import com.palyrobotics.frc2016.auto.actions.IntakeAction;
 import com.palyrobotics.frc2016.auto.actions.ParallelAction;
 import com.palyrobotics.frc2016.auto.actions.RaiseShooterAction;
 import com.palyrobotics.frc2016.auto.actions.ShootAction;
@@ -34,8 +35,11 @@ public class LowBarHighGoalAutoMode extends AutoMode {
 		//the trajectoryfollower takes a path and follows it.
 		
 		Segment[] segments = new Segment[2];
-		//low bar segment
+		
+		//drive 60 inches straight ahead?
 		segments[0] = new Segment(60, 0.7, 0.1, 0.1, 0, 200, 0, 0);
+		
+		//drive 10 inches with an angle of 30 degrees?
 		segments[1] = new Segment(10, 0.5, 0.1, 0.1, 30, 200, 0, 0);
 		Trajectory left = new Trajectory(segments);
 		Trajectory right = new Trajectory(segments);
@@ -51,6 +55,7 @@ public class LowBarHighGoalAutoMode extends AutoMode {
 		if(Robot.name == RobotName.TYR) {
 			crossLowBar.add(new GetLowAction());
 			prepareGoal.add(new RaiseShooterAction());
+			prepareGoal.add(new IntakeAction(1));
 		} else {
 			// TODO: Does Derica have any restrictions or simultaneous actions to run
 		}
