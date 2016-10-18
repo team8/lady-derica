@@ -33,12 +33,9 @@ public class LowBarHighGoalAutoMode extends AutoMode {
 		//trajectory is composed of an array of segments
 		//a path is constructed with a name and a Trajectory.Pair of trajectories.
 		//the trajectoryfollower takes a path and follows it.
-		
 		Segment[] segments = new Segment[2];
-		
 		//drive 60 inches straight ahead?
 		segments[0] = new Segment(60, 0.7, 0.1, 0.1, 0, 200, 0, 0);
-		
 		//drive 10 inches with an angle of 30 degrees?
 		segments[1] = new Segment(10, 0.5, 0.1, 0.1, 30, 200, 0, 0);
 		Trajectory left = new Trajectory(segments);
@@ -51,17 +48,13 @@ public class LowBarHighGoalAutoMode extends AutoMode {
 		ArrayList<Action> crossLowBar = new ArrayList<Action>(2);
 		crossLowBar.add(new DriveDistanceAction(Constants.kLowBarDistance));
 		ArrayList<Action> prepareGoal = new ArrayList<Action>(2);
-		
 		if(Robot.name == RobotName.TYR) {
 			crossLowBar.add(new GetLowAction());
 			prepareGoal.add(new RaiseShooterAction());
 			prepareGoal.add(new IntakeAction(1.0));
-		} else {
-			// TODO: Does Derica have any restrictions or simultaneous actions to run
 		}
 		runAction(new ParallelAction(crossLowBar));
 		/* Auto Align then high goal */
-//		prepareGoal.add(new AutoAlignAction());
 		
 //		runAction(new DrivePathAction(path));
 		runAction(new AutoAlignAction());

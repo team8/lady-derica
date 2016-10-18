@@ -1,6 +1,8 @@
 package com.palyrobotics.frc2016.auto.modes;
 
 import com.palyrobotics.frc2016.Constants;
+import com.palyrobotics.frc2016.Robot;
+import com.palyrobotics.frc2016.Robot.RobotName;
 import com.palyrobotics.frc2016.auto.AutoMode;
 import com.palyrobotics.frc2016.auto.AutoModeEndedException;
 import com.palyrobotics.frc2016.auto.actions.AutoAlignAction;
@@ -33,7 +35,7 @@ public class CrossBDHighGoalMode extends AutoMode {
 		drive.setGear(DriveGear.HIGH);
 		runAction(new DriveDistanceAction(Constants.kBreachDistance));
 		
-		if(mAttemptShot) {
+		if(mAttemptShot && Robot.name==RobotName.TYR) {
 			runAction(new AutoAlignAction());
 			runAction(new RaiseShooterAction());
 			runAction(new ShootAction());
