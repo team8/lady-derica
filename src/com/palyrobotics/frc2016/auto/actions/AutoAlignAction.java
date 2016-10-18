@@ -17,7 +17,7 @@ public class AutoAlignAction implements Action {
 	@Override
 	public boolean isFinished() {
 		// If no goal found, or vision data and drive controller are on target
-		if((Math.abs(skewAngle) <= 3 && drive.controllerOnTarget()) || skewAngle == 10002 || skewAngle == 9998) {
+		if((Math.abs(skewAngle) <= 1.5 && drive.controllerOnTarget()) || skewAngle == 10002 || skewAngle == 9998) {
 			return true;
 		} 
 		else return false;

@@ -19,7 +19,7 @@ public class Constants extends ConstantsBase {
 	public static double kDriveMaxAccelInchesPerSec2 = 85.0;
 	public static double kDrivePositionKp = 0.7;
 	public static double kDrivePositionKi = 0;
-	public static double kDrivePositionKd = 0;
+	public static double kDrivePositionKd = .07;
 	public static double kDrivePositionKv = 0.008;
 	public static double kDrivePositionKa = 0.0017;
 	// PID Tuning for turning to straighten
@@ -38,7 +38,7 @@ public class Constants extends ConstantsBase {
 	public static double kAcceptableEncoderTurnError = 2;
 	
 	// Gyro Turn in Place controller gains
-	public static double kGyroTurnKp = 0.18E-1;
+	public static double kGyroTurnKp = 0.195E-1;
 	public static double kGyroTurnKi = 0.04;
 	public static double kGyroTurnKd = 0.014E-1;
 	public static double kAcceptableGyroTurnError = 2.5;

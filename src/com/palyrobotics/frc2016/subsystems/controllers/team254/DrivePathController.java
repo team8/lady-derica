@@ -97,6 +97,8 @@ public class DrivePathController implements Drive.DriveController {
             double angleDiff = Math.toDegrees(angleDiffRads);
 
             double turn = kTurn * angleDiff;
+            System.out.println("left: " + (speedLeft+turn));
+            System.out.println("right: " + (speedRight-turn));
             return new DriveSignal(speedLeft + turn, speedRight - turn);
         }
     }

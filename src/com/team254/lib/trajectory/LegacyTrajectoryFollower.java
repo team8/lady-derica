@@ -51,6 +51,7 @@ public class LegacyTrajectoryFollower {
             last_error_ = error;
             current_heading = segment.heading;
             current_segment++;
+            System.out.println("error: " + error);
             return output;
         } else {
             return 0;
