@@ -5,7 +5,7 @@ import com.team254.lib.util.Loop;
 import com.team254.lib.util.StateHolder;
 import com.team254.lib.util.Subsystem;
 
-public class LowGoalShooter extends Subsystem implements Loop{
+public class LowGoalShooter extends Subsystem implements Loop {
 	
 	private CheesySpeedController m_top_motor;
 	
@@ -19,18 +19,6 @@ public class LowGoalShooter extends Subsystem implements Loop{
 		m_top_motor = lowGoalShooterMotor;
 	}
 	
-	public void shoot(double speed) {
-		m_top_motor.set(speed);
-	}
-	
-	public void load(double speed) {
-		m_top_motor.set(-speed);
-	}
-	
-	public void stopMotor() {
-		m_top_motor.set(0);
-	}
-	
 	public void setWantedState(WantedLowGoalState state) {
 		this.mWantedState = state;
 	}
@@ -42,25 +30,25 @@ public class LowGoalShooter extends Subsystem implements Loop{
 
 	@Override
 	public void reloadConstants() {
-		
+		//TOOD: Empty stub
 	}
 
 	@Override
 	public void onStart() {
-		
+		m_top_motor.set(0);
 	}
 
 	@Override
 	public void onLoop() {
 		switch (this.mWantedState) {
 		case INTAKING:
-			this.load(.7);
+			m_top_motor.set(-0.7);
 			break;
 		case SHOOTING:
-			this.shoot(1.0);
+			m_top_motor.set(1.0);
 			break;
 		case NONE:
-			this.stopMotor();
+			m_top_motor.set(0.0);
 			break;
 		default:
 			break;
@@ -69,7 +57,6 @@ public class LowGoalShooter extends Subsystem implements Loop{
 
 	@Override
 	public void onStop() {
-		
+		m_top_motor.set(0);
 	}
-
 }

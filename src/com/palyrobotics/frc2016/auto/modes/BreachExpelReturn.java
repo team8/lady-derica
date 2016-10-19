@@ -22,19 +22,19 @@ import com.palyrobotics.frc2016.subsystems.Drive.DriveGear;
  * Attempts a high goal shot when contstructor parameter is true
  *
  */
-public class CrossExpelComeBack extends AutoMode {
+public class BreachExpelReturn extends AutoMode {
 	
 	public static final double mCompressorWaitTime = 3;
-	private final boolean kTurnBeforeComingBack;
+	private final boolean mUTurn;
 	
 	/**
 	 * Auto mode where the robot crosses, expels a boulder, than turns around 
 	 * to try and accumulate again
-	 * @param turnBeforeComingBack: if this is the robot will do the 180 degree
-	 * turn before crossing back.  If this is false, it will do it after coming back
+	 * @param uTurn: if this is the robot will do the 180 degree
+	 * turn before returning. Otherwise, it will do it after coming back
 	 */
-	public CrossExpelComeBack(boolean turnBeforeComingBack) {
-		this.kTurnBeforeComingBack = turnBeforeComingBack;
+	public BreachExpelReturn(boolean uTurn) {
+		this.mUTurn = uTurn;
 	}
 	
 	@Override
@@ -46,7 +46,7 @@ public class CrossExpelComeBack extends AutoMode {
 		runAction(new ExpelIntake(Constants.kAutoShooterExpelTime));
 		// turn around
 		
-		if (this.kTurnBeforeComingBack) {
+		if (this.mUTurn) {
 			runAction(new TurnAngleAutoAction(180));
 			// drive back
 			runAction(new DriveDistanceAction(Constants.kBreachDistance)); 	
@@ -66,11 +66,11 @@ public class CrossExpelComeBack extends AutoMode {
 
 	@Override
 	public void prestart() {
-
+		System.out.println("Starting AutoMode: "+toString());
 	}
 	
 	@Override
 	public String toString() {
-		return "CrossExpelBack";
+		return "BreachExpelReturn";
 	}
 }

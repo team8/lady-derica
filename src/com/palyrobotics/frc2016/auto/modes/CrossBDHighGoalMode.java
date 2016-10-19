@@ -43,13 +43,11 @@ public class CrossBDHighGoalMode extends AutoMode {
 
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
-		return "";
+		return "Cross_BD" + ((mAttemptShot) ? "_HighGoal" : "");
 	}
 
 	@Override
 	public void prestart() {
-		// TODO Auto-generated method stub
-		
+		System.out.println("Starting auto mode: " + toString());
 	}
 }
