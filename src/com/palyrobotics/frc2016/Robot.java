@@ -161,8 +161,8 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void disabledPeriodic() {
-//		System.out.println("Gyro: " + drive.getPhysicalPose().getHeading());
-//		System.out.println("Left: " + drive.getPhysicalPose().getLeftDistance());
-//		System.out.println("Right: " + drive.getPhysicalPose().getRightDistance());
+		if(Dashboard.getInstance().getSelectedAutoMode() != "-1") {
+			AutoModeSelector.getInstance().setFromDashboard();
+		}
 	}
 }

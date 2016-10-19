@@ -8,6 +8,7 @@ import com.palyrobotics.frc2016.auto.modes.DriveForwardAutoMode;
 import com.palyrobotics.frc2016.auto.modes.LowBarHighGoalAutoMode;
 import com.palyrobotics.frc2016.auto.modes.TrajectoryAutoMode;
 import com.palyrobotics.frc2016.auto.modes.WaitForwardBackwardAutoMode;
+import com.palyrobotics.frc2016.util.Dashboard;
 
 import java.util.ArrayList;
 
@@ -101,8 +102,17 @@ public class AutoModeSelector {
 		return false;
 	}
 
-	public void setFromDashboard(int index) {
-		setAutoModeByIndex(index);
+	/**
+	 * Called during disabled in order to access dashbord and set auto mode
+	 * @return false if unable to set automode
+	 */
+	public boolean setFromDashboard() {
+		String selection = Dashboard.getInstance().getSelectedAutoMode();
+		if(!setAutoModeByName(selection)) {
+			Dashboard.getInstance().getTable().putString("autopath", getAutoMode().toString());
+			return false;
+		}
+		return true;
 	}
 
 	private void setAutoModeByIndex(int which) {

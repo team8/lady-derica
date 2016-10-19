@@ -84,11 +84,14 @@ public class Drive extends Subsystem implements Loop {
 			System.err.println("No gear shifting on Derica");
 			return;
 		}
-		if(targetGear == DriveGear.HIGH) {
-			//TODO Which is high and which is low?
-			m_shifter_solenoid.set(Value.kForward);
-		} else {
-			m_shifter_solenoid.set(Value.kReverse);
+		switch(targetGear) {
+			case HIGH:
+				//TODO Which is high and which is low?
+				m_shifter_solenoid.set(Value.kForward);
+				break;
+			case LOW:
+				m_shifter_solenoid.set(Value.kReverse);
+				break;
 		}
 	}
 	

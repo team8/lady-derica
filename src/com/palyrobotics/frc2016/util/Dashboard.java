@@ -1,7 +1,5 @@
 package com.palyrobotics.frc2016.util;
 
-import com.palyrobotics.frc2016.HardwareAdaptor;
-
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 
@@ -81,6 +79,14 @@ public class Dashboard {
 		mDashboardTable.putBoolean("brownout-status", mDriverStation.isBrownedOut());
 		mDashboardTable.putNumber("battery", mDriverStation.getBatteryVoltage());
 
+	}
+	
+	/**
+	 * Returns the dashboard selected autopath
+	 * @return -1 if nothing, otherwise a string name for the auto path
+	 */
+	public String getSelectedAutoMode() {
+		return mDashboardTable.getString("autopath", "-1");
 	}
 	
 	public NetworkTable getTable() {
