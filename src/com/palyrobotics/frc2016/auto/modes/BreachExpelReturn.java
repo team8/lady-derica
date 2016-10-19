@@ -3,6 +3,8 @@ package com.palyrobotics.frc2016.auto.modes;
 import java.util.ArrayList;
 
 import com.palyrobotics.frc2016.Constants;
+import com.palyrobotics.frc2016.Robot;
+import com.palyrobotics.frc2016.Robot.RobotName;
 import com.palyrobotics.frc2016.auto.AutoMode;
 import com.palyrobotics.frc2016.auto.AutoModeEndedException;
 import com.palyrobotics.frc2016.auto.actions.Action;
@@ -19,7 +21,6 @@ import com.palyrobotics.frc2016.subsystems.Drive.DriveGear;
 
 /**
  * Crosses a B/D class defense
- * Attempts a high goal shot when contstructor parameter is true
  *
  */
 public class BreachExpelReturn extends AutoMode {
@@ -30,7 +31,7 @@ public class BreachExpelReturn extends AutoMode {
 	/**
 	 * Auto mode where the robot crosses, expels a boulder, than turns around 
 	 * to try and accumulate again
-	 * @param uTurn: if this is the robot will do the 180 degree
+	 * @param uTurn: if this is true the robot will do the 180 degree
 	 * turn before returning. Otherwise, it will do it after coming back
 	 */
 	public BreachExpelReturn(boolean uTurn) {
@@ -39,19 +40,27 @@ public class BreachExpelReturn extends AutoMode {
 	
 	@Override
 	protected void routine() throws AutoModeEndedException {
-		// drive forward
-		runAction(new DriveDistanceAction(Constants.kBreachDistance));
+		// breach
+		if(Robot.name == RobotName.TYR) {
+			runAction(new DriveDistanceAction(-Constants.kBreachDistance));
+		} else {
+			runAction(new DriveDistanceAction(Constants.kBreachDistance));
+		}
 		// expel the ball
-		runAction(new ExpelShooterAction(Constants.kAutoShooterExpelTime));
+		if(Robot.name == RobotName.DERICA) {
+			runAction(new ExpelShooterAction(Constants.kAutoShooterExpelTime));
+		}
 		runAction(new ExpelIntake(Constants.kAutoShooterExpelTime));
 		// turn around
-		
-		if (this.mUTurn) {
+		if(Robot.name == RobotName.TYR) {
 			runAction(new TurnAngleAutoAction(180));
+			runAction(new DriveDistanceAction(-Constants.kBreachDistance));
+			return;
+		}
+		if (this.mUTurn) {
 			// drive back
 			runAction(new DriveDistanceAction(Constants.kBreachDistance)); 	
-		}
-		else {
+		} else {
 			runAction(new DriveDistanceAction(-Constants.kBreachDistance)); 	
 			runAction(new TurnAngleAutoAction(180));
 		}

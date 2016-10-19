@@ -2,9 +2,11 @@ package com.palyrobotics.frc2016.auto;
 
 import org.json.simple.JSONArray;
 
+import com.palyrobotics.frc2016.auto.modes.BreachExpelReturn;
 import com.palyrobotics.frc2016.auto.modes.CrossBDHighGoalMode;
 import com.palyrobotics.frc2016.auto.modes.DoNothingAutoMode;
 import com.palyrobotics.frc2016.auto.modes.DriveForwardAutoMode;
+import com.palyrobotics.frc2016.auto.modes.LowBarAutoMode;
 import com.palyrobotics.frc2016.auto.modes.LowBarHighGoalAutoMode;
 import com.palyrobotics.frc2016.auto.modes.TrajectoryAutoMode;
 import com.palyrobotics.frc2016.auto.modes.WaitForwardBackwardAutoMode;
@@ -33,9 +35,9 @@ public class AutoModeSelector {
 
 	public AutoModeSelector() {
 		registerAutonomous(new DoNothingAutoMode());
-		registerAutonomous(new DriveForwardAutoMode());
-		registerAutonomous(new WaitForwardBackwardAutoMode(3.0, 3.0, -200));
+		registerAutonomous(new LowBarAutoMode());
 		registerAutonomous(new TrajectoryAutoMode());
+		registerAutonomous(new BreachExpelReturn(true));
 		registerAutonomous(new LowBarHighGoalAutoMode());
 		registerAutonomous(new CrossBDHighGoalMode(false));
 	}

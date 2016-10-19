@@ -137,7 +137,7 @@ public class Robot extends IterativeRobot {
 		setState(RobotState.DISABLED);
 
 		System.out.println("Start disabledInit()");
-
+		System.out.println("Current Auto Mode: "+AutoModeSelector.getInstance().getAutoMode().toString());
 		// Stop auto mode
 		autoModeRunner.stop();
 

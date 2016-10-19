@@ -21,7 +21,7 @@ import com.palyrobotics.frc2016.auto.actions.ShootAction;
  */
 public class LowBarHighGoalAutoMode extends AutoMode {
 	public static final double mCompressorWaitTime = 3;
-
+	
 	@Override
 	protected void routine() throws AutoModeEndedException {
 		

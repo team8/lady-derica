@@ -20,7 +20,7 @@ public class Constants extends ConstantsBase {
 
 	// DriveStraightController gains
 	public static double kDriveMaxSpeedInchesPerSec = 80.0;
-	public static double kDriveMaxAccelInchesPerSec2 = 85.0;
+	public static double kDriveMaxAccelInchesPerSec2 = 10.0;
 	public static double kDrivePositionKp = 0.7;
 	public static double kDrivePositionKi = 0;
 	public static double kDrivePositionKd = .07;
@@ -141,7 +141,7 @@ public class Constants extends ConstantsBase {
 	public static int kPressureSwitchDIO = 1;
 
 	// !!! Physical constants
-	public static final double kLowBarDistance = 5*12;
+	public static final double kLowBarDistance = 6.5*12;
 	// 95.5 inches from start defense to 12 ft from goal
 	public static final double kBreachDistance = 95.5 + 10;
 	
