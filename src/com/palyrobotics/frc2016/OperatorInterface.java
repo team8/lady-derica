@@ -39,35 +39,7 @@ public class OperatorInterface {
 			m_commands.intake_request = Commands.IntakeRequest.NONE;
 		}
 
-		// Operator Stick - Derica Activate routine
-		if (driveForwardLatch.update(leftStick.getRawButton(6))) {
-			m_commands.resetRoutineRequests();
-			m_commands.timer_drive_request = Commands.TimerDriveRequest.ACTIVATE;
-		} else if(driveForwardLatch.update(leftStick.getRawButton(5))) {
-			m_commands.resetRoutineRequests();
-			m_commands.encoder_drive_request = Commands.EncoderDriveRequest.ACTIVATE;
-		} else if(rightStick.getRawButton(3) || rightStick.getRawButton(4)) {
-			m_commands.resetRoutineRequests();
-//			System.out.println("Auto align requested");
-			m_commands.auto_align_request = Commands.AutoAlignRequest.ACTIVATE;
-		} else if(rightStick.getRawButton(2)) { 
-			m_commands.resetRoutineRequests();
-			m_commands.turn_angle_request = Commands.TurnAngleRequest.ACTIVATE;
-		} else if (leftStick.getRawButton(7)) {
-			m_commands.resetRoutineRequests();
-        	m_commands.winch_request = Commands.WinchRequest.UNWIND;
-        } else if (leftStick.getRawButton(7)) {
-        	m_commands.resetRoutineRequests();
-        	m_commands.winch_request = Commands.WinchRequest.WIND;
-        } else if (leftStick.getRawButton(9)) {
-        	m_commands.resetRoutineRequests();
-        	m_commands.pin_request = Commands.PinRequest.UNLOCK;
-        } else if (leftStick.getRawButton(10)) {
-        	m_commands.resetRoutineRequests();
-        	m_commands.pin_request = Commands.PinRequest.LOCK;
-        } else {
-			m_commands.resetRoutineRequests();
-		}
+		m_commands.resetRoutineRequests();
 
 		// Left Stick trigger cancels current routine
 		m_commands.cancel_current_routine = leftStick.getTrigger(); // Cancels routine?

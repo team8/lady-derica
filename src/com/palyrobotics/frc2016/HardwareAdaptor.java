@@ -119,7 +119,7 @@ public class HardwareAdaptor {
 		} else {
 			kCatapult = new DericaShooter("catapult", null, null, null, null, null);
 			kLowGoalShooter = new LowGoalShooter("low goal shooter", new CheesySpeedController(
-		    		new CANTalon(Constants.kDericaLowGoalShooterPWM), Constants.kDericaLowGoalShooterPDP));
+		    		new TalonSRX(Constants.kDericaLowGoalShooterPWM), Constants.kDericaLowGoalShooterPDP));
 		}
 	}
 

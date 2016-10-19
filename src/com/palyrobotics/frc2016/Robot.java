@@ -27,7 +27,7 @@ public class Robot extends IterativeRobot {
 	public enum RobotName {
 		TYR, DERICA
 	}
-	public static RobotName name = RobotName.TYR;
+	public static RobotName name = RobotName.DERICA;
 
 	public enum RobotState {
 		DISABLED, AUTONOMOUS, TELEOP

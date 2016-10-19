@@ -112,12 +112,12 @@ public class Constants extends ConstantsBase {
 	 */
 	// DRIVETRAIN
 	// Motors
-	public static int kDericaLeftDriveFrontMotorDeviceID  = 3;
-	public static int kDericaLeftDriveBackMotorDeviceID = 4;
+	public static int kDericaLeftDriveFrontMotorDeviceID  = 2;
+	public static int kDericaLeftDriveBackMotorDeviceID = 3;
 	public static int kDericaLeftDriveFrontMotorPDP = 14;
 	public static int kDericaLeftDriveBackMotorPDP = 3;
-	public static int kDericaRightDriveFrontMotorDeviceID = 1;
-	public static int kDericaRightDriveBackMotorDeviceID = 2;
+	public static int kDericaRightDriveFrontMotorDeviceID = 4;
+	public static int kDericaRightDriveBackMotorDeviceID = 1;
 	public static int kDericaRightDriveFrontMotorPDP = 15;
 	public static int kDericaRightDriveBackMotorPDP = 2;
 	// DIO Encoders
