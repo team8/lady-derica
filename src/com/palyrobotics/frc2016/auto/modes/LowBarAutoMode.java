@@ -20,7 +20,7 @@ public class LowBarAutoMode extends AutoMode {
 	protected void routine() throws AutoModeEndedException {
 		waitTime(mCompressorWaitTime); //Waits for compressor
 		ArrayList<Action> crossLowBar = new ArrayList<Action>(2);
-		crossLowBar.add(new DriveDistanceAction(Constants.kLowBarDistance));
+		crossLowBar.add(new DriveDistanceAction(Constants.kLowBarDistance, Constants.kLowBarVelocity));
 		if(Robot.name == RobotName.TYR) {
 			crossLowBar.add(new GetLowAction());
 		} else {

@@ -5,10 +5,17 @@ import com.team254.lib.util.DriveSignal;
 public class DriveDistanceAction implements Action {
 
 	private double distance;
+	private double maxVel;
 	private double startPoint;
 	
 	public DriveDistanceAction(double distance) {
 		this.distance = distance;
+		this.maxVel = 1;
+	}
+	
+	public DriveDistanceAction(double distance, double maxVel) {
+		this.distance = distance;
+		this.maxVel = maxVel;
 	}
 	
 	@Override
@@ -35,6 +42,6 @@ public class DriveDistanceAction implements Action {
 		startPoint = drive.getPhysicalPose().getRightDistance();
 		System.out.println(startPoint);
 		//setDistanceSetpoint is relative
-		drive.setDistanceSetpoint(distance);
+		drive.setDistanceSetpoint(distance, maxVel);
 	}
 }
