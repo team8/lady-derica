@@ -7,6 +7,7 @@ import com.palyrobotics.frc2016.behavior.BehaviorManager;
 import com.palyrobotics.frc2016.subsystems.Breacher;
 import com.palyrobotics.frc2016.subsystems.Drive;
 import com.palyrobotics.frc2016.subsystems.Intake;
+import com.palyrobotics.frc2016.subsystems.LowGoalShooter;
 import com.palyrobotics.frc2016.subsystems.TyrShooter;
 import com.palyrobotics.frc2016.util.CheesyDriveHelper;
 import com.palyrobotics.frc2016.util.Dashboard;
@@ -49,6 +50,7 @@ public class Robot extends IterativeRobot {
 	Intake intake = HardwareAdaptor.kIntake;
 	Breacher breacher = HardwareAdaptor.kBreacher;
 	PowerDistributionPanel pdp = HardwareAdaptor.kPDP;
+	LowGoalShooter lowGoal = HardwareAdaptor.kLowGoalShooter;
 
 	BehaviorManager behavior_manager = new BehaviorManager();
 	OperatorInterface operator_interface = new OperatorInterface();
@@ -58,7 +60,7 @@ public class Robot extends IterativeRobot {
 
 	Joystick leftStick = HardwareAdaptor.kLeftStick;
 	Joystick rightStick = HardwareAdaptor.kRightStick;
-	XboxController operatorStick = HardwareAdaptor.kOperatorStick;
+	Joystick operatorStick = HardwareAdaptor.kOperatorStick;
 
 	Dashboard mDashboard = Dashboard.getInstance();
 	NetworkTable sensorTable;
@@ -76,6 +78,7 @@ public class Robot extends IterativeRobot {
 			subsystem_looper.register(breacher);
 		} else {
 			subsystem_looper.register(intake);
+			subsystem_looper.register(lowGoal);
 		}
 		//        SystemManager.getInstance().add(behavior_manager);
 		sensorTable = NetworkTable.getTable("Sensor");
@@ -114,10 +117,10 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic() {
 		// Passes joystick control to subsystems for their processing
 		if(Robot.name == RobotName.TYR) {
-			shooter.update(operatorStick.getRightY());
-			breacher.update(operatorStick.getLeftY());
+			shooter.update(((XboxController) operatorStick).getRightY());
+			breacher.update(((XboxController) operatorStick).getLeftY());
 		} else if(Robot.name == RobotName.DERICA) {
-			intake.update(operatorStick.getRightY());
+			intake.update(operatorStick.getY());
 		}
 		// Pick one or the other drive scheme
 //		pdh.pDrive(-leftStick.getY(), rightStick.getX(), behavior_manager.getSetpoints());

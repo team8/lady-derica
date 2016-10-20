@@ -13,7 +13,7 @@ public class OperatorInterface {
 
 	Joystick leftStick = HardwareAdaptor.kLeftStick;
 	Joystick rightStick = HardwareAdaptor.kRightStick;
-	XboxController operatorStick = HardwareAdaptor.kOperatorStick;
+	Joystick operatorStick = HardwareAdaptor.kOperatorStick;
 
 	Latch driveForwardLatch = new Latch();
 
@@ -30,25 +30,19 @@ public class OperatorInterface {
 	}
 	
 	public Commands getDericaCommands() {
+		
+		m_commands.resetRoutineRequests();
 		// Operator Stick - Derica Intake Control
-		if (operatorStick.getLeftTriggerPressed()) {
+		if (operatorStick.getRawButton(5)) {
 			m_commands.intake_request = Commands.IntakeRequest.EXHAUST;
-		} else if (operatorStick.getLeftBumper()) {
+			m_commands.low_request = Commands.LowGoalShooterRequest.SHOOT;
+		} else if (operatorStick.getRawButton(3)) {
 			m_commands.intake_request = Commands.IntakeRequest.INTAKE;
+			m_commands.low_request = Commands.LowGoalShooterRequest.LOAD;
 		} else {
 			m_commands.intake_request = Commands.IntakeRequest.NONE;
-		}
-		if (operatorStick.getRightTriggerPressed()) {
-			m_commands.low_request = Commands.LowGoalShooterRequest.SHOOT;
-		}
-		else if (operatorStick.getRightBumper()) {
-			m_commands.low_request = Commands.LowGoalShooterRequest.LOAD;
-		}
-		else {
 			m_commands.low_request = Commands.LowGoalShooterRequest.NONE;
 		}
-
-		m_commands.resetRoutineRequests();
 
 		// Left Stick trigger cancels current routine
 		m_commands.cancel_current_routine = leftStick.getTrigger(); // Cancels routine?
@@ -58,31 +52,31 @@ public class OperatorInterface {
 	
 	public Commands getTyrCommands() {
 		// Operator Stick - Intake Control
-		if (operatorStick.getRightTriggerPressed()) {
+		if (((XboxController) operatorStick).getRightTriggerPressed()) {
 			m_commands.intake_request = Commands.IntakeRequest.INTAKE;
-		} else if (operatorStick.getLeftTriggerPressed()) {
+		} else if (((XboxController) operatorStick).getLeftTriggerPressed()) {
 			m_commands.intake_request = Commands.IntakeRequest.EXHAUST;
 		} else {
 			m_commands.intake_request = Commands.IntakeRequest.NONE;
 		}
 		// Operator Stick - Shooter Control
-		if (operatorStick.getButtonX()) {
+		if (((XboxController) operatorStick).getButtonX()) {
 			m_commands.shooter_request = Commands.ShooterRequest.EXTEND;
-		} else if (operatorStick.getButtonB()) {
+		} else if (((XboxController) operatorStick).getButtonB()) {
 			m_commands.shooter_request = Commands.ShooterRequest.RETRACT;
 		} else {
 			m_commands.shooter_request = Commands.ShooterRequest.NONE;
 		}
 		// Operator Stick - Latch Control
-		if (operatorStick.getButtonA()) {
+		if (((XboxController) operatorStick).getButtonA()) {
 			m_commands.latch_request = Commands.LatchRequest.LOCK;
-		} else if (operatorStick.getButtonY()) {
+		} else if (((XboxController) operatorStick).getButtonY()) {
 			m_commands.latch_request = Commands.LatchRequest.UNLOCK;
 		} else {
 			m_commands.latch_request = Commands.LatchRequest.NONE;
 		}
 		// Operator Stick - Grabber Control
-		if (operatorStick.getLeftBumper()) {
+		if (((XboxController) operatorStick).getLeftBumper()) {
 			m_commands.grabber_request = Commands.GrabberRequest.RELEASE;
 		} else {
 			m_commands.grabber_request = Commands.GrabberRequest.GRAB;

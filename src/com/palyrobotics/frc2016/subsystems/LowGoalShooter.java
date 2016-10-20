@@ -24,7 +24,7 @@ public class LowGoalShooter extends Subsystem implements Loop {
 	}
 	
 	public void stopMotor() {
-		m_top_motor.set(0);
+		setWantedState(WantedLowGoalState.NONE);
 	}
 
 	@Override

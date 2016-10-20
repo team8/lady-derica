@@ -115,9 +115,11 @@ public class BehaviorManager implements Tappable {
 		if (Robot.name == Robot.RobotName.DERICA) {
 			if (commands.low_request == Commands.LowGoalShooterRequest.LOAD) {
 				k_low_shooter.setWantedState(WantedLowGoalState.INTAKING);
+				System.out.println("Intaking");
 			}
 			else if (commands.low_request == Commands.LowGoalShooterRequest.SHOOT) {
 				k_low_shooter.setWantedState(WantedLowGoalState.SHOOTING);
+				System.out.println("Shooting");
 			}
 			else {
 				k_low_shooter.stopMotor();

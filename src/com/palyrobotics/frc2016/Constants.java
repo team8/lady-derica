@@ -4,7 +4,7 @@ import com.team254.lib.util.ConstantsBase;
 
 public class Constants extends ConstantsBase {
 	// Chezy Drive tuning
-	public static double kDriveSensitivity = .75;
+	public static double kDriveSensitivity = .85;
 	public static double kNegativeInertiaScalar = 5.0;
 
 	// Manual control speed tuning

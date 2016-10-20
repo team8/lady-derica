@@ -119,7 +119,7 @@ public class HardwareAdaptor {
 		} else {
 			kCatapult = new DericaShooter("catapult", null, null, null, null, null);
 			kLowGoalShooter = new LowGoalShooter("low goal shooter", new CheesySpeedController(
-		    		new TalonSRX(Constants.kDericaLowGoalShooterPWM), Constants.kDericaLowGoalShooterPDP));
+		    		new Victor(Constants.kDericaLowGoalShooterPWM), Constants.kDericaLowGoalShooterPDP));
 		}
 	}
 
@@ -146,5 +146,13 @@ public class HardwareAdaptor {
 	// Operator Interface
 	public static Joystick kLeftStick = new Joystick(0);
 	public static Joystick kRightStick = new Joystick(1);
-	public static XboxController kOperatorStick = new XboxController(2);
+	public static Joystick kOperatorStick;
+	static{
+		if(Robot.name == RobotName.TYR) {
+			kOperatorStick = new XboxController(2);
+		}
+		else {
+			kOperatorStick = new Joystick(2);
+		}
+	}
 }

@@ -130,8 +130,16 @@ public class CheesyDriveHelper {
 		}
 
 		rightPwm = leftPwm = linearPower;
-		leftPwm += angularPower;
-		rightPwm -= angularPower;
+		
+//		if(throttle >= -0.05) {
+			leftPwm += angularPower;
+			rightPwm -= angularPower;
+//		} else {
+//			leftPwm -= angularPower;
+//			rightPwm += angularPower;
+//		}
+//		leftPwm += angularPower;
+//		rightPwm -= angularPower;
 
 		if (leftPwm > 1.0) {
 			rightPwm -= overPower * (leftPwm - 1.0);
