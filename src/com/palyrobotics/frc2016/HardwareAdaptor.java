@@ -40,13 +40,19 @@ public class HardwareAdaptor {
 					Constants.kTyrDriveSolenoidExtend, Constants.kTyrDriveSolenoidRetract);
 		}
 		else if (Robot.name == RobotName.DERICA) {
+			CANTalon leftDriveBackMotor = new CANTalon(Constants.kDericaLeftDriveBackMotorDeviceID);
+			leftDriveBackMotor.enableBrakeMode(true);
+			CANTalon leftDriveFrontMotor = new CANTalon(Constants.kDericaLeftDriveFrontMotorDeviceID);
+			leftDriveFrontMotor.enableBrakeMode(true);
+			CANTalon rightDriveBackMotor = new CANTalon(Constants.kDericaRightDriveBackMotorDeviceID);
+			rightDriveBackMotor.enableBrakeMode(true);
+			CANTalon rightDriveFrontMotor = new CANTalon(Constants.kDericaRightDriveFrontMotorDeviceID);
+			rightDriveFrontMotor.enableBrakeMode(true);
 			kLeftDriveMotor = new CheesySpeedController(
-					new SpeedController[]{new CANTalon(Constants.kDericaLeftDriveFrontMotorDeviceID), 
-							new CANTalon(Constants.kDericaLeftDriveBackMotorDeviceID)},
+					new SpeedController[]{leftDriveFrontMotor, leftDriveBackMotor},
 					new int[]{Constants.kDericaLeftDriveFrontMotorPDP, Constants.kDericaLeftDriveBackMotorPDP});
 			kRightDriveMotor = new CheesySpeedController(
-					new SpeedController[]{new CANTalon(Constants.kDericaRightDriveFrontMotorDeviceID), 
-							new CANTalon(Constants.kDericaRightDriveBackMotorDeviceID)}, 
+					new SpeedController[]{rightDriveFrontMotor, rightDriveBackMotor}, 
 					new int[]{Constants.kDericaRightDriveBackMotorPDP, Constants.kDericaRightDriveBackMotorPDP});
 			kLeftDriveEncoder = new Encoder(
 					Constants.kDericaLeftDriveEncoderDIOA, Constants.kDericaLeftDriveEncoderDIOB, true);
@@ -55,12 +61,7 @@ public class HardwareAdaptor {
 			kGyro = new ADXRS450_Gyro();
 			// no shifter solenoid
 		}
-		System.out.println(kLeftDriveMotor);
-		System.out.println(kRightDriveMotor);
-		System.out.println(kLeftDriveEncoder);
-		System.out.println(kRightDriveEncoder);
 		kDrive = new Drive("drive", kLeftDriveMotor, kRightDriveMotor, kLeftDriveEncoder, kRightDriveEncoder, kGyro, kShifterSolenoid);
-		System.out.println("DT Initialized");
 	}
 
 	/*

@@ -26,7 +26,7 @@ public class AutoModeSelector {
 	 * 3 - timer low bar auto
 	 * 4 - timer bd auto
 	 */
-	int selectedIndex = 3;
+	int selectedIndex = 4;
 	public static AutoModeSelector getInstance() {
 		if (instance == null) {
 			instance = new AutoModeSelector();

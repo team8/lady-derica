@@ -121,7 +121,7 @@ public class Robot extends IterativeRobot {
 			shooter.update(((XboxController) operatorStick).getLeftY());
 			breacher.update(((XboxController) operatorStick).getRightY());
 		} else if(Robot.name == RobotName.DERICA) {
-			intake.update(operatorStick.getY());
+//			intake.update(operatorStick.getY());
 		}
 		// Pick one or the other drive scheme
 //		pdh.pDrive(-leftStick.getY(), rightStick.getX(), behavior_manager.getSetpoints());

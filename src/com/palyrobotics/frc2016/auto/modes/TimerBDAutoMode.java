@@ -28,8 +28,8 @@ public class TimerBDAutoMode extends AutoMode {
 			leftSpeed = -1.0;
 			rightSpeed = -1.0;
 		} else {
-			leftSpeed = -0.5;
-			rightSpeed = -0.5;
+			leftSpeed = -1;
+			rightSpeed = -1;
 		}
 	}
 
@@ -40,7 +40,7 @@ public class TimerBDAutoMode extends AutoMode {
 			drive.setGear(DriveGear.HIGH);
 		}
 		
-		runAction(new DriveTimeAction(4, leftSpeed, rightSpeed));
+		runAction(new DriveTimeAction(1.75, leftSpeed, rightSpeed));
 		
 		if(mAttemptShot && Robot.name==RobotName.TYR) {
 			runAction(new AutoAlignAction());

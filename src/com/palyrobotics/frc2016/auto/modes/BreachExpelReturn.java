@@ -28,6 +28,7 @@ public class BreachExpelReturn extends AutoMode {
 	
 	public static final double mCompressorWaitTime = 3;
 	private final boolean mUTurn;
+	private final boolean mMidlineAccumulate = false;
 	
 	/**
 	 * Auto mode where the robot crosses, expels a boulder, than turns around 
@@ -58,20 +59,23 @@ public class BreachExpelReturn extends AutoMode {
 			runAction(new DriveDistanceAction(-Constants.kBreachDistance));
 			return;
 		}
-		if (this.mUTurn) {
+		if (!this.mUTurn) {
 			// drive back
-			runAction(new DriveDistanceAction(Constants.kBreachDistance)); 	
-		} else {
-			runAction(new DriveDistanceAction(-Constants.kBreachDistance)); 	
+			runAction(new DriveDistanceAction(-Constants.kBreachDistance));
 			runAction(new TurnAngleAutoAction(180));
+		} else {
+			runAction(new TurnAngleAutoAction(180));
+			runAction(new DriveDistanceAction(Constants.kBreachDistance)); 	
+			
 		}
 
 		// drive towards midline ball and accumulate at the same time
 		ArrayList<Action> secondaryActions = new ArrayList<Action>();
 		secondaryActions.add(new DriveDistanceAction(Constants.kDistanceToDriveToAccumulateExtra));
 		secondaryActions.add(new IntakeAction(1.0, WantedIntakeState.INTAKING));
-		
-		runAction(new ParallelAction(secondaryActions));
+		if(mMidlineAccumulate) {
+			runAction(new ParallelAction(secondaryActions));
+		}
 	}
 
 	@Override
