@@ -89,6 +89,14 @@ public class Robot extends IterativeRobot {
 	public void autonomousInit() {
 		setState(RobotState.AUTONOMOUS);
 		drive.reset();
+		
+		/**
+		 * 0 - none
+		 * 1 - distance low bar auto
+		 * 2 - distance bd auto
+		 * 3 - timer low bar auto
+		 * 4 - timer bd auto
+		 */
 		AutoMode mode = AutoModeSelector.getInstance().getAutoMode(1);
 		autoModeRunner.setAutoMode(mode);
 		// Prestart auto mode

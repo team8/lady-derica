@@ -8,6 +8,8 @@ import com.palyrobotics.frc2016.auto.modes.DoNothingAutoMode;
 import com.palyrobotics.frc2016.auto.modes.DriveForwardAutoMode;
 import com.palyrobotics.frc2016.auto.modes.LowBarAutoMode;
 import com.palyrobotics.frc2016.auto.modes.LowBarHighGoalAutoMode;
+import com.palyrobotics.frc2016.auto.modes.TimerBDAutoMode;
+import com.palyrobotics.frc2016.auto.modes.TimerLowBarAutoMode;
 import com.palyrobotics.frc2016.auto.modes.TrajectoryAutoMode;
 import com.palyrobotics.frc2016.auto.modes.WaitForwardBackwardAutoMode;
 import com.palyrobotics.frc2016.util.Dashboard;
@@ -37,6 +39,8 @@ public class AutoModeSelector {
 		registerAutonomous(new DoNothingAutoMode());
 		registerAutonomous(new LowBarAutoMode());
 		registerAutonomous(new CrossBDHighGoalMode(false));
+		registerAutonomous(new TimerLowBarAutoMode());
+		registerAutonomous(new TimerBDAutoMode(false));
 	}
 
 	/**
