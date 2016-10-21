@@ -32,6 +32,7 @@ public class IntakeAction implements Action {
 	@Override
 	public void done() {
 		intake.setSpeed(0.0);
+		intake.setArmSpeed(0);
 	}
 
 	@Override

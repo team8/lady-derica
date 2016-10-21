@@ -82,7 +82,7 @@ public class Intake extends Subsystem implements Loop {
 			System.err.println("Trying to move arm on Tyr!");
 			return;
 		} else if(m_controller == null) {
-			m_arm_motor.set(-joystickInput*kJoystickScaleFactor);
+			setArmSpeed(-joystickInput*kJoystickScaleFactor);
 		} else {
 			if(joystickInput < kDeadzone) {
 				// If already holding position use that
@@ -92,9 +92,13 @@ public class Intake extends Subsystem implements Loop {
 				}
 			} else {
 				m_controller = null;
-				m_arm_motor.set(-joystickInput*kJoystickScaleFactor);
+				setArmSpeed(-joystickInput*kJoystickScaleFactor);
 			}
 		}
+	}
+	
+	public void setArmSpeed(double speed) {
+		m_arm_motor.set(speed);
 	}
 	
 	@Override
@@ -115,10 +119,12 @@ public class Intake extends Subsystem implements Loop {
 			}
 			break;
 		case RAISING:
-			m_controller = new ConstantVoltageController(kIntakeUpVoltage);
+//			m_controller = new ConstantVoltageController(kIntakeUpVoltage);
+			m_arm_motor.set(kIntakeUpVoltage);
 			break;
 		case LOWERING:
-			m_controller = new ConstantVoltageController(kIntakeDownVoltage);
+//			m_controller = new ConstantVoltageController(kIntakeDownVoltage);
+			m_arm_motor.set(kIntakeDownVoltage);
 			break;
 		case INTAKING:
 			setSpeed(Constants.kManualIntakeSpeed);
