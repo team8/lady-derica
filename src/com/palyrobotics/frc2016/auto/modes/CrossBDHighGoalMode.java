@@ -33,10 +33,11 @@ public class CrossBDHighGoalMode extends AutoMode {
 	protected void routine() throws AutoModeEndedException {
 		if(Robot.name == RobotName.TYR) {
 			waitTime(mCompressorWaitTime);
+			drive.setGear(DriveGear.HIGH);
 		}
 		
-		drive.setGear(DriveGear.HIGH);
 		runAction(new DriveDistanceAction(Constants.kBreachDistance));
+		
 		if(mAttemptShot && Robot.name==RobotName.TYR) {
 			runAction(new AutoAlignAction());
 			runAction(new RaiseShooterAction());

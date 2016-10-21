@@ -36,9 +36,6 @@ public class AutoModeSelector {
 	public AutoModeSelector() {
 		registerAutonomous(new DoNothingAutoMode());
 		registerAutonomous(new LowBarAutoMode());
-		registerAutonomous(new TrajectoryAutoMode());
-		registerAutonomous(new BreachExpelReturn(true));
-		registerAutonomous(new LowBarHighGoalAutoMode());
 		registerAutonomous(new CrossBDHighGoalMode(false));
 	}
 
