@@ -13,9 +13,11 @@ import com.palyrobotics.frc2016.auto.actions.IntakeAction;
 import com.palyrobotics.frc2016.auto.actions.ParallelAction;
 import com.palyrobotics.frc2016.subsystems.Intake.WantedIntakeState;
 
-public class TimerLowBarAutoMode extends AutoMode{
+public class TimerLowBarAutoMode extends AutoMode {
 	
 	public static final double mCompressorWaitTime = 3;
+	private double leftSpeed, rightSpeed = 0.5;
+	private double crossTime = 7;
 	
 	@Override
 	protected void routine() throws AutoModeEndedException {
@@ -27,20 +29,17 @@ public class TimerLowBarAutoMode extends AutoMode{
 		ArrayList<Action> crossLowBar = new ArrayList<Action>();
 		
 		//move across low bar
-		crossLowBar.add(new DriveTimeAction(8, 0.3, 0.3));
+		crossLowBar.add(new DriveTimeAction(crossTime, leftSpeed, rightSpeed));
 		
 		//if tyr, move shooter down
 		if(Robot.name == RobotName.TYR) {
 			crossLowBar.add(new GetLowAction());
 		} 
-		
-		//if derica, move intake down before crossing
+		//if derica, move intake down while crossing
 		else {
 			crossLowBar.add(new IntakeAction(0.5, WantedIntakeState.INTAKING));
 		}
-		
 		runAction(new ParallelAction(crossLowBar));
-		
 	}
 
 	@Override

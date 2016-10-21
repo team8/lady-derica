@@ -28,7 +28,7 @@ public class Dashboard {
 	 * Make sure to call in robot init to instantiate network table and driver station
 	 */
 	public void init() {
-		mDashboardTable = NetworkTable.getTable("RobotData");
+		mDashboardTable = NetworkTable.getTable("RobotTable");
 		this.mDriverStation = DriverStation.getInstance();
 		
 		mDashboardTable.putNumber("match-time", 90);

@@ -10,10 +10,13 @@ import com.palyrobotics.frc2016.auto.actions.RaiseShooterAction;
 import com.palyrobotics.frc2016.auto.actions.ShootAction;
 import com.palyrobotics.frc2016.subsystems.Drive.DriveGear;
 
-public class TimerBDAutoMode extends AutoMode{
+public class TimerBDAutoMode extends AutoMode {
 	
 	private boolean mAttemptShot = false;
 	public static final double mCompressorWaitTime = 3;
+	// Default, for Derica. Tyr will set to -1,-1 instead
+	private double leftSpeed;
+	private double rightSpeed;
 	
 	/**
 	 * Cross a B/D class defense
@@ -21,6 +24,13 @@ public class TimerBDAutoMode extends AutoMode{
 	 */
 	public TimerBDAutoMode(boolean attemptShot) {
 		mAttemptShot = attemptShot;
+		if(Robot.name == RobotName.TYR) {
+			leftSpeed = -1.0;
+			rightSpeed = -1.0;
+		} else {
+			leftSpeed = 0.5;
+			rightSpeed = 0.5;
+		}
 	}
 
 	@Override
@@ -30,7 +40,7 @@ public class TimerBDAutoMode extends AutoMode{
 			drive.setGear(DriveGear.HIGH);
 		}
 		
-		runAction(new DriveTimeAction(5, 1, 1));
+		runAction(new DriveTimeAction(5, leftSpeed, rightSpeed));
 		
 		if(mAttemptShot && Robot.name==RobotName.TYR) {
 			runAction(new AutoAlignAction());

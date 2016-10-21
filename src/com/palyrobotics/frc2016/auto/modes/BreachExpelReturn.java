@@ -21,7 +21,7 @@ import com.palyrobotics.frc2016.subsystems.Drive.DriveGear;
 import com.palyrobotics.frc2016.subsystems.Intake.WantedIntakeState;
 
 /**
- * Crosses a B/D class defense
+ * Crosses a B/D class defense, expels a ball, and returns over the midline
  *
  */
 public class BreachExpelReturn extends AutoMode {
@@ -52,7 +52,7 @@ public class BreachExpelReturn extends AutoMode {
 			runAction(new ExpelShooterAction(Constants.kAutoShooterExpelTime));
 		}
 		runAction(new ExpelIntake(Constants.kAutoShooterExpelTime));
-		// turn around
+		// turn around and stop if Tyr
 		if(Robot.name == RobotName.TYR) {
 			runAction(new TurnAngleAutoAction(180));
 			runAction(new DriveDistanceAction(-Constants.kBreachDistance));
@@ -66,7 +66,7 @@ public class BreachExpelReturn extends AutoMode {
 			runAction(new TurnAngleAutoAction(180));
 		}
 
-		// drive to the ball and accumulate at the same time
+		// drive towards midline ball and accumulate at the same time
 		ArrayList<Action> secondaryActions = new ArrayList<Action>();
 		secondaryActions.add(new DriveDistanceAction(Constants.kDistanceToDriveToAccumulateExtra));
 		secondaryActions.add(new IntakeAction(1.0, WantedIntakeState.INTAKING));

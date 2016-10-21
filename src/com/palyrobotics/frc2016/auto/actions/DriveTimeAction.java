@@ -14,8 +14,8 @@ public class DriveTimeAction implements Action {
 	private Timer timer = new Timer();
 	
 	private double runTime;
-	private double leftSpeed;
-	private double rightSpeed;
+	private double leftSpeed = 0.5;
+	private double rightSpeed = 0.5;
 	
 	/**
 	 * Drives forward at (0.5, 0.5) for a specified number of seconds.
@@ -24,8 +24,6 @@ public class DriveTimeAction implements Action {
 	 */
 	public DriveTimeAction(double runTime) {
 		this.runTime = runTime;
-		this.leftSpeed = 0.5;
-		this.rightSpeed = 0.5;
 	}
 	
 	/**

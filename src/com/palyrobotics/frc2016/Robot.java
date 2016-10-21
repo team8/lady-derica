@@ -90,14 +90,7 @@ public class Robot extends IterativeRobot {
 		setState(RobotState.AUTONOMOUS);
 		drive.reset();
 		
-		/**
-		 * 0 - none
-		 * 1 - distance low bar auto
-		 * 2 - distance bd auto
-		 * 3 - timer low bar auto
-		 * 4 - timer bd auto
-		 */
-		AutoMode mode = AutoModeSelector.getInstance().getAutoMode(1);
+		AutoMode mode = AutoModeSelector.getInstance().getAutoMode();
 		autoModeRunner.setAutoMode(mode);
 		// Prestart auto mode
 		mode.prestart();
@@ -125,8 +118,8 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic() {
 		// Passes joystick control to subsystems for their processing
 		if(Robot.name == RobotName.TYR) {
-			shooter.update(((XboxController) operatorStick).getRightY());
-			breacher.update(((XboxController) operatorStick).getLeftY());
+			shooter.update(((XboxController) operatorStick).getLeftY());
+			breacher.update(((XboxController) operatorStick).getRightY());
 		} else if(Robot.name == RobotName.DERICA) {
 			intake.update(operatorStick.getY());
 		}

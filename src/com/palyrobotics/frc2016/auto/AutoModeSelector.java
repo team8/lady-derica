@@ -19,6 +19,13 @@ import java.util.ArrayList;
 public class AutoModeSelector {
 	private static AutoModeSelector instance = null;
 	private ArrayList<AutoMode> autoModes = new ArrayList<AutoMode>();
+	/**
+	 * 0 - none
+	 * 1 - distance low bar auto
+	 * 2 - distance bd auto
+	 * 3 - timer low bar auto
+	 * 4 - timer bd auto
+	 */
 	int selectedIndex = 3;
 	public static AutoModeSelector getInstance() {
 		if (instance == null) {

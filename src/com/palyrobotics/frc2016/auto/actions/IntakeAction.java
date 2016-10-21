@@ -23,14 +23,7 @@ public class IntakeAction implements Action {
 
 	@Override
 	public void update() {
-		if(state == WantedIntakeState.EXPELLING) {
-			intake.setWantedState(WantedIntakeState.EXPELLING);
-		} else if(state == WantedIntakeState.INTAKING) {
-			intake.setWantedState(WantedIntakeState.INTAKING);
-		} else {
-			intake.setWantedState(WantedIntakeState.NONE);
-		}
-		
+		intake.setWantedState(state);
 		if(mTimer.get() >= time) {
 			mIsDone = true;
 		}
@@ -38,11 +31,12 @@ public class IntakeAction implements Action {
 
 	@Override
 	public void done() {
-		intake.setSpeed(0);
+		intake.setSpeed(0.0);
 	}
 
 	@Override
 	public void start() {
+		System.out.println("Moving intake!");
 		mIsDone = false;
 		mTimer.reset();
 		mTimer.start();
