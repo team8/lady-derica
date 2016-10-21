@@ -37,7 +37,7 @@ public class TimerLowBarAutoMode extends AutoMode {
 		} 
 		//if derica, move intake down while crossing
 		else {
-			crossLowBar.add(new IntakeAction(0.5, WantedIntakeState.INTAKING));
+			crossLowBar.add(new IntakeAction(0.5, WantedIntakeState.LOWERING));
 		}
 		runAction(new ParallelAction(crossLowBar));
 	}

@@ -1,5 +1,6 @@
 package com.palyrobotics.frc2016.subsystems;
 
+import com.palyrobotics.frc2016.Constants;
 import com.palyrobotics.frc2016.Robot;
 import com.palyrobotics.frc2016.subsystems.TyrShooter.WantedShooterState;
 import com.palyrobotics.frc2016.subsystems.controllers.ConstantVoltageController;
@@ -20,12 +21,12 @@ import edu.wpi.first.wpilibj.AnalogPotentiometer;
 public class Intake extends Subsystem implements Loop {
 	// Used mainly for autonomous raising and lowering of the shooter
 	public enum WantedIntakeState {
-		INTAKING, EXPELLING, NONE
+		INTAKING, EXPELLING, RAISING, LOWERING, NONE
 	}
 	public WantedIntakeState mWantedState = WantedIntakeState.NONE;
 	
-	static final double kIntakeVoltage = 1;
-	static final double kExpelVoltage = -1;
+	static final double kIntakeUpVoltage = 1;
+	static final double kIntakeDownVoltage = -1;
 	
 	// One of the following will be null depending on the robot
 	CheesySpeedController m_left_motor = null;
@@ -113,11 +114,19 @@ public class Intake extends Subsystem implements Loop {
 				m_controller = null;
 			}
 			break;
+		case RAISING:
+			m_controller = new ConstantVoltageController(kIntakeUpVoltage);
+			break;
+		case LOWERING:
+			m_controller = new ConstantVoltageController(kIntakeDownVoltage);
+			break;
 		case INTAKING:
-			m_controller = new ConstantVoltageController(kIntakeVoltage);
+			setSpeed(Constants.kManualIntakeSpeed);
 			break;
 		case EXPELLING:
-			m_controller = new ConstantVoltageController(kExpelVoltage);
+			setSpeed(Constants.kManualExhaustSpeed);
+			break;
+		default:
 			break;
 		}
 	}

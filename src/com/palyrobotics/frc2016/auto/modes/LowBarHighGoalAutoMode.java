@@ -34,7 +34,7 @@ public class LowBarHighGoalAutoMode extends AutoMode {
 		if(Robot.name == RobotName.TYR) {
 			crossLowBar.add(new GetLowAction());
 			prepareGoal.add(new RaiseShooterAction());
-			prepareGoal.add(new IntakeAction(1.0, WantedIntakeState.INTAKING));
+			prepareGoal.add(new IntakeAction(1.0, WantedIntakeState.LOWERING));
 		}
 		runAction(new ParallelAction(crossLowBar));
 		/* Auto Align then high goal */

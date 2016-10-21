@@ -9,7 +9,7 @@ public class Constants extends ConstantsBase {
 
 	// Manual control speed tuning
 	public static double kManualIntakeSpeed = 1.0;
-	public static double kManualExhaustSpeed = 1.0;
+	public static double kManualExhaustSpeed = -1.0;
 
 	public static double kManualLowGoalShootSpeed = 1.0;
 	public static double kManuelLowGoalLoadSpeed = 1.0;

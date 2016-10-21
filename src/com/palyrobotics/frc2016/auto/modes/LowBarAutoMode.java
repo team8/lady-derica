@@ -38,7 +38,7 @@ public class LowBarAutoMode extends AutoMode {
 		
 		//if derica, move intake down before crossing
 		else {
-			crossLowBar.add(new IntakeAction(0.5, WantedIntakeState.INTAKING));
+			crossLowBar.add(new IntakeAction(0.5, WantedIntakeState.LOWERING));
 		}
 		
 		//run the crosslowbar action

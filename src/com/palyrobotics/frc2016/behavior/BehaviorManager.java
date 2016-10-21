@@ -106,7 +106,7 @@ public class BehaviorManager implements Tappable {
 			intake.setSpeed(Constants.kManualIntakeSpeed);
 		} else if (commands.intake_request == Commands.IntakeRequest.EXHAUST) {
 			// Run intake outwards (negative speed is exhaust)
-			intake.setSpeed(-Constants.kManualExhaustSpeed);
+			intake.setSpeed(Constants.kManualExhaustSpeed);
 		} else {
 			// Stop intake.
 			intake.setSpeed(0.0);
@@ -115,11 +115,9 @@ public class BehaviorManager implements Tappable {
 		if (Robot.name == Robot.RobotName.DERICA) {
 			if (commands.low_request == Commands.LowGoalShooterRequest.LOAD) {
 				k_low_shooter.setWantedState(WantedLowGoalState.INTAKING);
-				System.out.println("Intaking");
 			}
 			else if (commands.low_request == Commands.LowGoalShooterRequest.SHOOT) {
 				k_low_shooter.setWantedState(WantedLowGoalState.SHOOTING);
-				System.out.println("Shooting");
 			}
 			else {
 				k_low_shooter.stopMotor();
