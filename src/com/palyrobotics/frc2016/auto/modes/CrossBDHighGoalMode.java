@@ -31,7 +31,10 @@ public class CrossBDHighGoalMode extends AutoMode {
 	
 	@Override
 	protected void routine() throws AutoModeEndedException {
-		waitTime(mCompressorWaitTime);
+		if(Robot.name == RobotName.TYR) {
+			waitTime(mCompressorWaitTime);
+		}
+		
 		drive.setGear(DriveGear.HIGH);
 		runAction(new DriveDistanceAction(Constants.kBreachDistance));
 		if(mAttemptShot && Robot.name==RobotName.TYR) {

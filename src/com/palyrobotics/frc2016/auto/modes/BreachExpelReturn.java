@@ -18,6 +18,7 @@ import com.palyrobotics.frc2016.auto.actions.RaiseShooterAction;
 import com.palyrobotics.frc2016.auto.actions.ShootAction;
 import com.palyrobotics.frc2016.auto.actions.TurnAngleAutoAction;
 import com.palyrobotics.frc2016.subsystems.Drive.DriveGear;
+import com.palyrobotics.frc2016.subsystems.Intake.WantedIntakeState;
 
 /**
  * Crosses a B/D class defense
@@ -68,7 +69,7 @@ public class BreachExpelReturn extends AutoMode {
 		// drive to the ball and accumulate at the same time
 		ArrayList<Action> secondaryActions = new ArrayList<Action>();
 		secondaryActions.add(new DriveDistanceAction(Constants.kDistanceToDriveToAccumulateExtra));
-		secondaryActions.add(new IntakeAction(1.0));
+		secondaryActions.add(new IntakeAction(1.0, WantedIntakeState.INTAKING));
 		
 		runAction(new ParallelAction(secondaryActions));
 	}

@@ -15,6 +15,7 @@ import com.palyrobotics.frc2016.auto.actions.IntakeAction;
 import com.palyrobotics.frc2016.auto.actions.ParallelAction;
 import com.palyrobotics.frc2016.auto.actions.RaiseShooterAction;
 import com.palyrobotics.frc2016.auto.actions.ShootAction;
+import com.palyrobotics.frc2016.subsystems.Intake.WantedIntakeState;
 
 /**
  * Goes under the low bar then shoots a high goal
@@ -33,7 +34,7 @@ public class LowBarHighGoalAutoMode extends AutoMode {
 		if(Robot.name == RobotName.TYR) {
 			crossLowBar.add(new GetLowAction());
 			prepareGoal.add(new RaiseShooterAction());
-			prepareGoal.add(new IntakeAction(1.0));
+			prepareGoal.add(new IntakeAction(1.0, WantedIntakeState.INTAKING));
 		}
 		runAction(new ParallelAction(crossLowBar));
 		/* Auto Align then high goal */
