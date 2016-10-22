@@ -30,7 +30,7 @@ public class TimerLowBarAutoMode extends AutoMode {
 		ArrayList<Action> crossLowBar = new ArrayList<Action>();
 		
 		//move across low bar
-		crossLowBar.add(new DriveTimeAction(crossTime, leftSpeed, rightSpeed));
+		crossLowBar.add(new DriveTimeAction(crossTime, -leftSpeed, -rightSpeed));
 		
 		//if tyr, move shooter down
 		if(Robot.name == RobotName.TYR) {
@@ -38,7 +38,7 @@ public class TimerLowBarAutoMode extends AutoMode {
 		} 
 		//if derica, move intake down while crossing
 		else {
-			crossLowBar.add(new IntakeAction(0.25, WantedIntakeState.LOWERING));
+//			crossLowBar.add(new IntakeAction(0.25, WantedIntakeState.LOWERING));
 		}
 		runAction(new ParallelAction(crossLowBar));
 	}

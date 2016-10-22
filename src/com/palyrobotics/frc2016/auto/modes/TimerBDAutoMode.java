@@ -40,7 +40,7 @@ public class TimerBDAutoMode extends AutoMode {
 			drive.setGear(DriveGear.HIGH);
 		}
 		
-		runAction(new DriveTimeAction(1.75, leftSpeed, rightSpeed));
+		runAction(new DriveTimeAction(2.25, leftSpeed, rightSpeed));
 		
 		if(mAttemptShot && Robot.name==RobotName.TYR) {
 			runAction(new AutoAlignAction());

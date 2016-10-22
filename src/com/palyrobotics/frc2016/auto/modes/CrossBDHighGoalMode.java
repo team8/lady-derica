@@ -36,7 +36,7 @@ public class CrossBDHighGoalMode extends AutoMode {
 			drive.setGear(DriveGear.HIGH);
 		}
 		
-		runAction(new DriveDistanceAction(-Constants.kBreachDistance));
+		runAction(new DriveDistanceAction(-Constants.kBreachDistance, 0.3));
 		
 		if(mAttemptShot && Robot.name==RobotName.TYR) {
 			runAction(new AutoAlignAction());
