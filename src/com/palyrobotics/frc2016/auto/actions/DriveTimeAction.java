@@ -63,6 +63,6 @@ public class DriveTimeAction implements Action {
 		System.out.println("Starting TimerDriveForwardAction");
 		timer.reset();
 		timer.start();
-		drive.setOpenLoop(new DriveSignal(leftSpeed, rightSpeed));
+		drive.setOpenLoop(new DriveSignal(leftSpeed, rightSpeed*.95));
 	}
 }

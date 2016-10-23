@@ -1,11 +1,17 @@
 package com.palyrobotics.frc2016.auto.modes;
 
+import java.util.ArrayList;
+
+import com.palyrobotics.frc2016.Constants;
 import com.palyrobotics.frc2016.Robot;
 import com.palyrobotics.frc2016.Robot.RobotName;
 import com.palyrobotics.frc2016.auto.AutoMode;
 import com.palyrobotics.frc2016.auto.AutoModeEndedException;
+import com.palyrobotics.frc2016.auto.actions.Action;
 import com.palyrobotics.frc2016.auto.actions.AutoAlignAction;
 import com.palyrobotics.frc2016.auto.actions.DriveTimeAction;
+import com.palyrobotics.frc2016.auto.actions.ExpelIntake;
+import com.palyrobotics.frc2016.auto.actions.ExpelShooterAction;
 import com.palyrobotics.frc2016.auto.actions.RaiseShooterAction;
 import com.palyrobotics.frc2016.auto.actions.ShootAction;
 import com.palyrobotics.frc2016.subsystems.Drive.DriveGear;
@@ -17,6 +23,8 @@ public class TimerBDAutoMode extends AutoMode {
 	// Default, for Derica. Tyr will set to -1,-1 instead
 	private double leftSpeed;
 	private double rightSpeed;
+	// Return with another breach
+	private boolean mUTurn = false;
 	
 	/**
 	 * Cross a B/D class defense
@@ -41,7 +49,13 @@ public class TimerBDAutoMode extends AutoMode {
 		}
 		
 		runAction(new DriveTimeAction(2.25, leftSpeed, rightSpeed));
-		
+		if(mUTurn && Robot.name == RobotName.DERICA) {
+			ArrayList<Action> expel = new ArrayList<Action>(2);
+			expel.add(new ExpelShooterAction(Constants.kAutoShooterExpelTime));
+			expel.add((new ExpelIntake(Constants.kAutoShooterExpelTime)));
+			waitTime(0.2);
+			runAction(new DriveTimeAction(2.25, -leftSpeed, -rightSpeed));
+		}
 		if(mAttemptShot && Robot.name==RobotName.TYR) {
 			runAction(new AutoAlignAction());
 			runAction(new RaiseShooterAction());
