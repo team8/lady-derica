@@ -26,7 +26,7 @@ public class BehaviorManager implements Tappable {
 	protected LowGoalShooter k_low_shooter = HardwareAdaptor.kLowGoalShooter;
 
 	private Routine m_cur_routine = null;
-	private Commands m_commands;
+	private Commands.Setpoints m_setpoints;
 	//    private ManualRoutine m_manual_routine = new ManualRoutine();
 	
 	private void setNewRoutine(Routine new_routine) {
@@ -61,7 +61,7 @@ public class BehaviorManager implements Tappable {
 	}
 
 	public BehaviorManager() {
-		m_setpoints = new RobotSetpoints();
+		m_setpoints = new Commands.Setpoints();
 		m_setpoints.reset();
 	}
 
@@ -92,7 +92,7 @@ public class BehaviorManager implements Tappable {
 
 		//changes the setpoints according to the current routine update
 		if (m_cur_routine != null) {
-			m_setpoints = m_cur_routine.update(commands, m_setpoints);
+			m_setpoints = m_cur_routine.update(commands);
 		}
 
 		// Get manual m_setpoints

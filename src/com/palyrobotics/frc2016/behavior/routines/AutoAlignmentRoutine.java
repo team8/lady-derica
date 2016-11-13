@@ -33,7 +33,7 @@ public class AutoAlignmentRoutine extends Routine {
 	private final double m_wait_time = 1.5; 
 	
 	
-	RobotSetpoints setpoints;
+	Commands.Setpoints setpoints;
 
 	/**
 	 * Changes number of successive alignments
@@ -43,8 +43,8 @@ public class AutoAlignmentRoutine extends Routine {
 	}
 
 	@Override
-	public RobotSetpoints update(Commands commands, RobotSetpoints existing_setpoints) {
-		RobotSetpoints setpoints = existing_setpoints;
+	public Commands.Setpoints update(Commands commands) {
+		Commands.Setpoints setpoints = commands.robotSetpoints;
 		AutoAlignStates new_state = m_state;
 		switch(m_state) {
 		case START:
@@ -52,13 +52,13 @@ public class AutoAlignmentRoutine extends Routine {
 				m_timer.reset();
 				m_timer.start();
 				drive.reset();
-				setpoints.auto_align_setpoint = RobotSetpoints.m_nullopt;
+				setpoints.auto_align_setpoint = Commands.Setpoints.m_nullopt;
 				System.out.println("Started auto align " + m_state);
 				new_state = AutoAlignStates.SET_ANGLE;
 			} else {
 				new_state = AutoAlignStates.DONE;
 			}
-			setpoints.drive_routine_action = DriveRoutineAction.AUTO_ALIGN;
+			setpoints.currentRoutine = Commands.RoutineRequest.AUTO_ALIGN;
 			break;
 		case SET_ANGLE:
 			// Wait for m_wait_time before reading vision data (latency)
@@ -66,7 +66,7 @@ public class AutoAlignmentRoutine extends Routine {
 				break;
 			}
 			// If angle turnpoint has been set, then set this routine to waiting for alignment
-			if(existing_setpoints.auto_align_setpoint.isPresent()) {
+			if(setpoints.auto_align_setpoint.isPresent()) {
 				System.out.println("Already set angle setpoint");
 				new_state = AutoAlignStates.ALIGNING;
 				break;

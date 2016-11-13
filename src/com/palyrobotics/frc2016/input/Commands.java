@@ -13,7 +13,7 @@ import com.palyrobotics.frc2016.input.Commands.JoystickInput.XboxInput;
  */
 public class Commands {
 	/**
-	 * Stores all the subsystem setpoints
+	 * Stores all the subsystem setpoints, including what the currently running Routine is
 	 * @author Nihar
 	 */
 	public static class Setpoints {
@@ -23,6 +23,17 @@ public class Commands {
 		public Optional<Double> encoder_drive_setpoint = m_nullopt;
 		public Optional<Double> timer_drive_time_setpoint = m_nullopt;
 		public Optional<Double> drive_velocity_setpoint = m_nullopt;
+		
+		public RoutineRequest currentRoutine;
+		/**
+		 * Resets all the setpoints
+		 */
+		public void reset() {
+			auto_align_setpoint = m_nullopt;
+			encoder_drive_setpoint = m_nullopt;
+			timer_drive_time_setpoint = m_nullopt;
+			drive_velocity_setpoint = m_nullopt;
+		}
 	}
 	// All robot setpoints
 	public Setpoints robotSetpoints;

@@ -2,7 +2,6 @@ package com.palyrobotics.frc2016.behavior.routines;
 
 import java.util.Optional;
 
-import com.palyrobotics.frc2016.behavior.RobotSetpoints;
 import com.palyrobotics.frc2016.input.Commands;
 import com.palyrobotics.frc2016.robot.HardwareAdaptor;
 import com.palyrobotics.frc2016.subsystems.Drive;
@@ -58,20 +57,20 @@ public class DriveTimeRoutine extends Routine {
 	}
 	//Routines just change the states of the robotsetpoints, which the behavior manager then moves the physical subsystems based on.
 	@Override
-	public RobotSetpoints update(Commands commands, RobotSetpoints existing_setpoints) {
+	public Commands.Setpoints update(Commands commands) {
 		DriveTimeRoutineStates new_state = m_state;
-		RobotSetpoints setpoints = existing_setpoints;
+		Commands.Setpoints setpoints = commands.robotSetpoints;
 		switch (m_state) {
 		case START:
 			// Only set the setpoint the first time the state is START
 			if(m_is_new_state) {
 				m_timer.reset();
 				m_timer.start();
-				setpoints.timer_drive_time_setpoint = RobotSetpoints.m_nullopt;
-				setpoints.drive_velocity_setpoint = RobotSetpoints.m_nullopt;
+				setpoints.timer_drive_time_setpoint = Commands.Setpoints.m_nullopt;
+				setpoints.drive_velocity_setpoint = Commands.Setpoints.m_nullopt;
 			}
 
-			setpoints.drive_routine_action = RobotSetpoints.DriveRoutineAction.TIMER_DRIVE;
+			setpoints.currentRoutine = Commands.RoutineRequest.TIMER_DRIVE;
 			new_state = DriveTimeRoutineStates.DRIVING;
 			break;
 		case DRIVING:
@@ -87,9 +86,9 @@ public class DriveTimeRoutine extends Routine {
 		case DONE:
 			drive.reset();
 			System.out.println("DONE called");
-			setpoints.drive_routine_action = RobotSetpoints.DriveRoutineAction.NONE;
-			setpoints.timer_drive_time_setpoint = RobotSetpoints.m_nullopt;
-			setpoints.drive_velocity_setpoint = RobotSetpoints.m_nullopt;
+			setpoints.currentRoutine = Commands.RoutineRequest.NONE;
+			setpoints.timer_drive_time_setpoint = Commands.Setpoints.m_nullopt;
+			setpoints.drive_velocity_setpoint = Commands.Setpoints.m_nullopt;
 			break;
 		}
 

@@ -1,6 +1,5 @@
 package com.palyrobotics.frc2016.behavior.routines;
 
-import com.palyrobotics.frc2016.behavior.RobotSetpoints;
 import com.palyrobotics.frc2016.input.Commands;
 import com.palyrobotics.frc2016.robot.HardwareAdaptor;
 import com.palyrobotics.frc2016.subsystems.Drive;
@@ -31,15 +30,15 @@ public class TurnAngleRoutine extends Routine {
 	}
 
 	@Override
-	public RobotSetpoints update(Commands commands, RobotSetpoints existing_setpoints) {
-		RobotSetpoints setpoints = existing_setpoints;
+	public Commands.Setpoints update(Commands commands) {
+		Commands.Setpoints setpoints = commands.robotSetpoints;
 		
 		switch(m_state) {
 		case START:
 			System.out.println("Set setpoint: "+angle);
 			drive.setGyroTurnAngleSetpoint(angle, maxVel);
 			
-			setpoints.drive_routine_action = RobotSetpoints.DriveRoutineAction.ENCODER_TURN;
+			setpoints.currentRoutine = Commands.RoutineRequest.TURN_ANGLE;
 			m_state = States.TURNING;
 			break;
 			

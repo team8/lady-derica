@@ -1,6 +1,5 @@
 package com.palyrobotics.frc2016.behavior.routines;
 
-import com.palyrobotics.frc2016.behavior.RobotSetpoints;
 import com.palyrobotics.frc2016.input.Commands;
 import com.palyrobotics.frc2016.robot.HardwareAdaptor;
 import com.palyrobotics.frc2016.subsystems.Drive;
@@ -8,6 +7,12 @@ import com.palyrobotics.frc2016.subsystems.Intake;
 
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 
+/**
+ * Abstract superclass for a routine, which specifies an autonomous series of actions in tele-op <br />
+ * Each routine takes in Commands and returns modified Setpoints
+ * @author Nihar, Team 254
+ *
+ */
 public abstract class Routine {
     protected Drive drive = HardwareAdaptor.kDrive;
     protected Intake intake = HardwareAdaptor.kIntake;
@@ -16,7 +21,7 @@ public abstract class Routine {
     // Called to start a routine
     public abstract void start();
 
-    public abstract RobotSetpoints update(Commands commands, RobotSetpoints existing_setpoints);
+    public abstract Commands.Setpoints update(Commands commands);
     
     // Called to stop a routine
     public abstract void cancel();
