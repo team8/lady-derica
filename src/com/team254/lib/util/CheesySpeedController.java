@@ -1,6 +1,6 @@
 package com.team254.lib.util;
 
-import com.palyrobotics.frc2016.HardwareAdaptor;
+import com.palyrobotics.frc2016.robot.HardwareAdaptor;
 
 import edu.wpi.first.wpilibj.SpeedController;
 

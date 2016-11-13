@@ -1,4 +1,4 @@
-package com.palyrobotics.frc2016;
+package com.palyrobotics.frc2016.util;
 
 import com.team254.lib.util.ConstantsBase;
 

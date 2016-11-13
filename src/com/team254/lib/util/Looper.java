@@ -3,7 +3,7 @@ package com.team254.lib.util;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.palyrobotics.frc2016.Constants;
+import com.palyrobotics.frc2016.util.Constants;
 
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.Timer;

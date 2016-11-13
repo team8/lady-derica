@@ -1,5 +1,5 @@
 package com.palyrobotics.frc2016.util;
-import com.palyrobotics.frc2016.behavior.RobotSetpoints;
+import com.palyrobotics.frc2016.input.Commands;
 import com.palyrobotics.frc2016.subsystems.Drive;
 import com.team254.lib.util.DriveSignal;
 
@@ -14,7 +14,9 @@ public class ProportionalDriveHelper {
 		this.drive = drive;
 	}
 
-	public void pDrive(double throttle, double wheel, RobotSetpoints setpoints) {
+	public void pDrive(Commands commands) {
+		double throttle = -commands.leftStick.y;
+		double wheel = commands.rightStick.x;
 		if (DriverStation.getInstance().isAutonomous()) {
 			return;
 		}
@@ -23,7 +25,7 @@ public class ProportionalDriveHelper {
 			return;
 		}
 
-		if(setpoints.drive_routine_action != RobotSetpoints.DriveRoutineAction.NONE) {
+		if(commands.routineRequest != Commands.RoutineRequest.NONE) {
 			return;
 		}
 

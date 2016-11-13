@@ -1,7 +1,8 @@
 package com.team254.lib.util;
 
-import com.palyrobotics.frc2016.Robot;
+import com.palyrobotics.frc2016.robot.Robot;
 
+import edu.wpi.first.wpilibj.RobotState;
 import edu.wpi.first.wpilibj.Solenoid;
 
 public class CheesySolenoid extends Solenoid {
@@ -14,7 +15,7 @@ public class CheesySolenoid extends Solenoid {
 
     @Override
     public void set(boolean on) {
-        boolean is_disabled = Robot.getState() == Robot.RobotState.DISABLED;
+        boolean is_disabled = RobotState.isDisabled();
         if ((!is_disabled && m_was_disabled) || on != m_on) {
             super.set(on);
         }

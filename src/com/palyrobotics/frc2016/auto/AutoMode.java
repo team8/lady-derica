@@ -1,7 +1,7 @@
 package com.palyrobotics.frc2016.auto;
 
-import com.palyrobotics.frc2016.HardwareAdaptor;
 import com.palyrobotics.frc2016.auto.actions.*;
+import com.palyrobotics.frc2016.robot.HardwareAdaptor;
 import com.palyrobotics.frc2016.subsystems.*;
 
 import edu.wpi.first.wpilibj.PowerDistributionPanel;

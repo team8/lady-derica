@@ -1,13 +1,21 @@
-package com.palyrobotics.frc2016;
+package com.palyrobotics.frc2016.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 
-import com.palyrobotics.frc2016.Robot.RobotName;
-import com.palyrobotics.frc2016.behavior.Commands;
+import com.palyrobotics.frc2016.input.Commands;
+import com.palyrobotics.frc2016.input.RobotState;
+import com.palyrobotics.frc2016.input.Commands.*;
+import com.palyrobotics.frc2016.input.Commands.JoystickInput.XboxInput;
+import com.palyrobotics.frc2016.robot.Robot;
 import com.palyrobotics.frc2016.subsystems.Drive.DriveGear;
 import com.palyrobotics.frc2016.util.XboxController;
 import com.team254.lib.util.Latch;
 
+/**
+ * Used to produce Commands {@link Commands}
+ * @author Nihar
+ *
+ */
 public class OperatorInterface {
 	private Commands m_commands = new Commands();
 
@@ -22,25 +30,29 @@ public class OperatorInterface {
 	}
 	
 	public Commands getCommands() {
-		if(Robot.name == RobotName.TYR) {
-			return getTyrCommands();
+		Commands commands;
+		if(Robot.getRobotState().name == RobotState.RobotName.TYR) {
+			commands = getTyrCommands();
+			commands.operatorStick = new XboxInput(((XboxController) operatorStick).getLeftX(), ((XboxController) operatorStick).getLeftY(), ((XboxController) operatorStick).getRightX(), ((XboxController) operatorStick).getRightY());
 		} else {
-			return getDericaCommands();
+			commands = getDericaCommands();
+			commands.operatorStick = new XboxInput(operatorStick.getX(), operatorStick.getY(), operatorStick.getX(), operatorStick.getY());			
 		}
+		commands.leftStick = new JoystickInput(leftStick.getX(), leftStick.getY(), leftStick.getTrigger());
+		commands.rightStick = new JoystickInput(rightStick.getX(), rightStick.getY(), rightStick.getTrigger());
+		return commands;
 	}
 	
-	public Commands getDericaCommands() {
-		
-		m_commands.resetRoutineRequests();
+	public Commands getDericaCommands() {		
 		// Operator Stick - Derica Intake Control
 		if (operatorStick.getRawButton(5)) {
-			m_commands.intake_request = Commands.IntakeRequest.EXHAUST;
+			m_commands.intakeRequest = Commands.IntakeRequest.EXHAUST;
 			m_commands.low_request = Commands.LowGoalShooterRequest.SHOOT;
 		} else if (operatorStick.getRawButton(3)) {
-			m_commands.intake_request = Commands.IntakeRequest.INTAKE;
+			m_commands.intakeRequest = Commands.IntakeRequest.INTAKE;
 			m_commands.low_request = Commands.LowGoalShooterRequest.LOAD;
 		} else {
-			m_commands.intake_request = Commands.IntakeRequest.NONE;
+			m_commands.intakeRequest = Commands.IntakeRequest.NONE;
 			m_commands.low_request = Commands.LowGoalShooterRequest.NONE;
 		}
 
@@ -53,11 +65,11 @@ public class OperatorInterface {
 	public Commands getTyrCommands() {
 		// Operator Stick - Intake Control
 		if (((XboxController) operatorStick).getRightTriggerPressed()) {
-			m_commands.intake_request = Commands.IntakeRequest.INTAKE;
+			m_commands.intakeRequest = Commands.IntakeRequest.INTAKE;
 		} else if (((XboxController) operatorStick).getLeftTriggerPressed()) {
-			m_commands.intake_request = Commands.IntakeRequest.EXHAUST;
+			m_commands.intakeRequest = Commands.IntakeRequest.EXHAUST;
 		} else {
-			m_commands.intake_request = Commands.IntakeRequest.NONE;
+			m_commands.intakeRequest = Commands.IntakeRequest.NONE;
 		}
 		// Operator Stick - Shooter Control
 		if (((XboxController) operatorStick).getButtonX()) {
@@ -84,10 +96,9 @@ public class OperatorInterface {
 		
 		// Right Stick - Activate routine
 		if(rightStick.getRawButton(2)) {
-			m_commands.resetRoutineRequests();
-			m_commands.auto_align_request = Commands.AutoAlignRequest.ACTIVATE;
+			m_commands.routineRequest = Commands.RoutineRequest.AUTO_ALIGN;
 		} else {
-			m_commands.resetRoutineRequests();
+			m_commands.routineRequest = Commands.RoutineRequest.NONE;
 		}
 		
 		if(rightStick.getRawButton(4)) {

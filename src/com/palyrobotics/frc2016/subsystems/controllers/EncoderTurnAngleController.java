@@ -1,9 +1,10 @@
 package com.palyrobotics.frc2016.subsystems.controllers;
 
-import com.palyrobotics.frc2016.Constants;
-import com.palyrobotics.frc2016.HardwareAdaptor;
-import com.palyrobotics.frc2016.Robot;
+import com.palyrobotics.frc2016.input.RobotState;
+import com.palyrobotics.frc2016.robot.HardwareAdaptor;
+import com.palyrobotics.frc2016.robot.Robot;
 import com.palyrobotics.frc2016.subsystems.Drive;
+import com.palyrobotics.frc2016.util.Constants;
 import com.team254.lib.util.DriveSignal;
 import com.team254.lib.util.Pose;
 
@@ -27,9 +28,9 @@ public class EncoderTurnAngleController implements Drive.DriveController {
 	public EncoderTurnAngleController(Pose priorSetpoint, double angle, double maxVel) {
 		this.maxVel = maxVel;
 		
-		if(Robot.name == Robot.RobotName.DERICA) {
+		if(Robot.getRobotState().name == RobotState.RobotName.DERICA) {
 			kDegreeToDistance = Constants.kDericaDegreeToDistance;
-		} else if(Robot.name == Robot.RobotName.TYR) {
+		} else if(Robot.getRobotState().name == RobotState.RobotName.TYR) {
 			kDegreeToDistance = Constants.kTyrDegreeToDistance;
 		}
 		

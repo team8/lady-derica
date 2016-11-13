@@ -1,11 +1,13 @@
 package com.palyrobotics.frc2016.behavior;
 
-import com.palyrobotics.frc2016.Constants;
-import com.palyrobotics.frc2016.HardwareAdaptor;
-import com.palyrobotics.frc2016.Robot;
 import com.palyrobotics.frc2016.behavior.routines.*;
+import com.palyrobotics.frc2016.input.Commands;
+import com.palyrobotics.frc2016.input.RobotState;
+import com.palyrobotics.frc2016.robot.HardwareAdaptor;
+import com.palyrobotics.frc2016.robot.Robot;
 import com.palyrobotics.frc2016.subsystems.*;
 import com.palyrobotics.frc2016.subsystems.LowGoalShooter.WantedLowGoalState;
+import com.palyrobotics.frc2016.util.Constants;
 import com.team254.lib.util.DriveSignal;
 import com.team254.lib.util.StateHolder;
 import com.team254.lib.util.Tappable;
@@ -24,12 +26,8 @@ public class BehaviorManager implements Tappable {
 	protected LowGoalShooter k_low_shooter = HardwareAdaptor.kLowGoalShooter;
 
 	private Routine m_cur_routine = null;
-	private RobotSetpoints m_setpoints;
+	private Commands m_commands;
 	//    private ManualRoutine m_manual_routine = new ManualRoutine();
-
-	public RobotSetpoints getSetpoints() {
-		return m_setpoints;
-	}
 	
 	private void setNewRoutine(Routine new_routine) {
 		// Cancel if new routine diff from current routine
@@ -79,15 +77,15 @@ public class BehaviorManager implements Tappable {
 		if (commands.cancel_current_routine) {
 			System.out.println("Cancel routine button");
 			setNewRoutine(null);
-		} else if(commands.encoder_drive_request == Commands.EncoderDriveRequest.ACTIVATE && !(m_cur_routine instanceof EncoderDriveRoutine)) {
+		} else if(commands.routineRequest == Commands.RoutineRequest.ENCODER_DRIVE && !(m_cur_routine instanceof EncoderDriveRoutine)) {
 			setNewRoutine(new EncoderDriveRoutine(500));
-		} else if(commands.timer_drive_request == Commands.TimerDriveRequest.ACTIVATE && !(m_cur_routine instanceof DriveTimeRoutine)) {
+		} else if(commands.routineRequest == Commands.RoutineRequest.TIMER_DRIVE && !(m_cur_routine instanceof DriveTimeRoutine)) {
 			System.out.println("Setting routine");
 			setNewRoutine(new DriveTimeRoutine(3, 0.5));
-		} else if(commands.auto_align_request == Commands.AutoAlignRequest.ACTIVATE && !(m_cur_routine instanceof AutoAlignmentRoutine)) {
+		} else if(commands.routineRequest == Commands.RoutineRequest.AUTO_ALIGN && !(m_cur_routine instanceof AutoAlignmentRoutine)) {
 //			System.out.println("Auto align activated");
 			setNewRoutine(new AutoAlignmentRoutine());
-		} else if(commands.turn_angle_request == Commands.TurnAngleRequest.ACTIVATE && !(m_cur_routine instanceof TurnAngleRoutine)) {
+		} else if(commands.routineRequest == Commands.RoutineRequest.TURN_ANGLE && !(m_cur_routine instanceof TurnAngleRoutine)) {
 			System.out.println("Turn angle activated");
 			setNewRoutine(new TurnAngleRoutine(45, 0.3));
 		}
@@ -101,10 +99,10 @@ public class BehaviorManager implements Tappable {
 		//        m_setpoints = m_manual_routine.update(commands, m_setpoints);
 
 		// Intake commands parsing
-		if (commands.intake_request == Commands.IntakeRequest.INTAKE) {
+		if (commands.intakeRequest == Commands.IntakeRequest.INTAKE) {
 			// Run intake inwards (positive speed is intake)
 			intake.setSpeed(Constants.kManualIntakeSpeed);
-		} else if (commands.intake_request == Commands.IntakeRequest.EXHAUST) {
+		} else if (commands.intakeRequest == Commands.IntakeRequest.EXHAUST) {
 			// Run intake outwards (negative speed is exhaust)
 			intake.setSpeed(Constants.kManualExhaustSpeed);
 		} else {
@@ -112,7 +110,7 @@ public class BehaviorManager implements Tappable {
 			intake.setSpeed(0.0);
 		}
 		
-		if (Robot.name == Robot.RobotName.DERICA) {
+		if (Robot.getRobotState().name == RobotState.RobotName.DERICA) {
 			if (commands.low_request == Commands.LowGoalShooterRequest.LOAD) {
 				k_low_shooter.setWantedState(WantedLowGoalState.INTAKING);
 			}

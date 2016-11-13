@@ -1,7 +1,7 @@
 package com.palyrobotics.frc2016.subsystems.controllers.team254;
 
-import com.palyrobotics.frc2016.Constants;
 import com.palyrobotics.frc2016.subsystems.Drive;
+import com.palyrobotics.frc2016.util.Constants;
 import com.team254.lib.trajectory.LegacyTrajectoryFollower;
 import com.team254.lib.trajectory.Path;
 import com.team254.lib.trajectory.Trajectory;

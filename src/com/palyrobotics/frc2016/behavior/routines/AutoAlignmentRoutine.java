@@ -2,9 +2,7 @@ package com.palyrobotics.frc2016.behavior.routines;
 
 import java.util.Optional;
 
-import com.palyrobotics.frc2016.behavior.Commands;
-import com.palyrobotics.frc2016.behavior.RobotSetpoints;
-import com.palyrobotics.frc2016.behavior.RobotSetpoints.DriveRoutineAction;
+import com.palyrobotics.frc2016.input.Commands;
 import com.team254.lib.util.DriveSignal;
 
 import edu.wpi.first.wpilibj.Timer;

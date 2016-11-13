@@ -1,8 +1,5 @@
 package com.palyrobotics.frc2016.auto.modes;
 
-import com.palyrobotics.frc2016.Constants;
-import com.palyrobotics.frc2016.Robot;
-import com.palyrobotics.frc2016.Robot.RobotName;
 import com.palyrobotics.frc2016.auto.AutoMode;
 import com.palyrobotics.frc2016.auto.AutoModeEndedException;
 import com.palyrobotics.frc2016.auto.actions.AutoAlignAction;
@@ -10,7 +7,10 @@ import com.palyrobotics.frc2016.auto.actions.DriveDistanceAction;
 import com.palyrobotics.frc2016.auto.actions.ParallelAction;
 import com.palyrobotics.frc2016.auto.actions.RaiseShooterAction;
 import com.palyrobotics.frc2016.auto.actions.ShootAction;
+import com.palyrobotics.frc2016.input.RobotState;
+import com.palyrobotics.frc2016.robot.Robot;
 import com.palyrobotics.frc2016.subsystems.Drive.DriveGear;
+import com.palyrobotics.frc2016.util.Constants;
 
 /**
  * Crosses a B/D class defense
@@ -31,14 +31,14 @@ public class CrossBDHighGoalMode extends AutoMode {
 	
 	@Override
 	protected void routine() throws AutoModeEndedException {
-		if(Robot.name == RobotName.TYR) {
+		if(Robot.getRobotState().name == RobotState.RobotName.TYR) {
 			waitTime(mCompressorWaitTime);
 			drive.setGear(DriveGear.HIGH);
 		}
 		
 		runAction(new DriveDistanceAction(-Constants.kBreachDistance, 0.3));
 		
-		if(mAttemptShot && Robot.name==RobotName.TYR) {
+		if(mAttemptShot && Robot.getRobotState().name == RobotState.RobotName.TYR) {
 			runAction(new AutoAlignAction());
 			runAction(new RaiseShooterAction());
 			runAction(new ShootAction());

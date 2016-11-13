@@ -2,8 +2,8 @@ package com.palyrobotics.frc2016.subsystems.controllers.team254;
 
 import static com.team254.lib.trajectory.TrajectoryFollower.TrajectorySetpoint;
 
-import com.palyrobotics.frc2016.Constants;
 import com.palyrobotics.frc2016.subsystems.Drive;
+import com.palyrobotics.frc2016.util.Constants;
 import com.team254.lib.trajectory.TrajectoryFollower;
 import com.team254.lib.util.DriveSignal;
 import com.team254.lib.util.Pose;

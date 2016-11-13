@@ -1,7 +1,7 @@
 package com.palyrobotics.frc2016.auto.actions;
 
-import com.palyrobotics.frc2016.Robot;
-import com.palyrobotics.frc2016.Robot.RobotName;
+import com.palyrobotics.frc2016.input.RobotState;
+import com.palyrobotics.frc2016.robot.Robot;
 
 import edu.wpi.first.wpilibj.Timer;
 
@@ -36,7 +36,7 @@ public class ShootAction implements Action {
 	@Override
 	public void start() {
 		mIsDone = false;
-		if(Robot.name != RobotName.TYR) {
+		if(Robot.getRobotState().name != RobotState.RobotName.TYR) {
 			System.err.println("Not Tyr shooter...");
 			mIsDone = true;
 			return;

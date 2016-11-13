@@ -1,6 +1,6 @@
 package com.palyrobotics.frc2016.auto.actions;
 
-import com.palyrobotics.frc2016.HardwareAdaptor;
+import com.palyrobotics.frc2016.robot.HardwareAdaptor;
 import com.palyrobotics.frc2016.subsystems.Drive;
 import com.palyrobotics.frc2016.subsystems.Intake;
 import com.palyrobotics.frc2016.subsystems.LowGoalShooter;

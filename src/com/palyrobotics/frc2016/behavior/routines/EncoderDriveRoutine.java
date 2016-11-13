@@ -2,9 +2,9 @@ package com.palyrobotics.frc2016.behavior.routines;
 
 import java.util.Optional;
 
-import com.palyrobotics.frc2016.HardwareAdaptor;
-import com.palyrobotics.frc2016.behavior.Commands;
 import com.palyrobotics.frc2016.behavior.RobotSetpoints;
+import com.palyrobotics.frc2016.input.Commands;
+import com.palyrobotics.frc2016.robot.HardwareAdaptor;
 import com.palyrobotics.frc2016.subsystems.Drive;
 import com.team254.lib.util.DriveSignal;
 

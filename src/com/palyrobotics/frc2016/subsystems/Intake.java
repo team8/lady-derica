@@ -1,10 +1,10 @@
 package com.palyrobotics.frc2016.subsystems;
 
-import com.palyrobotics.frc2016.Constants;
-import com.palyrobotics.frc2016.Robot;
+import com.palyrobotics.frc2016.robot.Robot;
 import com.palyrobotics.frc2016.subsystems.TyrShooter.WantedShooterState;
 import com.palyrobotics.frc2016.subsystems.controllers.ConstantVoltageController;
 import com.palyrobotics.frc2016.subsystems.controllers.StrongHoldController;
+import com.palyrobotics.frc2016.util.Constants;
 import com.team254.lib.util.CheesySpeedController;
 import com.team254.lib.util.Controller;
 import com.team254.lib.util.Loop;
@@ -170,7 +170,7 @@ public class Intake extends Subsystem implements Loop {
 	public Intake(String name, CheesySpeedController motor1, 
 			CheesySpeedController motor2, AnalogPotentiometer armPotentiometer) {
 		super(name);
-		switch(Robot.name) {
+		switch(Robot.getRobotState().name) {
 		case TYR:
 			m_left_motor = motor1;
 			m_right_motor = motor2;

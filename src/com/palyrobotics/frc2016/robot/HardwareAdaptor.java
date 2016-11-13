@@ -1,7 +1,9 @@
-package com.palyrobotics.frc2016;
+package com.palyrobotics.frc2016.robot;
 
-import com.palyrobotics.frc2016.Robot.RobotName;
+import com.palyrobotics.frc2016.robot.Robot;
+import com.palyrobotics.frc2016.input.RobotState;
 import com.palyrobotics.frc2016.subsystems.*;
+import com.palyrobotics.frc2016.util.Constants;
 import com.palyrobotics.frc2016.util.XboxController;
 import com.team254.lib.util.CheesySpeedController;
 
@@ -22,7 +24,7 @@ public class HardwareAdaptor {
 
 	// Instantiate drive motors
 	static {
-		if(Robot.name == RobotName.TYR) {
+		if(Robot.getRobotState().name == RobotState.RobotName.TYR) {
 			kLeftDriveMotor = new CheesySpeedController(
 					new SpeedController[]{new CANTalon(Constants.kTyrLeftDriveFrontMotorDeviceID), 
 							new CANTalon(Constants.kTyrLeftDriveBackMotorDeviceID)},
@@ -39,7 +41,7 @@ public class HardwareAdaptor {
 			kShifterSolenoid = new DoubleSolenoid(
 					Constants.kTyrDriveSolenoidExtend, Constants.kTyrDriveSolenoidRetract);
 		}
-		else if (Robot.name == RobotName.DERICA) {
+		else {
 			CANTalon leftDriveBackMotor = new CANTalon(Constants.kDericaLeftDriveBackMotorDeviceID);
 			leftDriveBackMotor.enableBrakeMode(true);
 			CANTalon leftDriveFrontMotor = new CANTalon(Constants.kDericaLeftDriveFrontMotorDeviceID);
@@ -69,7 +71,7 @@ public class HardwareAdaptor {
 	 */
 	public static Intake kIntake = null;
 	static {
-		if(Robot.name == RobotName.TYR) {
+		if(Robot.getRobotState().name == RobotState.RobotName.TYR) {
 			CheesySpeedController kLeftIntakeMotor = new CheesySpeedController(
 					new VictorSP(Constants.kTyrLeftIntakeMotorDeviceID),
 					Constants.kTyrLeftIntakeMotorPDP);
@@ -79,7 +81,7 @@ public class HardwareAdaptor {
 			// null for lack of a potentiometer
 			kIntake = new Intake("intake", kLeftIntakeMotor, kRightIntakeMotor, null);
 			System.out.println("Intake initialized");
-		} else if (Robot.name == RobotName.DERICA) {
+		} else {
 			CheesySpeedController kIntakeMotor = new CheesySpeedController(
 					new CANTalon(Constants.kDericaIntakeMotorPWM),
 					Constants.kDericaIntakeMotorPDP);
@@ -107,7 +109,7 @@ public class HardwareAdaptor {
     public static LowGoalShooter kLowGoalShooter = null;
 
 	static {
-		if(Robot.name == RobotName.TYR){
+		if(Robot.getRobotState().name == RobotState.RobotName.TYR){
 			kShooterSolenoid = new DoubleSolenoid(
 					Constants.kShooterSolenoidPortExtend, Constants.kShooterSolenoidPortRetract);
 			kLatchSolenoid = new DoubleSolenoid(
@@ -131,7 +133,7 @@ public class HardwareAdaptor {
 	public static CheesySpeedController kBreacherMotor = null;
 	
 	static {
-		if(Robot.name == RobotName.TYR) {
+		if(Robot.getRobotState().name == RobotState.RobotName.TYR) {
 			kBreacherMotor = new CheesySpeedController(new CANTalon(Constants.kBreacherMotorDeviceID), Constants.kBreacherMotorPDP);
 			kBreacher = new Breacher("breacher", kBreacherMotor);
 		}
@@ -149,7 +151,7 @@ public class HardwareAdaptor {
 	public static Joystick kRightStick = new Joystick(1);
 	public static Joystick kOperatorStick;
 	static{
-		if(Robot.name == RobotName.TYR) {
+		if(Robot.getRobotState().name == RobotState.RobotName.TYR) {
 			kOperatorStick = new XboxController(2);
 		}
 		else {

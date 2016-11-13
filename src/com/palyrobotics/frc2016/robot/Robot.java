@@ -1,9 +1,11 @@
-package com.palyrobotics.frc2016;
+package com.palyrobotics.frc2016.robot;
 
 import com.palyrobotics.frc2016.auto.AutoMode;
 import com.palyrobotics.frc2016.auto.AutoModeExecuter;
 import com.palyrobotics.frc2016.auto.AutoModeSelector;
 import com.palyrobotics.frc2016.behavior.BehaviorManager;
+import com.palyrobotics.frc2016.input.Commands;
+import com.palyrobotics.frc2016.input.RobotState;
 import com.palyrobotics.frc2016.subsystems.Breacher;
 import com.palyrobotics.frc2016.subsystems.Drive;
 import com.palyrobotics.frc2016.subsystems.Intake;
@@ -25,22 +27,8 @@ import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends IterativeRobot {
-	public enum RobotName {
-		TYR, DERICA
-	}
-	public static RobotName name = RobotName.DERICA;
-
-	public enum RobotState {
-		DISABLED, AUTONOMOUS, TELEOP
-	}
-	public static RobotState s_robot_state = RobotState.DISABLED;
-	public static RobotState getState() {
-		return s_robot_state;
-	}
-	public static void setState(RobotState state) {
-		s_robot_state = state;
-	}
-
+	private static RobotState robotState;
+	public static RobotState getRobotState() {return robotState;}
 	Looper subsystem_looper = new Looper();
 
 	AutoModeExecuter autoModeRunner = new AutoModeExecuter();
@@ -73,7 +61,7 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		System.out.println("Start robotInit()");
 		subsystem_looper.register(drive);
-		if(Robot.name == RobotName.TYR) {
+		if(RobotState.name == RobotState.RobotName.TYR) {
 			subsystem_looper.register(shooter);
 			subsystem_looper.register(breacher);
 		} else {
@@ -87,7 +75,6 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void autonomousInit() {
-		setState(RobotState.AUTONOMOUS);
 		drive.reset();
 		
 		AutoMode mode = AutoModeSelector.getInstance().getAutoMode();
@@ -106,10 +93,9 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void teleopInit() {
-		setState(RobotState.TELEOP);
 		System.out.println("Start teleopInit()");
 		subsystem_looper.start();
-		if(Robot.name == RobotName.TYR) {
+		if(RobotState.name == RobotState.RobotName.TYR) {
 			shooter.reset();
 		}
 	}
@@ -117,15 +103,10 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		// Passes joystick control to subsystems for their processing
-		if(Robot.name == RobotName.TYR) {
-			shooter.update(((XboxController) operatorStick).getLeftY());
-			breacher.update(((XboxController) operatorStick).getRightY());
-		} else if(Robot.name == RobotName.DERICA) {
-//			intake.update(operatorStick.getY());
-		}
+		Commands commands = operator_interface.getCommands();
 		// Pick one or the other drive scheme
-//		pdh.pDrive(-leftStick.getY(), rightStick.getX(), behavior_manager.getSetpoints());
-		cdh.cheesyDrive(-leftStick.getY(), rightStick.getX(), rightStick.getRawButton(1), drive.isHighGear(), behavior_manager.getSetpoints());
+//		pdh.pDrive(commands);
+		cdh.cheesyDrive(commands, robotState);
 		
 		// Runs routines
 		behavior_manager.update(operator_interface.getCommands());
@@ -138,8 +119,6 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void disabledInit() {
-		setState(RobotState.DISABLED);
-
 		System.out.println("Start disabledInit()");
 		System.out.println("Current Auto Mode: "+AutoModeSelector.getInstance().getAutoMode().toString());
 		// Stop auto mode
