@@ -27,28 +27,24 @@ import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends IterativeRobot {
-	private static RobotState robotState;
-	public static RobotState getRobotState() {return robotState;}
-	Looper subsystem_looper = new Looper();
+	// Instantiate singleton classes
+	private static RobotState mRobotState = new RobotState();
 
-	AutoModeExecuter autoModeRunner = new AutoModeExecuter();
-	// Subsystems
-	Drive drive = HardwareAdaptor.kDrive;
-	TyrShooter shooter = HardwareAdaptor.kTyrShooter;
-	Intake intake = HardwareAdaptor.kIntake;
-	Breacher breacher = HardwareAdaptor.kBreacher;
-	PowerDistributionPanel pdp = HardwareAdaptor.kPDP;
-	LowGoalShooter lowGoal = HardwareAdaptor.kLowGoalShooter;
+	public static RobotState getRobotState() {
+		return mRobotState;
+	}
 
-	BehaviorManager behavior_manager = new BehaviorManager();
-	OperatorInterface operator_interface = new OperatorInterface();
-
-	CheesyDriveHelper cdh = new CheesyDriveHelper(drive);
-	ProportionalDriveHelper pdh = new ProportionalDriveHelper(drive);
-
-	Joystick leftStick = HardwareAdaptor.kLeftStick;
-	Joystick rightStick = HardwareAdaptor.kRightStick;
-	Joystick operatorStick = HardwareAdaptor.kOperatorStick;
+	private static OperatorInterface mOperatorInterface = OperatorInterface.getInstance();
+	private static HardwareAdaptor mHardwareAdaptor = HardwareAdaptor.getInstance();
+	// Instantiate separate thread controls
+	private Looper subsystem_looper = new Looper();
+	private AutoModeExecuter autoModeRunner = new AutoModeExecuter();
+	private BehaviorManager behavior_manager = new BehaviorManager();
+	// Subsystem controllers
+	private Drive mDrive = new Drive();
+	// Helper classes for some subsystems
+	private CheesyDriveHelper cdh = new CheesyDriveHelper(drive);
+	private ProportionalDriveHelper pdh = new ProportionalDriveHelper(drive);
 
 	Dashboard mDashboard = Dashboard.getInstance();
 	NetworkTable sensorTable;
@@ -71,10 +67,12 @@ public class Robot extends IterativeRobot {
 		//        SystemManager.getInstance().add(behavior_manager);
 		sensorTable = NetworkTable.getTable("Sensor");
 		mDashboard.init();
+		System.out.println("End robotInit()");
 	}
 
 	@Override
 	public void autonomousInit() {
+		System.out.println("Start autonomousInit()");
 		drive.reset();
 		
 		AutoMode mode = AutoModeSelector.getInstance().getAutoMode();
@@ -84,6 +82,7 @@ public class Robot extends IterativeRobot {
 		autoModeRunner.start();
 		// Start control loops
 		subsystem_looper.start();
+		System.out.println("End autonomousInit()");
 	}
 
 	@Override
@@ -98,6 +97,7 @@ public class Robot extends IterativeRobot {
 		if(RobotState.name == RobotState.RobotName.TYR) {
 			shooter.reset();
 		}
+		System.out.println("End teleopInit()");
 	}
 
 	@Override
@@ -106,7 +106,7 @@ public class Robot extends IterativeRobot {
 		Commands commands = operator_interface.getCommands();
 		// Pick one or the other drive scheme
 //		pdh.pDrive(commands);
-		cdh.cheesyDrive(commands, robotState);
+		cdh.cheesyDrive(commands, mRobotState);
 		
 		// Runs routines
 		behavior_manager.update(operator_interface.getCommands());
@@ -132,13 +132,13 @@ public class Robot extends IterativeRobot {
 
 		// Stop controllers
 		drive.setOpenLoop(DriveSignal.NEUTRAL);
-		//
+
 		// Reload constants
 		drive.reloadConstants();
-		//
+		// Manually run garbage collector
 		System.gc();
 
-		System.out.println("end disable init!");
+		System.out.println("End disabledInit()");
 	}
 
 	@Override

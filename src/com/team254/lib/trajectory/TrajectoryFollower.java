@@ -160,7 +160,7 @@ public class TrajectoryFollower {
         }
         double error = setpoint_.pos - position;
         if (reset_) {
-            // Prevent jump in derivative term when we have been reset.
+            // Prevent jump in derivative term when we have been resetController.
             reset_ = false;
             last_error_ = error;
             error_sum_ = 0;

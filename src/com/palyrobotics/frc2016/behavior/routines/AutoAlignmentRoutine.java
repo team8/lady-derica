@@ -51,7 +51,7 @@ public class AutoAlignmentRoutine extends Routine {
 			if(m_iterations > 0) {
 				m_timer.reset();
 				m_timer.start();
-				drive.reset();
+				drive.resetController();
 				setpoints.auto_align_setpoint = Commands.Setpoints.m_nullopt;
 				System.out.println("Started auto align " + m_state);
 				new_state = AutoAlignStates.SET_ANGLE;
@@ -103,7 +103,7 @@ public class AutoAlignmentRoutine extends Routine {
 			}
 			break;
 		case DONE:
-			drive.reset();
+			drive.resetController();
 			break;
 		}
 		m_is_new_state = false;
@@ -118,7 +118,7 @@ public class AutoAlignmentRoutine extends Routine {
 	public void cancel() {
 		m_state = AutoAlignStates.DONE;
 		drive.setOpenLoop(DriveSignal.NEUTRAL);
-		drive.reset();
+		drive.resetController();
 	}
 
 	@Override

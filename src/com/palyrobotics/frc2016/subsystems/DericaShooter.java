@@ -1,8 +1,8 @@
 package com.palyrobotics.frc2016.subsystems;
 
+import com.palyrobotics.frc2016.util.Subsystem;
 import com.team254.lib.util.CheesySpeedController;
 import com.team254.lib.util.StateHolder;
-import com.team254.lib.util.Subsystem;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;

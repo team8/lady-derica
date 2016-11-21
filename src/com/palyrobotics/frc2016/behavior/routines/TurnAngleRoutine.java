@@ -25,7 +25,7 @@ public class TurnAngleRoutine extends Routine {
 	
 	@Override
 	public void start() {
-		drive.reset();
+		drive.resetController();
 		m_state = States.START;
 	}
 
@@ -49,7 +49,7 @@ public class TurnAngleRoutine extends Routine {
 			break;
 			
 		case DONE:
-			drive.reset();
+			drive.resetController();
 			break;
 		}
 		
@@ -60,7 +60,7 @@ public class TurnAngleRoutine extends Routine {
 	public void cancel() {
 		m_state = States.DONE;
 		drive.setOpenLoop(DriveSignal.NEUTRAL);
-		drive.reset();
+		drive.resetController();
 	}
 
 	@Override

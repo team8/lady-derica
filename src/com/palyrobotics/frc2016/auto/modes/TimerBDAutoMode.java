@@ -71,7 +71,7 @@ public class TimerBDAutoMode extends AutoMode {
 	@Override
 	public void prestart() {
 		System.out.println("Starting auto mode: " + toString());
-		drive.reset();
+		drive.resetController();
 	}
 
 }

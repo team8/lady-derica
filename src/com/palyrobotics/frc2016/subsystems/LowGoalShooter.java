@@ -1,9 +1,9 @@
 package com.palyrobotics.frc2016.subsystems;
 
+import com.palyrobotics.frc2016.util.Subsystem;
 import com.team254.lib.util.CheesySpeedController;
 import com.team254.lib.util.Loop;
 import com.team254.lib.util.StateHolder;
-import com.team254.lib.util.Subsystem;
 
 public class LowGoalShooter extends Subsystem implements Loop {
 	

@@ -9,100 +9,115 @@ import com.palyrobotics.frc2016.subsystems.controllers.team254.DrivePathControll
 import com.palyrobotics.frc2016.subsystems.controllers.team254.DriveStraightController;
 import com.palyrobotics.frc2016.subsystems.controllers.team254.TurnInPlaceController;
 import com.palyrobotics.frc2016.util.Constants;
+import com.palyrobotics.frc2016.util.Subsystem;
 import com.team254.lib.trajectory.Path;
 import com.team254.lib.util.*;
 
-import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-//import com.team254.lib.util.gyro.GyroThread;
-import edu.wpi.first.wpilibj.Encoder;
 
+/**
+ * Represents the drivetrain
+ * Uses controllers or cheesydrivehelper to calculate DriveSignal
+ */
 public class Drive extends Subsystem implements Loop {
 
 	public interface DriveController {
 		DriveSignal update(Pose pose);
-
 		Pose getCurrentSetpoint();
 
-		public boolean onTarget();
-
+		boolean onTarget();
 	}
-	private DoubleSolenoid m_shifter_solenoid = null;
-	private CheesySpeedController m_left_motor;
-	private CheesySpeedController m_right_motor;
-	protected Encoder m_left_encoder;
-	protected Encoder m_right_encoder;
-	protected ADXRS450_Gyro m_gyro;
 	private DriveController m_controller = null;
-	
 	// Derica is always considered high gear
 	public enum DriveGear {HIGH, LOW}
 	public DriveGear mGear;
-	
 	// Encoder DPP
 	protected final double m_inches_per_tick;
-
 	protected final double m_wheelbase_width; // Get from CAD
 	protected final double m_turn_slip_factor; // Measure empirically
-	private Pose m_cached_pose = new Pose(0, 0, 0, 0, 0, 0); // Don't allocate poses at 200Hz!
+	// Cache poses to not allocated at 200Hz
+	private Pose m_cached_pose = new Pose(0, 0, 0, 0, 0, 0);
+	// Cached robot state, updated by looper
+	private RobotState m_cached_robot_state;
+	// Stores output
+	private DriveSignal mSignal = DriveSignal.NEUTRAL;
 
-	public Drive(String name, CheesySpeedController left_drive,
-			CheesySpeedController right_drive, Encoder left_encoder,
-			Encoder right_encoder, ADXRS450_Gyro gyro, DoubleSolenoid shifter_solenoid) {
-		super(name);
+	public Drive(RobotState robotState) {
+		super("drive");
+		m_cached_robot_state = robotState;
 		if(Robot.getRobotState().name == RobotState.RobotName.TYR) {
 			m_wheelbase_width = 26.0;
 			m_turn_slip_factor = 1.2;
-			// TODO: Encoder DPP's
 			m_inches_per_tick = 0.184;
 		}
 		else {
 			m_wheelbase_width = 22.0;
 			m_turn_slip_factor = 1.2;
-			// TODO: Encoder DPP's
 			m_inches_per_tick = 0.07033622;
 			mGear = DriveGear.HIGH;
 		}
-		this.m_left_motor = left_drive;
-		this.m_right_motor = right_drive;
-		this.m_left_encoder = left_encoder;
-		this.m_right_encoder = right_encoder;
-		this.m_left_encoder.setDistancePerPulse(m_inches_per_tick);
-		this.m_right_encoder.setDistancePerPulse(m_inches_per_tick);
-		this.m_gyro = gyro;
-		this.m_shifter_solenoid = shifter_solenoid;
+	}
+
+	/**
+	 * @return DriveSignal
+	 */
+	public DriveSignal get() {
+		return mSignal;
+	}
+
+	@Override
+	public void onStart() {
+	}
+
+	@Override
+	public void onStop() {
+	}
+
+	@Override
+	public void onLoop() {
+		if (!hasController()) {
+			return;
+		}
+		setDriveOutputs(m_controller.update(getPhysicalPose()));
+	}
+
+	private void setDriveOutputs(DriveSignal signal) {
+		mSignal = signal;
+	}
+
+	/**
+	 * Allows shifting of gear - Note that Derica cannot shift gears
+	 *
+	 * @param targetGear Desired gear to shift to
+	 * @return What the shifterSolenoid should be set to
+	 */
+	public DoubleSolenoid.Value setGear(DriveGear targetGear) {
+		if (Robot.getRobotState().name == RobotState.RobotName.DERICA) {
+			System.err.println("No gear shifting on Derica");
+			return null;
+		}
+		switch (targetGear) {
+			case HIGH:
+				return Value.kForward;
+			case LOW:
+				return Value.kReverse;
+		}
+		return null;
+	}
+
+	public boolean isHighGear() {
+		return mGear == DriveGear.HIGH;
 	}
 
 	public void setOpenLoop(DriveSignal signal) {
 		m_controller = null;
 		setDriveOutputs(signal);
 	}
-	
-	public void setGear(DriveGear targetGear) {
-		if(Robot.getRobotState().name == RobotState.RobotName.DERICA) {
-			System.err.println("No gear shifting on Derica");
-			return;
-		}
-		switch(targetGear) {
-			case HIGH:
-				//TODO Which is high and which is low?
-				m_shifter_solenoid.set(Value.kForward);
-				break;
-			case LOW:
-				m_shifter_solenoid.set(Value.kReverse);
-				break;
-		}
-	}
-	
-	public boolean isHighGear() {
-		return mGear == DriveGear.HIGH;
-	}
 
 	public void setDistanceSetpoint(double distance) {
 		setDistanceSetpoint(distance, Constants.kDriveMaxSpeedInchesPerSec);
 	}
-
 	public void setDistanceSetpoint(double distance, double velocity) {
 		// 0 < vel < max_vel
 		double vel_to_use = Math.min(Constants.kDriveMaxSpeedInchesPerSec, Math.max(velocity, 0));
@@ -129,7 +144,6 @@ public class Drive extends Subsystem implements Loop {
 	public void setTurnSetpoint(double heading) {
 		setTurnSetpoint(heading, Constants.kTurnMaxSpeedRadsPerSec);
 	}
-
 	public void setTurnSetpoint(double heading, double velocity) {
 		velocity = Math.min(Constants.kTurnMaxSpeedRadsPerSec, Math.max(velocity, 0));
 		m_controller = new TurnInPlaceController(getPoseToContinueFrom(true), heading, velocity);
@@ -148,57 +162,20 @@ public class Drive extends Subsystem implements Loop {
 	public void setGyroTurnAngleSetpoint(double heading, double maxVel) {
 		m_controller = new GyroTurnAngleController(getPoseToContinueFrom(true), heading, maxVel);
 	}
-	
-	public void reset() {
-		m_left_encoder.reset();
-		m_right_encoder.reset();
+
+	// Wipes current controller
+	public void resetController() {
 		m_controller = null;
 	}
 
 	public void setPathSetpoint(Path path) {
-		reset();
+		resetController();
 		m_controller = new DrivePathController(path);
 	}
 
 	public void setFinishLineSetpoint(double distance, double heading) {
-		reset();
+		resetController();
 		m_controller = new DriveFinishLineController(distance, heading, 1.0);
-	}
-
-	@Override
-	public void getState(StateHolder states) {
-		//        states.put("gyro_angle", m_gyro.getAngle());
-		states.put("left_encoder", m_left_encoder.getDistance());
-		states.put("left_encoder_rate", m_left_encoder.getRate());
-		states.put("right_encoder_rate", m_right_encoder.getRate());
-		states.put("right_encoder", m_right_encoder.getDistance());
-
-		Pose setPointPose = m_controller == null ? getPhysicalPose(): m_controller.getCurrentSetpoint();
-				states.put("drive_set_point_pos",
-					DriveStraightController.encoderDistance(setPointPose));
-				states.put("turn_set_point_pos", setPointPose.getHeading());
-				states.put("left_signal", m_left_motor.get());
-				states.put("right_signal", m_right_motor.get());
-				states.put("on_target", (m_controller != null && m_controller.onTarget()) ? 1.0 : 0.0);
-	}
-
-	@Override
-	public void onStart() {
-	}
-	@Override
-	public void onStop() {
-	}
-	@Override
-	public void onLoop() {
-		if(!hasController()) {
-			return;
-		}
-		setDriveOutputs(m_controller.update(getPhysicalPose()));
-	}
-
-	private void setDriveOutputs(DriveSignal signal) {
-		m_left_motor.set(signal.leftMotor);
-		m_right_motor.set(-signal.rightMotor);
 	}
 
 	private Pose getPoseToContinueFrom(boolean for_turn_controller) {
@@ -222,13 +199,8 @@ public class Drive extends Subsystem implements Loop {
 	 * @return The pose according to the current sensor state
 	 */
 	public Pose getPhysicalPose() {
-		m_cached_pose.reset(
-				m_left_encoder.getDistance(),
-				m_right_encoder.getDistance(),
-				m_left_encoder.getRate(),
-				m_right_encoder.getRate(),
-				m_gyro.getAngle(),
-				m_gyro.getRate());
+		RobotState robotState = Robot.getRobotState();
+		m_cached_pose = robotState.getDrivePose();
 		return m_cached_pose;
 	}
 

@@ -47,8 +47,8 @@ public class LowBarAutoMode extends AutoMode {
 
 	@Override
 	public void prestart() {
-		drive.reset();
-		//TODO: reset all other subsystems
+		drive.resetController();
+		//TODO: resetController all other subsystems
 	}
 	
 	@Override

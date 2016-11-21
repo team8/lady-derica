@@ -38,7 +38,7 @@ public class DriveDistanceAction implements Action {
 	@Override
 	public void start() {
 		System.out.println("Starting EncoderDriveAction");
-		drive.reset();
+		drive.resetController();
 		startPoint = drive.getPhysicalPose().getRightDistance();
 		System.out.println(startPoint);
 		//setDistanceSetpoint is relative

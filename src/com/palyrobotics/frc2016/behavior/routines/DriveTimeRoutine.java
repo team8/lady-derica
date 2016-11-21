@@ -84,7 +84,7 @@ public class DriveTimeRoutine extends Routine {
 			}
 			break;
 		case DONE:
-			drive.reset();
+			drive.resetController();
 			System.out.println("DONE called");
 			setpoints.currentRoutine = Commands.RoutineRequest.NONE;
 			setpoints.timer_drive_time_setpoint = Commands.Setpoints.m_nullopt;
@@ -95,7 +95,7 @@ public class DriveTimeRoutine extends Routine {
 		m_is_new_state = false;
 		if(new_state != m_state) {
 			m_state = new_state;
-			//m_timer.reset();
+			//m_timer.resetController();
 			m_is_new_state = true;
 		}
 		
@@ -108,13 +108,13 @@ public class DriveTimeRoutine extends Routine {
 		System.out.println("Cancelling");
 		m_timer.stop();
 		m_timer.reset();
-		drive.reset();
+		drive.resetController();
 		drive.setOpenLoop(DriveSignal.NEUTRAL);
 	}
 	
 	@Override
 	public void start() {
-		drive.reset();
+		drive.resetController();
 		m_timer.reset();
 		m_state = DriveTimeRoutineStates.START;
 	}

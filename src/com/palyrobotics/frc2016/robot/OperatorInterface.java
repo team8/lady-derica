@@ -12,11 +12,21 @@ import com.palyrobotics.frc2016.util.XboxController;
 import com.team254.lib.util.Latch;
 
 /**
- * Used to produce Commands {@link Commands}
+ * Used to produce Commands {@link Commands} from human input
+ * Singleton
  * @author Nihar
  *
  */
 public class OperatorInterface {
+	private static OperatorInterface mInstance = new OperatorInterface();
+
+	public static OperatorInterface getInstance() {
+		return mInstance;
+	}
+
+	private OperatorInterface() {
+	}
+	
 	private Commands m_commands = new Commands();
 
 	Joystick leftStick = HardwareAdaptor.kLeftStick;

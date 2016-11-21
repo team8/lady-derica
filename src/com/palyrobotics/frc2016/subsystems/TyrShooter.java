@@ -3,11 +3,11 @@ package com.palyrobotics.frc2016.subsystems;
 import com.palyrobotics.frc2016.subsystems.controllers.ConstantVoltageController;
 import com.palyrobotics.frc2016.subsystems.controllers.StrongHoldController;
 import com.palyrobotics.frc2016.util.Dashboard;
+import com.palyrobotics.frc2016.util.Subsystem;
 import com.team254.lib.util.CheesySpeedController;
 import com.team254.lib.util.Controller;
 import com.team254.lib.util.Loop;
 import com.team254.lib.util.StateHolder;
-import com.team254.lib.util.Subsystem;
 
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.DoubleSolenoid;

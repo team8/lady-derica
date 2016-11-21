@@ -7,11 +7,9 @@ import com.palyrobotics.frc2016.auto.AutoModeEndedException;
 import com.palyrobotics.frc2016.auto.actions.Action;
 import com.palyrobotics.frc2016.auto.actions.DriveTimeAction;
 import com.palyrobotics.frc2016.auto.actions.GetLowAction;
-import com.palyrobotics.frc2016.auto.actions.IntakeAction;
 import com.palyrobotics.frc2016.auto.actions.ParallelAction;
 import com.palyrobotics.frc2016.input.RobotState;
 import com.palyrobotics.frc2016.robot.Robot;
-import com.palyrobotics.frc2016.subsystems.Intake.WantedIntakeState;
 
 public class TimerLowBarAutoMode extends AutoMode {
 	
@@ -50,7 +48,7 @@ public class TimerLowBarAutoMode extends AutoMode {
 
 	@Override
 	public void prestart() {
-		drive.reset();
+		drive.resetController();
 		
 	}
 

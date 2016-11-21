@@ -1,14 +1,15 @@
 package com.team254.lib.util;
 
-import org.json.simple.JSONObject;
-
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.regex.Pattern;
 
+import org.json.simple.JSONObject;
+
 /**
- * @author bg Manages a set of serializable objects
+ * @author bg
+ * Manages a set of serializable objects {@link Tappable}
  */
 public class SystemManager {
     private static SystemManager inst = null;

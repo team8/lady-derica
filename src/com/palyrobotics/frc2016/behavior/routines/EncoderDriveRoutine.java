@@ -114,7 +114,7 @@ public class EncoderDriveRoutine extends Routine {
 			}
 			break;
 		case DONE:
-			drive.reset();
+			drive.resetController();
 			break;
 		}
 		
@@ -134,12 +134,12 @@ public class EncoderDriveRoutine extends Routine {
 		m_timer.stop();
 		m_timer.reset();
 		drive.setOpenLoop(DriveSignal.NEUTRAL);
-		drive.reset();
+		drive.resetController();
 	}
 
 	@Override
 	public void start() {
-		drive.reset();
+		drive.resetController();
 		m_timer.reset();
 	}
 
