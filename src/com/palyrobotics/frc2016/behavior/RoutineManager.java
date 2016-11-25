@@ -12,18 +12,11 @@ import com.team254.lib.util.DriveSignal;
 import com.team254.lib.util.StateHolder;
 import com.team254.lib.util.Tappable;
 
-public class BehaviorManager implements Tappable {
+public class RoutineManager implements Tappable {
 
 	public boolean isZero(double val) {
 		return val == 0 || (val < 0.001 && val > -0.001);
 	}
-
-	protected Drive drive = HardwareAdaptor.kDrive;
-
-	protected TyrShooter kShooter = HardwareAdaptor.kTyrShooter;
-	protected Intake intake = HardwareAdaptor.kIntake;
-	protected DericaShooter catapult = HardwareAdaptor.kCatapult;
-	protected LowGoalShooter k_low_shooter = HardwareAdaptor.kLowGoalShooter;
 
 	private Routine m_cur_routine = null;
 	private Commands.Setpoints m_setpoints;
@@ -60,7 +53,7 @@ public class BehaviorManager implements Tappable {
 		setNewRoutine(null);
 	}
 
-	public BehaviorManager() {
+	public RoutineManager() {
 		m_setpoints = new Commands.Setpoints();
 		m_setpoints.reset();
 	}
@@ -73,19 +66,19 @@ public class BehaviorManager implements Tappable {
 			setNewRoutine(null);
 		}
 
-		// Set TROUT routines
+		// Set TROUT routine_request
 		if (commands.cancel_current_routine) {
 			System.out.println("Cancel routine button");
 			setNewRoutine(null);
-		} else if(commands.routineRequest == Commands.RoutineRequest.ENCODER_DRIVE && !(m_cur_routine instanceof EncoderDriveRoutine)) {
+		} else if(commands.routine_request == Commands.Routines.ENCODER_DRIVE && !(m_cur_routine instanceof EncoderDriveRoutine)) {
 			setNewRoutine(new EncoderDriveRoutine(500));
-		} else if(commands.routineRequest == Commands.RoutineRequest.TIMER_DRIVE && !(m_cur_routine instanceof DriveTimeRoutine)) {
+		} else if(commands.routine_request == Commands.Routines.TIMER_DRIVE && !(m_cur_routine instanceof DriveTimeRoutine)) {
 			System.out.println("Setting routine");
 			setNewRoutine(new DriveTimeRoutine(3, 0.5));
-		} else if(commands.routineRequest == Commands.RoutineRequest.AUTO_ALIGN && !(m_cur_routine instanceof AutoAlignmentRoutine)) {
+		} else if(commands.routine_request == Commands.Routines.AUTO_ALIGN && !(m_cur_routine instanceof AutoAlignmentRoutine)) {
 //			System.out.println("Auto align activated");
 			setNewRoutine(new AutoAlignmentRoutine());
-		} else if(commands.routineRequest == Commands.RoutineRequest.TURN_ANGLE && !(m_cur_routine instanceof TurnAngleRoutine)) {
+		} else if(commands.routine_request == Commands.Routines.TURN_ANGLE && !(m_cur_routine instanceof TurnAngleRoutine)) {
 			System.out.println("Turn angle activated");
 			setNewRoutine(new TurnAngleRoutine(45, 0.3));
 		}
@@ -97,51 +90,6 @@ public class BehaviorManager implements Tappable {
 
 		// Get manual m_setpoints
 		//        m_setpoints = m_manual_routine.update(commands, m_setpoints);
-
-		// Intake commands parsing
-		if (commands.intakeRequest == Commands.IntakeRequest.INTAKE) {
-			// Run intake inwards (positive speed is intake)
-			intake.setSpeed(Constants.kManualIntakeSpeed);
-		} else if (commands.intakeRequest == Commands.IntakeRequest.EXHAUST) {
-			// Run intake outwards (negative speed is exhaust)
-			intake.setSpeed(Constants.kManualExhaustSpeed);
-		} else {
-			// Stop intake.
-			intake.setSpeed(0.0);
-		}
-		
-		if (Robot.getRobotState().name == RobotState.RobotName.DERICA) {
-			if (commands.low_request == Commands.LowGoalShooterRequest.LOAD) {
-				k_low_shooter.setWantedState(WantedLowGoalState.INTAKING);
-			}
-			else if (commands.low_request == Commands.LowGoalShooterRequest.SHOOT) {
-				k_low_shooter.setWantedState(WantedLowGoalState.SHOOTING);
-			}
-			else {
-				k_low_shooter.stopMotor();
-			}
-		}
-
-		// Parse latch commands because this is only open loop
-		if (commands.latch_request == Commands.LatchRequest.LOCK) {
-			kShooter.lock();
-		} else if (commands.latch_request == Commands.LatchRequest.UNLOCK) {
-			kShooter.unlock();
-		}
-
-		// Parse grabbber commands because this is only open loop
-		if (commands.grabber_request == Commands.GrabberRequest.GRAB) {
-			kShooter.grab();
-		} else if (commands.grabber_request == Commands.GrabberRequest.RELEASE) {
-			kShooter.release();
-		}
-
-		// Parse shooter commands because this is only open loop
-		if (commands.shooter_request == Commands.ShooterRequest.EXTEND) {
-			kShooter.extend();
-		} else if (commands.shooter_request == Commands.ShooterRequest.RETRACT) {
-			kShooter.retract();
-		}
 		
 		//Encoder drive distance routine
 		if(m_setpoints.encoder_drive_setpoint.isPresent()) {
@@ -154,7 +102,7 @@ public class BehaviorManager implements Tappable {
 		// If auto-align has a setpoint to use, start turning angle
 		else if(m_setpoints.auto_align_setpoint.isPresent()) {
 			drive.setAutoAlignSetpoint(m_setpoints.auto_align_setpoint.get());
-//			drive.setGyroTurnAngleSetpoint((m_setpoints.auto_align_setpoint.get()),0.5);
+//			drive.setGyroTurnAngleSetpoint((m_setpoints.auto_align_setpoint.getDriveSignal()),0.5);
 		} // Parse winch commands because this is only open loop
 		
 		

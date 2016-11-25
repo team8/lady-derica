@@ -35,7 +35,7 @@ public class ExpelShooterAction implements Action {
 	@Override
 	public void done() {
 		intake.setWantedState(WantedIntakeState.NONE);
-		lowShooter.setWantedState(WantedLowGoalState.NONE);
+		lowShooter.setWantedState(WantedLowGoalState.STOP);
 	}
 
 	@Override

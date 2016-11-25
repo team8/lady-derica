@@ -1,58 +1,62 @@
 package com.palyrobotics.frc2016.subsystems;
 
+import com.palyrobotics.frc2016.input.Commands;
+import com.palyrobotics.frc2016.input.RobotState;
 import com.palyrobotics.frc2016.util.Subsystem;
-import com.team254.lib.util.CheesySpeedController;
 import com.team254.lib.util.Loop;
-import com.team254.lib.util.StateHolder;
 
+/**
+ * Represents Derica low goal shooter flywheel
+ */
 public class LowGoalShooter extends Subsystem implements Loop {
-	
-	private CheesySpeedController m_top_motor;
-	
+	// Stores output to return
+	private double output = 0.0;
 	public enum WantedLowGoalState {
-		SHOOTING, INTAKING, NONE
+		SHOOTING, INTAKING, STOP
 	}
-	public WantedLowGoalState mWantedState = WantedLowGoalState.NONE;
+	private WantedLowGoalState mWantedState = WantedLowGoalState.STOP;
 	
-	public LowGoalShooter(String name, CheesySpeedController lowGoalShooterMotor) {
-		super(name);
-		m_top_motor = lowGoalShooterMotor;
-	}
-	
-	public void setWantedState(WantedLowGoalState state) {
-		this.mWantedState = state;
-	}
-	
-	public void stopMotor() {
-		setWantedState(WantedLowGoalState.NONE);
+	public LowGoalShooter() {
+		super("LowGoalShooter");
 	}
 
 	@Override
-	public void getState(StateHolder states) {
-		
+	public void update(Commands commands, RobotState robotState) {
+		if (commands.low_request == Commands.LowGoalShooterRequest.LOAD) {
+			mWantedState = WantedLowGoalState.INTAKING;
+		}
+		else if (commands.low_request == Commands.LowGoalShooterRequest.SHOOT) {
+			mWantedState = WantedLowGoalState.SHOOTING;
+		}
+		else {
+			mWantedState = WantedLowGoalState.STOP;
+		}
 	}
 
-	@Override
-	public void reloadConstants() {
-		//TOOD: Empty stub
+	/**
+	 * Get the PWM signal for the low goal shooter
+	 * @return PWM value for the flywheel
+	 */
+	public double get() {
+		return output;
 	}
 
 	@Override
 	public void onStart() {
-		m_top_motor.set(0);
+		output = 0.0;
 	}
 
 	@Override
 	public void onLoop() {
 		switch (this.mWantedState) {
 		case INTAKING:
-			m_top_motor.set(-0.7);
+			output = -0.7;
 			break;
 		case SHOOTING:
-			m_top_motor.set(1.0);
+			output = 1.0;
 			break;
-		case NONE:
-			m_top_motor.set(0.0);
+		case STOP:
+			output = 0.0;
 			break;
 		default:
 			break;
@@ -61,6 +65,6 @@ public class LowGoalShooter extends Subsystem implements Loop {
 
 	@Override
 	public void onStop() {
-		m_top_motor.set(0);
+		output = 0.0;
 	}
 }

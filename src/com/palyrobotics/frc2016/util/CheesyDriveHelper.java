@@ -10,44 +10,26 @@ import com.team254.lib.util.Util;
 import edu.wpi.first.wpilibj.DriverStation;
 
 /**
- * CheesyDriveHelper implements the calculations used in CheesyDrive, sending
- * power to the motors.
+ * CheesyDriveHelper implements the calculations used in CheesyDrive for teleop control.
+ * Returns a DriveSignal for the motor output
  */
 public class CheesyDriveHelper {
-
-	private Drive drive;
-	double oldWheel, quickStopAccumulator;
-	private double throttleDeadband = 0.02;
-	private double wheelDeadband = 0.02;
+	private double oldWheel, quickStopAccumulator;
+	private final double wheelStickDeadband = 0.02;
+	private final double throttleStickDeadband = 0.02;
 	private DriveSignal signal = new DriveSignal(0, 0);
 
-	public CheesyDriveHelper(Drive drive) {
-		this.drive = drive;
-	}
-
-	public void cheesyDrive(Commands commands, RobotState robotState) {
+	public DriveSignal cheesyDrive(Commands commands, RobotState robotState) {
 //		System.out.println("Gyro Angle: " + drive.m_gyro.getAngle());
-		double throttle = -commands.leftStick.y;
-		double wheel = commands.rightStick.x;
-		boolean isQuickTurn = commands.rightStick.triggerPressed;
+		double throttle = -commands.leftStickInput.y;
+		double wheel = commands.rightStickInput.x;
+		boolean isQuickTurn = commands.rightStickInput.triggerPressed;
 		boolean isHighGear = (robotState.gear == DriveGear.HIGH);
-	
-		if (DriverStation.getInstance().isAutonomous()) {
-			return;
-		}
-
-		if (drive.hasController()) {
-			return;
-		}
-		
-		if(commands.routineRequest != Commands.RoutineRequest.NONE) {
-			return;
-		}
 
 		double wheelNonLinearity;
 
-		wheel = handleDeadband(wheel, wheelDeadband);
-		throttle = handleDeadband(throttle, throttleDeadband);
+		wheel = handleDeadband(wheel, wheelStickDeadband);
+		throttle = handleDeadband(throttle, throttleStickDeadband);
 
 		double negInertia = wheel - oldWheel;
 		oldWheel = wheel;
@@ -110,7 +92,7 @@ public class CheesyDriveHelper {
 		// Quickturn!
 		if (isQuickTurn) {
 			if (Math.abs(linearPower) < 0.2) {
-				double alpha = 0.1;
+				double alpha = 0.3;
 				quickStopAccumulator = (1 - alpha) * quickStopAccumulator
 						+ alpha * Util.limit(wheel, 1.0) * 5;
 			}
@@ -161,10 +143,16 @@ public class CheesyDriveHelper {
 		}
 		signal.leftMotor = leftPwm;
 		signal.rightMotor = rightPwm;
-		drive.setOpenLoop(signal);
+		return signal;
 	}
 
-	public double handleDeadband(double val, double deadband) {
+	/**
+	 * Neutralizes a value within a deadband
+	 * @param val Value to control deadband
+	 * @param deadband Value of deadband
+	 * @return 0 if within deadband, otherwise value
+	 */
+	private double handleDeadband(double val, double deadband) {
 		return (Math.abs(val) > Math.abs(deadband)) ? val : 0.0;
 	}
 }

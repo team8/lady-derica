@@ -3,6 +3,7 @@ package com.palyrobotics.frc2016.input;
 import java.util.Optional;
 
 import com.palyrobotics.frc2016.input.Commands.JoystickInput.XboxInput;
+import com.palyrobotics.frc2016.subsystems.Drive;
 
 /**
  * Commands represent the desired setpoints and subsystem states for the robot. <br />
@@ -24,7 +25,7 @@ public class Commands {
 		public Optional<Double> timer_drive_time_setpoint = m_nullopt;
 		public Optional<Double> drive_velocity_setpoint = m_nullopt;
 		
-		public RoutineRequest currentRoutine;
+		public Routines currentRoutine;
 		/**
 		 * Resets all the setpoints
 		 */
@@ -60,20 +61,21 @@ public class Commands {
 		}
 	}
 	// Stores Joystick values
-	public JoystickInput leftStick;
-	public JoystickInput rightStick;
-	public XboxInput operatorStick;
+	public JoystickInput leftStickInput;
+	public JoystickInput rightStickInput;
+	public XboxInput operatorStickInput;
 	// Routine Request
-	public static enum RoutineRequest {
+	public static enum Routines {
 		TIMER_DRIVE, ENCODER_DRIVE, TURN_ANGLE, AUTO_ALIGN, NONE
 	}
 	// Routine requests
-	public RoutineRequest routineRequest;
+	public Routines routine_request;
 	
 	// Subsystem requests
 	public IntakeRequest intakeRequest;
 	public GrabberRequest grabber_request;
 	public LatchRequest latch_request;
+	public Drive.DriveGear gear_request;
 	public ShooterRequest shooter_request;
 	public WinchRequest winch_request;
 	public PinRequest pin_request;

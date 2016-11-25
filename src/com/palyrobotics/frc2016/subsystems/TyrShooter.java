@@ -1,5 +1,7 @@
 package com.palyrobotics.frc2016.subsystems;
 
+import com.palyrobotics.frc2016.input.Commands;
+import com.palyrobotics.frc2016.input.RobotState;
 import com.palyrobotics.frc2016.subsystems.controllers.ConstantVoltageController;
 import com.palyrobotics.frc2016.subsystems.controllers.StrongHoldController;
 import com.palyrobotics.frc2016.util.Dashboard;
@@ -20,15 +22,11 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
  *
  */
 public class TyrShooter extends Subsystem implements Loop {
-	// Hardware components
-	CheesySpeedController m_shooter_motor;
-	DoubleSolenoid m_shooter_solenoid;
-	DoubleSolenoid m_latch_solenoid;
-	DoubleSolenoid m_grabber_solenoid;
-	// Optional, if null, then code will not attempt to hold position
-	AnalogPotentiometer m_potentiometer = null;
-	
-	// Tuning constants
+	// Store motor output and solenoid output
+	private double motorOutput = 0.0;
+	private DoubleSolenoid.Value[] solenoidOutput = new DoubleSolenoid.Value[2];
+
+	// Tuning constants for hold in place controller
 	final double kDeadzone = 0.1; // Range to ignore joystick output and hold position instead
 	final double kJoystickScaleFactor = 0.5; // Scale down joystick input for precision (if setting speed directly)
 	final double kP = 0;
@@ -36,35 +34,59 @@ public class TyrShooter extends Subsystem implements Loop {
 	final double kD = 0;
 	final double kTolerance = 1; // Tolerance for the hold arm controller
 	// For raising and lowering the shooters at constant voltages
-	static final double kLoweringVoltage = -0.1;
-	static final double kRaisingVoltage = 0.5;
+	private static final double kLoweringVoltage = -0.1;
+	private static final double kRaisingVoltage = 0.5;
 	// Shooter motor controller for holding position, or raising/lowering shooter
-	Controller m_controller = null;
+	private Controller m_controller = null;
 	
 	// Used mainly for autonomous raising and lowering of the shooter
 	public enum WantedShooterState {
 		RAISED, LOWERED, NONE
 	}
 	public WantedShooterState mWantedState = WantedShooterState.NONE;
-	
+
+	@Override
+	public void update(Commands commands, RobotState robotState) {
+		if (commands.latch_request == Commands.LatchRequest.LOCK) {
+			lock();
+		} else if (commands.latch_request == Commands.LatchRequest.UNLOCK) {
+			unlock();
+		}
+		if (commands.grabber_request == Commands.GrabberRequest.GRAB) {
+			grab();
+		} else if (commands.grabber_request == Commands.GrabberRequest.RELEASE) {
+			release();
+		}
+		if (commands.shooter_request == Commands.ShooterRequest.EXTEND) {
+			extend();
+		} else if (commands.shooter_request == Commands.ShooterRequest.RETRACT) {
+			retract();
+		}
+		motorOutput = commands.operatorStickInput.leftY *kJoystickScaleFactor;
+	}
+
+	/**
+	 * Returns the PWM signal for the shooter motor
+	 */
+	public double getMotorOutput() {
+
+	}
+	/**
+	 * Returns the solenoid values for the shooter (latch and grabber)
+	 */
+	public DoubleSolenoid.Value[] getSolenoidOutput() {
+		return solenoidOutput;
+	}
+
 	@Override
 	public void onStart() {
 	}
 
 	/**
-	 * Runs the current controller if enabled and not null
+	 * TODO: lol
 	 */
 	@Override
 	public void onLoop() {
-		if(m_controller instanceof StrongHoldController) {
-			if(((StrongHoldController) m_controller).isEnabled()) {
-				m_shooter_motor.set(((StrongHoldController) m_controller).update());
-			}
-		}
-		else if(m_controller instanceof ConstantVoltageController) {
-			//System.out.println("Shooter voltage: "+((ConstantVoltageController) m_controller).get());
-			m_shooter_motor.set(((ConstantVoltageController) m_controller).get());
-		}
 	}
 
 	@Override
@@ -72,7 +94,7 @@ public class TyrShooter extends Subsystem implements Loop {
 	}
 
 	/**
-	 * Resets the shooter
+	 * Resets the shooter's controller
 	 * Should be done in teleop init to clear out autonomous
 	 */
 	public void reset() {
@@ -82,28 +104,6 @@ public class TyrShooter extends Subsystem implements Loop {
 			((StrongHoldController) m_controller).disable();
 		}
 		mWantedState = WantedShooterState.NONE;
-	}
-	
-	/**
-	 * Updates the shooter's motor output based on joystick input
-	 * Called in teleop
-	 * If there is an enabled controller that loop is executed in onLoop
-	 * @see TyrShooter#onLoop()
-	 */
-	public void update(double joystickInput) {		
-		// If no potentiometer available, directly use joystick input scaled down
-		if(m_potentiometer == null) {
-			m_shooter_motor.set(joystickInput*kJoystickScaleFactor);
-			return;
-		}
-		
-		// If joystick is within deadzone, then hold position using potentiometer
-		if(joystickInput < kDeadzone) {
-			holdPosition();
-		} else {
-			cancelHoldPosition();
-			m_shooter_motor.set(joystickInput*kJoystickScaleFactor);
-		}
 	}
 	
 	/**
@@ -203,57 +203,11 @@ public class TyrShooter extends Subsystem implements Loop {
 		mDashboard.getTable().putString("grabbermicrostate", "Raised");
 		this.m_grabber_solenoid.set(Value.kReverse);
 	}
-		
-	@Override
-	public void getState(StateHolder states) {
-		states.put("m_shooter", this.m_shooter_motor.get());
-	}
 
-	@Override
-	public void reloadConstants() {
-		// TODO Auto-generated method stub
-		
-	}
-	
 	/**
-	 * Constructs a shooter and grabber with a potentiometer
-	 * This enables usage of holdPosition
-	 * @param name should be "shooter"
-	 * @param shooter_motor motor that aims the shooter up/down
-	 * @param shooter_solenoid solenoid that pulls the spring
-	 * @param shooter_potentiometer potentiometer on the shooter motor
-	 * @param latch_solenoid solenoid that locks the shooter in place
-	 * @param grabber_solenoid solenoid that controls the grabber
+	 * TODO:
 	 */
-	public TyrShooter(String name, CheesySpeedController shooter_motor, DoubleSolenoid shooter_solenoid,
-			DoubleSolenoid latch_solenoid, DoubleSolenoid grabber_solenoid, AnalogPotentiometer shooter_potentiometer) {
-		super(name);
-		this.m_shooter_motor = shooter_motor;
-		this.m_shooter_solenoid = shooter_solenoid;
-		this.m_latch_solenoid = latch_solenoid;
-		this.m_grabber_solenoid = grabber_solenoid;
-		this.m_potentiometer = shooter_potentiometer;
-		// Default controller for holding position
-		this.m_controller = new StrongHoldController(kP, kI, kD, kTolerance, m_potentiometer);
-		// for safety
-		((StrongHoldController) m_controller).setPositionSetpoint(m_potentiometer.get());
-	}
-	
-	/**
-	 * Constructs a shooter and grabber without a potentiometer
-	 * This disables usage of holdPosition
-	 * @param name should be "shooter"
-	 * @param shooter_motor motor that aims the shooter up/down
-	 * @param shooter_solenoid solenoid that pulls the spring
-	 * @param latch_solenoid solenoid that locks the shooter in place
-	 * @param grabber_solenoid solenoid that controls the grabber
-	 */
-	public TyrShooter(String name, CheesySpeedController shooter_motor, DoubleSolenoid shooter_solenoid,
-			DoubleSolenoid latch_solenoid, DoubleSolenoid grabber_solenoid) {
-		super(name);
-		this.m_shooter_motor = shooter_motor;
-		this.m_shooter_solenoid = shooter_solenoid;
-		this.m_latch_solenoid = latch_solenoid;
-		this.m_grabber_solenoid = grabber_solenoid;
+	public TyrShooter() {
+		super("TyrShooter");
 	}
 }

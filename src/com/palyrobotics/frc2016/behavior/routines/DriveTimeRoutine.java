@@ -70,7 +70,7 @@ public class DriveTimeRoutine extends Routine {
 				setpoints.drive_velocity_setpoint = Commands.Setpoints.m_nullopt;
 			}
 
-			setpoints.currentRoutine = Commands.RoutineRequest.TIMER_DRIVE;
+			setpoints.currentRoutine = Commands.Routines.TIMER_DRIVE;
 			new_state = DriveTimeRoutineStates.DRIVING;
 			break;
 		case DRIVING:
@@ -86,7 +86,7 @@ public class DriveTimeRoutine extends Routine {
 		case DONE:
 			drive.resetController();
 			System.out.println("DONE called");
-			setpoints.currentRoutine = Commands.RoutineRequest.NONE;
+			setpoints.currentRoutine = Commands.Routines.NONE;
 			setpoints.timer_drive_time_setpoint = Commands.Setpoints.m_nullopt;
 			setpoints.drive_velocity_setpoint = Commands.Setpoints.m_nullopt;
 			break;

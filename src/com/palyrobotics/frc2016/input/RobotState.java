@@ -14,7 +14,12 @@ public class RobotState {
 		TYR, DERICA
 	}
 
-	public RobotName name = RobotName.DERICA;
+	public enum GamePeriod {
+		AUTO, TELEOP, DISABLED
+	}
+	public GamePeriod gamePeriod;
+
+	public final RobotName name = RobotName.DERICA;
 	
 	// No sensors on the robot currently
 	public DriveGear gear;
@@ -23,4 +28,9 @@ public class RobotState {
 	public Pose getDrivePose() {
 		return new Pose(0, 0, 0, 0, 0, 0);
 	}
+
+	// DIO Values
+	public double left_encoder;
+	public double right_encoder;
+	public double arm_potentiometer;
 }

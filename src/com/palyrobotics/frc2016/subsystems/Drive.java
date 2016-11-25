@@ -1,5 +1,6 @@
 package com.palyrobotics.frc2016.subsystems;
 
+import com.palyrobotics.frc2016.input.Commands;
 import com.palyrobotics.frc2016.input.RobotState;
 import com.palyrobotics.frc2016.robot.Robot;
 import com.palyrobotics.frc2016.subsystems.controllers.EncoderTurnAngleController;
@@ -8,6 +9,7 @@ import com.palyrobotics.frc2016.subsystems.controllers.team254.DriveFinishLineCo
 import com.palyrobotics.frc2016.subsystems.controllers.team254.DrivePathController;
 import com.palyrobotics.frc2016.subsystems.controllers.team254.DriveStraightController;
 import com.palyrobotics.frc2016.subsystems.controllers.team254.TurnInPlaceController;
+import com.palyrobotics.frc2016.util.CheesyDriveHelper;
 import com.palyrobotics.frc2016.util.Constants;
 import com.palyrobotics.frc2016.util.Subsystem;
 import com.team254.lib.trajectory.Path;
@@ -18,9 +20,12 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 
 /**
  * Represents the drivetrain
- * Uses controllers or cheesydrivehelper to calculate DriveSignal
+ * Uses controllers or cheesydrivehelper/proportionaldrivehelper to calculate DriveSignal
  */
 public class Drive extends Subsystem implements Loop {
+	// Helper classes to calculate teleop output
+	private CheesyDriveHelper cdh = new CheesyDriveHelper();
+//	private ProportionalDriveHelper pdh = new ProportionalDriveHelper();
 
 	public interface DriveController {
 		DriveSignal update(Pose pose);
@@ -29,13 +34,16 @@ public class Drive extends Subsystem implements Loop {
 		boolean onTarget();
 	}
 	private DriveController m_controller = null;
+
 	// Derica is always considered high gear
 	public enum DriveGear {HIGH, LOW}
-	public DriveGear mGear;
+	private DriveGear mGear;
+
 	// Encoder DPP
-	protected final double m_inches_per_tick;
-	protected final double m_wheelbase_width; // Get from CAD
-	protected final double m_turn_slip_factor; // Measure empirically
+	private final double m_inches_per_tick;
+	private final double m_wheelbase_width; // Get from CAD
+	private final double m_turn_slip_factor; // Measure empirically
+
 	// Cache poses to not allocated at 200Hz
 	private Pose m_cached_pose = new Pose(0, 0, 0, 0, 0, 0);
 	// Cached robot state, updated by looper
@@ -44,9 +52,9 @@ public class Drive extends Subsystem implements Loop {
 	private DriveSignal mSignal = DriveSignal.NEUTRAL;
 
 	public Drive(RobotState robotState) {
-		super("drive");
+		super("Drive");
 		m_cached_robot_state = robotState;
-		if(Robot.getRobotState().name == RobotState.RobotName.TYR) {
+		if(m_cached_robot_state.name == RobotState.RobotName.TYR) {
 			m_wheelbase_width = 26.0;
 			m_turn_slip_factor = 1.2;
 			m_inches_per_tick = 0.184;
@@ -58,11 +66,21 @@ public class Drive extends Subsystem implements Loop {
 			mGear = DriveGear.HIGH;
 		}
 	}
+	/**
+	 * Updates the drivetrain and its DriveSignal
+	 * Pass in the newest RobotState
+	 */
+	public void update(Commands commands, RobotState state) {
+		m_cached_robot_state = state;
+		if(m_controller==null && m_cached_robot_state.gamePeriod==RobotState.GamePeriod.TELEOP && commands.routine_request == Commands.Routines.NONE) {
+			setDriveOutputs(cdh.cheesyDrive(commands, m_cached_robot_state));
+		}
+	}
 
 	/**
 	 * @return DriveSignal
 	 */
-	public DriveSignal get() {
+	public DriveSignal getDriveSignal() {
 		return mSignal;
 	}
 
@@ -126,7 +144,7 @@ public class Drive extends Subsystem implements Loop {
 				distance,
 				vel_to_use);
 	}
-	
+
 	public void setAutoAlignSetpoint(double heading) {
 		// Check if already turning to that setpoint
 		if(m_controller instanceof GyroTurnAngleController) {
@@ -140,7 +158,7 @@ public class Drive extends Subsystem implements Loop {
 			setGyroTurnAngleSetpoint(heading, 0.45);
 		}
 	}
-	
+
 	public void setTurnSetpoint(double heading) {
 		setTurnSetpoint(heading, Constants.kTurnMaxSpeedRadsPerSec);
 	}
@@ -155,7 +173,7 @@ public class Drive extends Subsystem implements Loop {
 	public void setEncoderTurnAngleSetpoint(double heading, double maxVel) {
 		m_controller = new EncoderTurnAngleController(getPoseToContinueFrom(true), heading, maxVel);
 	}
-	
+
 	public void setGyroTurnAngleSetpoint(double heading) {
 		setGyroTurnAngleSetpoint(heading, 0.7);
 	}
@@ -206,12 +224,6 @@ public class Drive extends Subsystem implements Loop {
 
 	public Drive.DriveController getController() {
 		return m_controller;
-	}
-
-	@Override
-	public void reloadConstants() {
-		// TODO Auto-generated method stub
-
 	}
 
 	public boolean controllerOnTarget() {

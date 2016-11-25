@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.AnalogPotentiometer;
  * Starts disabled by default
  * After initial instantiation with P,I,D,tolerance and target angle
  * All those constants can be changed later
- * Call update() to get the new output
+ * Call update() to getDriveSignal the new output
  * Can setMaxSpeed() to limit output range
  * 
  * @author Nihar

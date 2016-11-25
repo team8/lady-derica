@@ -6,7 +6,6 @@ import com.palyrobotics.frc2016.input.Commands;
 import com.palyrobotics.frc2016.input.RobotState;
 import com.palyrobotics.frc2016.input.Commands.*;
 import com.palyrobotics.frc2016.input.Commands.JoystickInput.XboxInput;
-import com.palyrobotics.frc2016.robot.Robot;
 import com.palyrobotics.frc2016.subsystems.Drive.DriveGear;
 import com.palyrobotics.frc2016.util.XboxController;
 import com.team254.lib.util.Latch;
@@ -29,11 +28,12 @@ public class OperatorInterface {
 	
 	private Commands m_commands = new Commands();
 
-	Joystick leftStick = HardwareAdaptor.kLeftStick;
-	Joystick rightStick = HardwareAdaptor.kRightStick;
-	Joystick operatorStick = HardwareAdaptor.kOperatorStick;
+	private HardwareAdaptor.Joysticks joysticks = HardwareAdaptor.getInstance().getJoysticks();
+	private Joystick leftStick = joysticks.kLeftStick;
+	private Joystick rightStick = joysticks.kRightStick;
+	private Joystick operatorStick = joysticks.kOperatorStick;
 
-	Latch driveForwardLatch = new Latch();
+	private Latch driveForwardLatch = new Latch();
 
 	public void reset() {
 		m_commands = new Commands();
@@ -43,13 +43,13 @@ public class OperatorInterface {
 		Commands commands;
 		if(Robot.getRobotState().name == RobotState.RobotName.TYR) {
 			commands = getTyrCommands();
-			commands.operatorStick = new XboxInput(((XboxController) operatorStick).getLeftX(), ((XboxController) operatorStick).getLeftY(), ((XboxController) operatorStick).getRightX(), ((XboxController) operatorStick).getRightY());
+			commands.operatorStickInput = new XboxInput(((XboxController) operatorStick).getLeftX(), ((XboxController) operatorStick).getLeftY(), ((XboxController) operatorStick).getRightX(), ((XboxController) operatorStick).getRightY());
 		} else {
 			commands = getDericaCommands();
-			commands.operatorStick = new XboxInput(operatorStick.getX(), operatorStick.getY(), operatorStick.getX(), operatorStick.getY());			
+			commands.operatorStickInput = new XboxInput(operatorStick.getX(), operatorStick.getY(), operatorStick.getX(), operatorStick.getY());
 		}
-		commands.leftStick = new JoystickInput(leftStick.getX(), leftStick.getY(), leftStick.getTrigger());
-		commands.rightStick = new JoystickInput(rightStick.getX(), rightStick.getY(), rightStick.getTrigger());
+		commands.leftStickInput = new JoystickInput(leftStick.getX(), leftStick.getY(), leftStick.getTrigger());
+		commands.rightStickInput = new JoystickInput(rightStick.getX(), rightStick.getY(), rightStick.getTrigger());
 		return commands;
 	}
 	
@@ -106,15 +106,15 @@ public class OperatorInterface {
 		
 		// Right Stick - Activate routine
 		if(rightStick.getRawButton(2)) {
-			m_commands.routineRequest = Commands.RoutineRequest.AUTO_ALIGN;
+			m_commands.routine_request = Routines.AUTO_ALIGN;
 		} else {
-			m_commands.routineRequest = Commands.RoutineRequest.NONE;
+			m_commands.routine_request = Routines.NONE;
 		}
 		
 		if(rightStick.getRawButton(4)) {
-			HardwareAdaptor.kDrive.setGear(DriveGear.LOW);
+			m_commands.gear_request = DriveGear.LOW;
 		} else if(rightStick.getRawButton(6)) {
-			HardwareAdaptor.kDrive.setGear(DriveGear.HIGH);
+			m_commands.gear_request = DriveGear.HIGH;
 		}
 		
 		// Left Stick trigger cancels current routine

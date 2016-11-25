@@ -1,6 +1,5 @@
 package com.palyrobotics.frc2016.robot;
 
-import com.palyrobotics.frc2016.robot.Robot;
 import com.palyrobotics.frc2016.input.RobotState;
 import com.palyrobotics.frc2016.subsystems.*;
 import com.palyrobotics.frc2016.util.Constants;
@@ -134,10 +133,6 @@ public class HardwareAdaptor {
 		public final DoubleSolenoid kGrabberSolenoid;
 		public final CheesySpeedController kShooterMotor;
 
-		public final TyrShooter kTyrShooter;
-		public final DericaShooter kCatapult;
-		public final LowGoalShooter kLowGoalShooter;
-
 		private ShooterHardware() {
 			if (Robot.getRobotState().name == RobotState.RobotName.TYR) {
 				kShooterSolenoid = new DoubleSolenoid(
@@ -148,18 +143,11 @@ public class HardwareAdaptor {
 						Constants.kGrabberSolenoidPortExtend, Constants.kGrabberSolenoidPortRetract);
 				kShooterMotor = new CheesySpeedController(new CANTalon(Constants.kTyrShooterMotorDeviceID),
 						Constants.kTyrShooterMotorPDP);
-				kTyrShooter = new TyrShooter("shooter", kShooterMotor, kShooterSolenoid, kLatchSolenoid, kGrabberSolenoid);
-				kCatapult = null;
-				kLowGoalShooter = null;
 			} else {
-				kCatapult = new DericaShooter("catapult", null, null, null, null, null);
-				kLowGoalShooter = new LowGoalShooter("low goal shooter", new CheesySpeedController(
-						new Victor(Constants.kDericaLowGoalShooterPWM), Constants.kDericaLowGoalShooterPDP));
 				kShooterSolenoid = null;
 				kLatchSolenoid = null;
 				kGrabberSolenoid = null;
 				kShooterMotor = null;
-				kTyrShooter = null;
 			}
 
 		}
@@ -174,17 +162,13 @@ public class HardwareAdaptor {
 		public static BreacherHardware getInstance() {
 			return mInstance;
 		}
-
-		public final Breacher kBreacher;
 		public final CheesySpeedController kBreacherMotor;
 
 		private BreacherHardware() {
 			if (Robot.getRobotState().name == RobotState.RobotName.TYR) {
 				kBreacherMotor = new CheesySpeedController(new CANTalon(Constants.kBreacherMotorDeviceID), Constants.kBreacherMotorPDP);
-				kBreacher = new Breacher("breacher", kBreacherMotor);
 			} else {
 				kBreacherMotor = null;
-				kBreacher = null;
 			}
 		}
 	}

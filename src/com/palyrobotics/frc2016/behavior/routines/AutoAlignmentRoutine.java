@@ -58,7 +58,7 @@ public class AutoAlignmentRoutine extends Routine {
 			} else {
 				new_state = AutoAlignStates.DONE;
 			}
-			setpoints.currentRoutine = Commands.RoutineRequest.AUTO_ALIGN;
+			setpoints.currentRoutine = Commands.Routines.AUTO_ALIGN;
 			break;
 		case SET_ANGLE:
 			// Wait for m_wait_time before reading vision data (latency)

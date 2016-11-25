@@ -100,7 +100,7 @@ public class EncoderDriveRoutine extends Routine {
 				setpoints.drive_velocity_setpoint = Optional.of(m_velocity_setpoint);
 			}
 
-			setpoints.currentRoutine = Commands.RoutineRequest.ENCODER_DRIVE;
+			setpoints.currentRoutine = Commands.Routines.ENCODER_DRIVE;
 			new_state = EncoderDriveRoutineStates.DRIVING;
 			break;
 		case DRIVING:

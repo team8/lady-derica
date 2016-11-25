@@ -100,7 +100,7 @@ public class ConstantsBaseTest {
 			assertEquals(j.get("thingA"), 1234L);
 		} catch (IOException | ParseException e) {
 			e.printStackTrace();
-			assertTrue("couldn't get file jsonobject", false);
+			assertTrue("couldn't getDriveSignal file jsonobject", false);
 		}
 
 		t.setConstant("thingA", oldA);
