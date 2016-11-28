@@ -22,7 +22,7 @@ public class HardwareAdaptor {
 	/* 
 	 * DRIVETRAIN
 	 */
-	private static class DrivetrainHardware {
+	public static class DrivetrainHardware {
 		private static DrivetrainHardware mInstance = new DrivetrainHardware();
 
 		protected static DrivetrainHardware getInstance() {
@@ -82,7 +82,7 @@ public class HardwareAdaptor {
 	/*
 	 * INTAKE - has some null hardware components
 	 */
-	private static class IntakeHardware {
+	public static class IntakeHardware {
 		private static IntakeHardware mInstance = new IntakeHardware();
 
 		protected static IntakeHardware getInstance() {
@@ -120,7 +120,7 @@ public class HardwareAdaptor {
 	 * SHOOTER/CATAPULT
 	 * TyrShooter comes with Grabber
 	 */
-	private static class ShooterHardware {
+	public static class ShooterHardware {
 		private static ShooterHardware mInstance = new ShooterHardware();
 
 		public static ShooterHardware getInstance() {
@@ -128,14 +128,14 @@ public class HardwareAdaptor {
 		}
 
 		// Pneumatic solenoids, only instantiate if Tyr
-		public final DoubleSolenoid kShooterSolenoid;
+		public final DoubleSolenoid kPistonSolenoid;
 		public final DoubleSolenoid kLatchSolenoid;
 		public final DoubleSolenoid kGrabberSolenoid;
 		public final CheesySpeedController kShooterMotor;
 
 		private ShooterHardware() {
 			if (Robot.getRobotState().name == RobotState.RobotName.TYR) {
-				kShooterSolenoid = new DoubleSolenoid(
+				kPistonSolenoid = new DoubleSolenoid(
 						Constants.kShooterSolenoidPortExtend, Constants.kShooterSolenoidPortRetract);
 				kLatchSolenoid = new DoubleSolenoid(
 						Constants.kLatchSolenoidPortExtend, Constants.kLatchSolenoidPortRetract);
@@ -144,7 +144,7 @@ public class HardwareAdaptor {
 				kShooterMotor = new CheesySpeedController(new CANTalon(Constants.kTyrShooterMotorDeviceID),
 						Constants.kTyrShooterMotorPDP);
 			} else {
-				kShooterSolenoid = null;
+				kPistonSolenoid = null;
 				kLatchSolenoid = null;
 				kGrabberSolenoid = null;
 				kShooterMotor = null;
@@ -169,6 +169,23 @@ public class HardwareAdaptor {
 				kBreacherMotor = new CheesySpeedController(new CANTalon(Constants.kBreacherMotorDeviceID), Constants.kBreacherMotorPDP);
 			} else {
 				kBreacherMotor = null;
+			}
+		}
+	}
+	
+	public static class LowGoalShooterHardware {
+		private static LowGoalShooterHardware mInstance = new LowGoalShooterHardware();
+		
+		public static LowGoalShooterHardware getInstance() {
+			return mInstance;
+		}
+		public final CheesySpeedController kLowGoalShooterMotor;
+		
+		private LowGoalShooterHardware() {
+			if(Robot.getRobotState().name == RobotState.RobotName.DERICA) {
+				kLowGoalShooterMotor = new CheesySpeedController(new Victor(Constants.kDericaLowGoalShooterPWM), Constants.kDericaLowGoalShooterPDP);
+			} else {
+				kLowGoalShooterMotor = null;
 			}
 		}
 	}
@@ -213,6 +230,10 @@ public class HardwareAdaptor {
 		return BreacherHardware.getInstance();
 	}
 
+	public LowGoalShooterHardware getLowGoalShooter() {
+		return LowGoalShooterHardware.getInstance();
+	}
+	
 	public Joysticks getJoysticks() {
 		return Joysticks.getInstance();
 	}

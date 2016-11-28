@@ -46,4 +46,12 @@ public class Catapult extends Subsystem {
 	public void unwind(double d) {
 		winchMotorOutput = -d;
 	}
+	
+	public DoubleSolenoid.Value getLockSolenoidOutput() {
+		return lockSolenoidOutput;
+	}
+	
+	public double getWinchMotorOutput() {
+		return winchMotorOutput;
+	}
 }

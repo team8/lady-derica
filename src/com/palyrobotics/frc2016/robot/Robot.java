@@ -38,6 +38,9 @@ public class Robot extends IterativeRobot {
 	private Breacher mBreacher = new Breacher();
 	private LowGoalShooter mLowGoalShooter = new LowGoalShooter();
 	private Catapult mCatapult = new Catapult();
+	
+	//hardware updater
+	private HardwareUpdater mHardwareUpdater;
 
 	private Dashboard mDashboard = Dashboard.getInstance();
 	NetworkTable sensorTable;
@@ -53,9 +56,13 @@ public class Robot extends IterativeRobot {
 		if(mRobotState.name == RobotState.RobotName.TYR) {
 			subsystem_looper.register(mShooter);
 			subsystem_looper.register(mBreacher);
+			
+			mHardwareUpdater = new HardwareUpdater(mDrive, mShooter, mIntake, mBreacher);
 		} else {
 			subsystem_looper.register(mIntake);
 			subsystem_looper.register(mLowGoalShooter);
+			
+			mHardwareUpdater = new HardwareUpdater(mDrive, mCatapult, mIntake, mLowGoalShooter);
 		}
 		//        SystemManager.getInstance().add(routineManager);
 		sensorTable = NetworkTable.getTable("Sensor");
@@ -83,6 +90,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousPeriodic() {
 		mDashboard.update();
+		mHardwareUpdater.updateSubsystems();
 	}
 
 	@Override
@@ -102,11 +110,16 @@ public class Robot extends IterativeRobot {
 
 		// Gets joystick commands
 		Commands commands = mOperatorInterface.getCommands();
+		
 		// Updates commands based on routines
 		routineManager.update(commands);
+		
 		// Pass commands and RobotState to all subsystems
 		mDrive.update(commands, mRobotState);
 
+		//Update the hardware
+		mHardwareUpdater.updateSubsystems();
+		
 		// Update sensorTable with encoder distances
 		sensorTable.putString("left", String.valueOf(mRobotState.left_encoder));
 		sensorTable.putString("right", String.valueOf(mRobotState.right_encoder));

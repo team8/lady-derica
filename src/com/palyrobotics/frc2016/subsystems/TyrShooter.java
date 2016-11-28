@@ -24,7 +24,10 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 public class TyrShooter extends Subsystem implements Loop {
 	// Store motor output and solenoid output
 	private double motorOutput = 0.0;
-	private DoubleSolenoid.Value[] solenoidOutput = new DoubleSolenoid.Value[2];
+	private DoubleSolenoid.Value[] solenoidOutput = new DoubleSolenoid.Value[3];
+	private DoubleSolenoid.Value latchOutput;
+	private DoubleSolenoid.Value pistonOutput;
+	private DoubleSolenoid.Value grabberOutput;
 
 	// Tuning constants for hold in place controller
 	final double kDeadzone = 0.1; // Range to ignore joystick output and hold position instead
@@ -69,10 +72,13 @@ public class TyrShooter extends Subsystem implements Loop {
 	 * Returns the PWM signal for the shooter motor
 	 */
 	public double getMotorOutput() {
-
+		return motorOutput;
 	}
 	/**
 	 * Returns the solenoid values for the shooter (latch and grabber)
+	 * 0 is latch
+	 * 1 is piston
+	 * 2 is grabber
 	 */
 	public DoubleSolenoid.Value[] getSolenoidOutput() {
 		return solenoidOutput;
@@ -164,28 +170,28 @@ public class TyrShooter extends Subsystem implements Loop {
 	 * Locks the shooter (latch triggered)
 	 */
 	public void lock() {
-		m_latch_solenoid.set(Value.kReverse);
+		latchOutput = Value.kReverse;
 	}
 	
 	/**
 	 * Unlocks the shooter (latch) allowing it to fire
 	 */
 	public void unlock() {
-		m_latch_solenoid.set(Value.kForward);
+		latchOutput = Value.kForward;
 	}
 	
 	/**
-	 * Extends the shooter solenoid (frees the spring)
+	 * Extends the piston solenoid (frees the spring)
 	 */
 	public void extend() {
-		this.m_shooter_solenoid.set(Value.kForward);
+		pistonOutput = Value.kForward;
 	}
 	
 	/**
 	 * Retracts the shooter solenoid (spring starts charging)
 	 */
 	public void retract() {
-		this.m_shooter_solenoid.set(Value.kReverse);
+		pistonOutput = Value.kReverse;
 	}
 	
 	/**
@@ -193,7 +199,7 @@ public class TyrShooter extends Subsystem implements Loop {
 	 */
 	public void grab() {
 		mDashboard.getTable().putString("grabbermicrostate", "Grabbing");
-		this.m_grabber_solenoid.set(Value.kForward);
+		grabberOutput = Value.kForward;
 	}
 	
 	/**
@@ -201,7 +207,7 @@ public class TyrShooter extends Subsystem implements Loop {
 	 */
 	public void release() {
 		mDashboard.getTable().putString("grabbermicrostate", "Raised");
-		this.m_grabber_solenoid.set(Value.kReverse);
+		grabberOutput = Value.kReverse;
 	}
 
 	/**
@@ -209,5 +215,8 @@ public class TyrShooter extends Subsystem implements Loop {
 	 */
 	public TyrShooter() {
 		super("TyrShooter");
+		solenoidOutput[0] = latchOutput;
+		solenoidOutput[1] = pistonOutput;
+		solenoidOutput[2] = grabberOutput;
 	}
 }

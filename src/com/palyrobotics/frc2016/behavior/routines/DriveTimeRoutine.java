@@ -23,7 +23,7 @@ public class DriveTimeRoutine extends Routine {
 	
 	private boolean m_is_new_state = true;
 
-	private Drive drive = HardwareAdaptor.kDrive;
+	private Drive drive = HardwareAdaptor.getInstance().getDrivetrain();
 		
 	/**
 	 * Constructs with a specified time setpoint and velocity
