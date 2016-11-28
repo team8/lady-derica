@@ -113,9 +113,6 @@ public class Robot extends IterativeRobot {
 		
 		// Updates commands based on routines
 		routineManager.update(commands);
-		
-		// Pass commands and RobotState to all subsystems
-		mDrive.update(commands, mRobotState);
 
 		//Update the hardware
 		mHardwareUpdater.updateSubsystems();

@@ -90,38 +90,6 @@ public class RoutineManager implements Tappable {
 
 		// Get manual m_setpoints
 		//        m_setpoints = m_manual_routine.update(commands, m_setpoints);
-		
-		//Encoder drive distance routine
-		if(m_setpoints.encoder_drive_setpoint.isPresent()) {
-			drive.setOpenLoop(new DriveSignal(m_setpoints.drive_velocity_setpoint.get(), m_setpoints.drive_velocity_setpoint.get()));
-		}
-		//Timer based routine
-		else if(m_setpoints.timer_drive_time_setpoint.isPresent()) {
-			drive.setOpenLoop(new DriveSignal(m_setpoints.drive_velocity_setpoint.get(), m_setpoints.drive_velocity_setpoint.get()));
-		}
-		// If auto-align has a setpoint to use, start turning angle
-		else if(m_setpoints.auto_align_setpoint.isPresent()) {
-			drive.setAutoAlignSetpoint(m_setpoints.auto_align_setpoint.get());
-//			drive.setGyroTurnAngleSetpoint((m_setpoints.auto_align_setpoint.getDriveSignal()),0.5);
-		} // Parse winch commands because this is only open loop
-		
-		
-		if (commands.winch_request == Commands.WinchRequest.WIND) {
-			// Temporary speed, replace with a constant later
-			catapult.wind(1);
-		} else if (commands.winch_request == Commands.WinchRequest.UNWIND) {
-			// Temporary speed, replace with a constant later
-			catapult.unwind(-1);
-		}
-		
-		// Parse pin commands because this is only open loop
-		if (commands.pin_request == Commands.PinRequest.LOCK) {
-			catapult.lock();
-		} else if (commands.pin_request == Commands.PinRequest.UNLOCK) {
-			catapult.unlock();
-		} else {
-			;
-		}
 	}
 
 	@Override

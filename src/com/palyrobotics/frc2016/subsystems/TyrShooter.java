@@ -48,25 +48,7 @@ public class TyrShooter extends Subsystem implements Loop {
 	}
 	public WantedShooterState mWantedState = WantedShooterState.NONE;
 
-	@Override
-	public void update(Commands commands, RobotState robotState) {
-		if (commands.latch_request == Commands.LatchRequest.LOCK) {
-			lock();
-		} else if (commands.latch_request == Commands.LatchRequest.UNLOCK) {
-			unlock();
-		}
-		if (commands.grabber_request == Commands.GrabberRequest.GRAB) {
-			grab();
-		} else if (commands.grabber_request == Commands.GrabberRequest.RELEASE) {
-			release();
-		}
-		if (commands.shooter_request == Commands.ShooterRequest.EXTEND) {
-			extend();
-		} else if (commands.shooter_request == Commands.ShooterRequest.RETRACT) {
-			retract();
-		}
-		motorOutput = commands.operatorStickInput.leftY *kJoystickScaleFactor;
-	}
+
 
 	/**
 	 * Returns the PWM signal for the shooter motor
@@ -92,7 +74,23 @@ public class TyrShooter extends Subsystem implements Loop {
 	 * TODO: lol
 	 */
 	@Override
-	public void onLoop() {
+	public void update(Commands commands, RobotState robotState) {
+		if (commands.latch_request == Commands.LatchRequest.LOCK) {
+			lock();
+		} else if (commands.latch_request == Commands.LatchRequest.UNLOCK) {
+			unlock();
+		}
+		if (commands.grabber_request == Commands.GrabberRequest.GRAB) {
+			grab();
+		} else if (commands.grabber_request == Commands.GrabberRequest.RELEASE) {
+			release();
+		}
+		if (commands.shooter_request == Commands.ShooterRequest.EXTEND) {
+			extend();
+		} else if (commands.shooter_request == Commands.ShooterRequest.RETRACT) {
+			retract();
+		}
+		motorOutput = commands.operatorStickInput.leftY *kJoystickScaleFactor;
 	}
 
 	@Override

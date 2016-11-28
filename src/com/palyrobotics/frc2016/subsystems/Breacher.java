@@ -13,10 +13,6 @@ public class Breacher extends Subsystem implements Loop {
 		super("Breacher");
 	}
 
-	public void update(Commands commands, RobotState robotState) {
-		motorOutput = commands.operatorStickInput.rightY;
-	}
-
 	public double getMotorOutput() {
 		return motorOutput;
 	}
@@ -28,9 +24,8 @@ public class Breacher extends Subsystem implements Loop {
 	}
 
 	@Override
-	public void onLoop() {
-		// TODO Auto-generated method stub
-		
+	public void update(Commands commands, RobotState robotState) {
+		motorOutput = commands.operatorStickInput.rightY;
 	}
 
 	@Override

@@ -18,6 +18,8 @@ import com.team254.lib.util.*;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 
+import java.util.function.Consumer;
+
 /**
  * Represents the drivetrain
  * Uses controllers or cheesydrivehelper/proportionaldrivehelper to calculate DriveSignal
@@ -66,16 +68,6 @@ public class Drive extends Subsystem implements Loop {
 			mGear = DriveGear.HIGH;
 		}
 	}
-	/**
-	 * Updates the drivetrain and its DriveSignal
-	 * Pass in the newest RobotState
-	 */
-	public void update(Commands commands, RobotState state) {
-		m_cached_robot_state = state;
-		if(m_controller==null && m_cached_robot_state.gamePeriod==RobotState.GamePeriod.TELEOP && commands.routine_request == Commands.Routines.NONE) {
-			setDriveOutputs(cdh.cheesyDrive(commands, m_cached_robot_state));
-		}
-	}
 
 	/**
 	 * @return DriveSignal
@@ -88,16 +80,32 @@ public class Drive extends Subsystem implements Loop {
 	public void onStart() {
 	}
 
+	/**
+	 * Updates the drivetrain and its DriveSignal
+	 * Pass in the newest RobotState
+	 */
 	@Override
-	public void onStop() {
+	public void update(Commands commands, RobotState state) {
+		m_cached_robot_state = state;
+		Commands.Setpoints setpoints = commands.robotSetpoints;
+		// Call methods associated with any setpoints that are present
+		// Encoder drive distance routine
+		setpoints.encoder_drive_setpoint.ifPresent((Double t)->setOpenLoop(new DriveSignal(setpoints.drive_velocity_setpoint.get(), setpoints.drive_velocity_setpoint.get())));
+		// Timer based routine
+		setpoints.timer_drive_time_setpoint.ifPresent((Double t)->setOpenLoop(new DriveSignal(setpoints.drive_velocity_setpoint.get(), setpoints.drive_velocity_setpoint.get())));
+		// Auto-align setpoint passed along
+		setpoints.auto_align_setpoint.ifPresent(this::setAutoAlignSetpoint);
+
+		if(m_controller==null && m_cached_robot_state.gamePeriod==RobotState.GamePeriod.TELEOP && commands.routine_request == Commands.Routines.NONE) {
+			setDriveOutputs(cdh.cheesyDrive(commands, m_cached_robot_state));
+		}
+		else {
+			setDriveOutputs(m_controller.update(getPhysicalPose()));
+		}
 	}
 
 	@Override
-	public void onLoop() {
-		if (!hasController()) {
-			return;
-		}
-		setDriveOutputs(m_controller.update(getPhysicalPose()));
+	public void onStop() {
 	}
 
 	private void setDriveOutputs(DriveSignal signal) {

@@ -24,7 +24,20 @@ public class Catapult extends Subsystem {
 	 */
 	@Override
 	public void update(Commands commands, RobotState robotState) {
+		if (commands.winch_request == Commands.WinchRequest.WIND) {
+			// Temporary speed, replace with a constant later
+			wind(1);
+		} else if (commands.winch_request == Commands.WinchRequest.UNWIND) {
+			// Temporary speed, replace with a constant later
+			unwind(-1);
+		}
 
+		// Parse pin commands because this is only open loop
+		if (commands.pin_request == Commands.PinRequest.LOCK) {
+			lock();
+		} else if (commands.pin_request == Commands.PinRequest.UNLOCK) {
+			unlock();
+		}
 	}
 
 	// Hold the catapult in place

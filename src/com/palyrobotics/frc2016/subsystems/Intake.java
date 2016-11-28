@@ -40,33 +40,6 @@ public class Intake extends Subsystem implements Loop {
 	final double kI = 0;
 	final double kD = 0;
 	final double kTolerance = 1; // Tolerance for the hold arm controller
-	
-	/**
-	 * Runs the intake during teleop
-	 */
-	public void update(Commands commands, RobotState robotState) {
-		// Intake commands parsing
-		if (commands.intakeRequest == Commands.IntakeRequest.INTAKE) {
-			// Run intake inwards (positive speed is intake)
-			output[0] = Constants.kManualIntakeSpeed;
-			if(name == RobotState.RobotName.TYR) {
-				output[1] = Constants.kManualIntakeSpeed;
-			}
-		} else if (commands.intakeRequest == Commands.IntakeRequest.EXHAUST) {
-			// Run intake outwards (negative speed is exhaust)
-			output[0] = Constants.kManualExhaustSpeed;
-			if(name == RobotState.RobotName.TYR) {
-				output[1] = Constants.kManualExhaustSpeed;
-			}
-		} else {
-			// Stop intake.
-			output[0] = 0.0;
-			output[1] = 0.0; // if Derica's arm, will be overridden next
-		}
-		if(robotState.name == RobotState.RobotName.DERICA) {
-			output[1] = -commands.operatorStickInput.y * kJoystickScaleFactor;
-		}
-	}
 
 	/**
 	 * Get the current intake PWM signals.
@@ -120,8 +93,31 @@ public class Intake extends Subsystem implements Loop {
 	 * Runs control loop to position intake if applicable
 	 */
 	@Override
-	public void onLoop() {
-
+	/**
+	 * Runs the intake during teleop
+	 */
+	public void update(Commands commands, RobotState robotState) {
+		// Intake commands parsing
+		if (commands.intakeRequest == Commands.IntakeRequest.INTAKE) {
+			// Run intake inwards (positive speed is intake)
+			output[0] = Constants.kManualIntakeSpeed;
+			if(name == RobotState.RobotName.TYR) {
+				output[1] = Constants.kManualIntakeSpeed;
+			}
+		} else if (commands.intakeRequest == Commands.IntakeRequest.EXHAUST) {
+			// Run intake outwards (negative speed is exhaust)
+			output[0] = Constants.kManualExhaustSpeed;
+			if(name == RobotState.RobotName.TYR) {
+				output[1] = Constants.kManualExhaustSpeed;
+			}
+		} else {
+			// Stop intake.
+			output[0] = 0.0;
+			output[1] = 0.0; // if Derica's arm, will be overridden next
+		}
+		if(robotState.name == RobotState.RobotName.DERICA) {
+			output[1] = -commands.operatorStickInput.y * kJoystickScaleFactor;
+		}
 	}
 
 	@Override
