@@ -1,13 +1,8 @@
 package com.palyrobotics.frc2016.util;
 
-import com.palyrobotics.frc2016.input.Commands;
-import com.palyrobotics.frc2016.input.RobotState;
-import com.palyrobotics.frc2016.subsystems.Drive;
 import com.palyrobotics.frc2016.subsystems.Drive.DriveGear;
-import com.team254.lib.util.DriveSignal;
-import com.team254.lib.util.Util;
-
-import edu.wpi.first.wpilibj.DriverStation;
+import com.palyrobotics.frc2016.robot.team254.lib.util.DriveSignal;
+import com.palyrobotics.frc2016.robot.team254.lib.util.Util;
 
 /**
  * CheesyDriveHelper implements the calculations used in CheesyDrive for teleop control.

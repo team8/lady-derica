@@ -2,8 +2,8 @@ package com.palyrobotics.frc2016.behavior.routines;
 
 import java.util.Optional;
 
-import com.palyrobotics.frc2016.input.Commands;
-import com.team254.lib.util.DriveSignal;
+import com.palyrobotics.frc2016.util.Commands;
+import com.palyrobotics.frc2016.robot.team254.lib.util.DriveSignal;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;

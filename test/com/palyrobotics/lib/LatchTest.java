@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import com.team254.lib.util.Latch;
+import com.palyrobotics.frc2016.robot.team254.lib.util.Latch;
 
 public class LatchTest {
 

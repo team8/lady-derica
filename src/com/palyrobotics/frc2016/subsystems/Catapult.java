@@ -1,10 +1,9 @@
 package com.palyrobotics.frc2016.subsystems;
 
-import com.palyrobotics.frc2016.input.Commands;
-import com.palyrobotics.frc2016.input.RobotState;
+import com.palyrobotics.frc2016.util.Commands;
+import com.palyrobotics.frc2016.util.RobotState;
 import com.palyrobotics.frc2016.util.Subsystem;
 
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 

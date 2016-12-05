@@ -1,6 +1,5 @@
 package com.palyrobotics.frc2016.util;
-import com.palyrobotics.frc2016.input.Commands;
-import com.team254.lib.util.DriveSignal;
+import com.palyrobotics.frc2016.robot.team254.lib.util.DriveSignal;
 
 public class ProportionalDriveHelper {
 	private DriveSignal signal = DriveSignal.NEUTRAL;

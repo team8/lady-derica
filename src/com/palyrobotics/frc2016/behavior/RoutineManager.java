@@ -1,16 +1,9 @@
 package com.palyrobotics.frc2016.behavior;
 
 import com.palyrobotics.frc2016.behavior.routines.*;
-import com.palyrobotics.frc2016.input.Commands;
-import com.palyrobotics.frc2016.input.RobotState;
-import com.palyrobotics.frc2016.robot.HardwareAdaptor;
-import com.palyrobotics.frc2016.robot.Robot;
-import com.palyrobotics.frc2016.subsystems.*;
-import com.palyrobotics.frc2016.subsystems.LowGoalShooter.WantedLowGoalState;
-import com.palyrobotics.frc2016.util.Constants;
-import com.team254.lib.util.DriveSignal;
-import com.team254.lib.util.StateHolder;
-import com.team254.lib.util.Tappable;
+import com.palyrobotics.frc2016.util.Commands;
+import com.palyrobotics.frc2016.robot.team254.lib.util.StateHolder;
+import com.palyrobotics.frc2016.robot.team254.lib.util.Tappable;
 
 public class RoutineManager implements Tappable {
 

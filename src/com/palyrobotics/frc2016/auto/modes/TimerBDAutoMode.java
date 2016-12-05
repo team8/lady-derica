@@ -11,7 +11,7 @@ import com.palyrobotics.frc2016.auto.actions.ExpelIntake;
 import com.palyrobotics.frc2016.auto.actions.ExpelShooterAction;
 import com.palyrobotics.frc2016.auto.actions.RaiseShooterAction;
 import com.palyrobotics.frc2016.auto.actions.ShootAction;
-import com.palyrobotics.frc2016.input.RobotState;
+import com.palyrobotics.frc2016.util.RobotState;
 import com.palyrobotics.frc2016.robot.Robot;
 import com.palyrobotics.frc2016.subsystems.Drive.DriveGear;
 import com.palyrobotics.frc2016.util.Constants;

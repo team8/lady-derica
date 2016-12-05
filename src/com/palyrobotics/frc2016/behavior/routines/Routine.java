@@ -1,6 +1,6 @@
 package com.palyrobotics.frc2016.behavior.routines;
 
-import com.palyrobotics.frc2016.input.Commands;
+import com.palyrobotics.frc2016.util.Commands;
 import com.palyrobotics.frc2016.robot.HardwareAdaptor;
 import com.palyrobotics.frc2016.subsystems.Drive;
 import com.palyrobotics.frc2016.subsystems.Intake;
@@ -14,10 +14,6 @@ import edu.wpi.first.wpilibj.PowerDistributionPanel;
  *
  */
 public abstract class Routine {
-    protected Drive drive = HardwareAdaptor.kDrive;
-    protected Intake intake = HardwareAdaptor.kIntake;
-    protected PowerDistributionPanel pdp = HardwareAdaptor.kPDP;
-    
     // Called to start a routine
     public abstract void start();
 

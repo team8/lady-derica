@@ -1,7 +1,7 @@
 package com.palyrobotics.frc2016.auto.actions;
 
-import com.team254.lib.trajectory.Path;
-import com.team254.lib.util.DriveSignal;
+import com.palyrobotics.frc2016.robot.team254.lib.trajectory.Path;
+import com.palyrobotics.frc2016.robot.team254.lib.util.DriveSignal;
 
 public class DrivePathAction implements Action {
 

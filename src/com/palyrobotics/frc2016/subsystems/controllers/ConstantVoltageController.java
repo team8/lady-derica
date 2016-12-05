@@ -1,6 +1,6 @@
 package com.palyrobotics.frc2016.subsystems.controllers;
 
-import com.team254.lib.util.Controller;
+import com.palyrobotics.frc2016.robot.team254.lib.util.Controller;
 
 public class ConstantVoltageController extends Controller {
 	private double m_voltage;

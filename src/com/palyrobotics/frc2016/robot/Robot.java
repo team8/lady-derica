@@ -4,14 +4,14 @@ import com.palyrobotics.frc2016.auto.AutoMode;
 import com.palyrobotics.frc2016.auto.AutoModeExecuter;
 import com.palyrobotics.frc2016.auto.AutoModeSelector;
 import com.palyrobotics.frc2016.behavior.RoutineManager;
-import com.palyrobotics.frc2016.input.Commands;
-import com.palyrobotics.frc2016.input.RobotState;
+import com.palyrobotics.frc2016.util.Commands;
+import com.palyrobotics.frc2016.util.RobotState;
 import com.palyrobotics.frc2016.subsystems.*;
 import com.palyrobotics.frc2016.util.Dashboard;
-import com.team254.lib.util.DriveSignal;
-import com.team254.lib.util.Looper;
-import com.team254.lib.util.RobotData;
-import com.team254.lib.util.SystemManager;
+import com.palyrobotics.frc2016.util.SubsystemLooper;
+import com.palyrobotics.frc2016.robot.team254.lib.util.DriveSignal;
+import com.palyrobotics.frc2016.robot.team254.lib.util.RobotData;
+import com.palyrobotics.frc2016.robot.team254.lib.util.SystemManager;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
@@ -25,9 +25,9 @@ public class Robot extends IterativeRobot {
 	}
 
 	private static OperatorInterface mOperatorInterface = OperatorInterface.getInstance();
-	private static HardwareAdaptor mHardwareAdaptor = HardwareAdaptor.getInstance();
+	private static HardwareAdapter mHardwareAdapter = HardwareAdapter.getInstance();
 	// Instantiate separate thread controls
-	private Looper subsystem_looper = new Looper();
+	private SubsystemLooper subsystem_looper = new SubsystemLooper();
 	private AutoModeExecuter autoModeRunner = new AutoModeExecuter();
 	private RoutineManager routineManager = new RoutineManager();
 

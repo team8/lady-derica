@@ -1,12 +1,11 @@
 package com.palyrobotics.frc2016.subsystems;
 
-import com.palyrobotics.frc2016.input.Commands;
-import com.palyrobotics.frc2016.input.RobotState;
+import com.palyrobotics.frc2016.util.Commands;
+import com.palyrobotics.frc2016.util.RobotState;
 import com.palyrobotics.frc2016.util.Subsystem;
-import com.team254.lib.util.Loop;
 
 
-public class Breacher extends Subsystem implements Loop {
+public class Breacher extends Subsystem {
 	private double motorOutput = 0.0;
 
 	public Breacher() {
@@ -18,7 +17,7 @@ public class Breacher extends Subsystem implements Loop {
 	}
 
 	@Override
-	public void onStart() {
+	public void start() {
 		// TODO Auto-generated method stub
 		
 	}
@@ -29,7 +28,7 @@ public class Breacher extends Subsystem implements Loop {
 	}
 
 	@Override
-	public void onStop() {
+	public void stop() {
 		// TODO Auto-generated method stub
 		
 	}

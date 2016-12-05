@@ -1,13 +1,6 @@
 package com.palyrobotics.frc2016.util;
 
-import com.palyrobotics.frc2016.input.Commands;
-import com.palyrobotics.frc2016.input.RobotState;
-import com.team254.lib.util.SystemManager;
-import com.team254.lib.util.Tappable;
-
-import edu.wpi.first.wpilibj.networktables.NetworkTable;
-
-public abstract class Subsystem {
+public abstract class Subsystem implements SubsystemLoop {
 	protected Dashboard mDashboard = Dashboard.getInstance();
 	private String name;
 

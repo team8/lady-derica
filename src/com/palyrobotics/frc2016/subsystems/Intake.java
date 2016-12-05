@@ -1,25 +1,17 @@
 package com.palyrobotics.frc2016.subsystems;
 
-import com.palyrobotics.frc2016.input.Commands;
-import com.palyrobotics.frc2016.input.RobotState;
-import com.palyrobotics.frc2016.robot.Robot;
-import com.palyrobotics.frc2016.subsystems.controllers.ConstantVoltageController;
-import com.palyrobotics.frc2016.subsystems.controllers.StrongHoldController;
+import com.palyrobotics.frc2016.util.Commands;
+import com.palyrobotics.frc2016.util.RobotState;
 import com.palyrobotics.frc2016.util.Constants;
 import com.palyrobotics.frc2016.util.Subsystem;
-import com.team254.lib.util.CheesySpeedController;
-import com.team254.lib.util.Controller;
-import com.team254.lib.util.Loop;
-import com.team254.lib.util.StateHolder;
-
-import edu.wpi.first.wpilibj.AnalogPotentiometer;
+import com.palyrobotics.frc2016.robot.team254.lib.util.Controller;
 
 /** 
  * Tyr: Stationary accumulator with 2 motors
  * Derica: Mobile intake on pivot with 1 motor and potentiometer
  * @author Nihar
  */
-public class Intake extends Subsystem implements Loop {
+public class Intake extends Subsystem implements SubsystemLoop {
 	RobotState.RobotName name;
 	// Stores output voltage
 	private double[] output = new double[2];

@@ -1,11 +1,9 @@
 package com.palyrobotics.frc2016.subsystems.controllers;
 
-import com.palyrobotics.frc2016.robot.HardwareAdaptor;
-import com.palyrobotics.frc2016.robot.Robot;
 import com.palyrobotics.frc2016.subsystems.Drive;
 import com.palyrobotics.frc2016.util.Constants;
-import com.team254.lib.util.DriveSignal;
-import com.team254.lib.util.Pose;
+import com.palyrobotics.frc2016.robot.team254.lib.util.DriveSignal;
+import com.palyrobotics.frc2016.robot.team254.lib.util.Pose;
 
 /**
  * Turns drivetrain using the gyroscope
@@ -19,11 +17,10 @@ public class GyroTurnAngleController implements Drive.DriveController {
 	private double P;
 	private double I;
 	private double D;
-	
-	private Drive kDrive = HardwareAdaptor.kDrive;
-	
+
 	private double mPriorHeading;
 	private Pose setpoint;
+	private Pose mCachedPose;
 	
 	public GyroTurnAngleController(Pose priorSetpoint, double heading, double maxVel) {
 		this.maxVel = maxVel;
@@ -35,6 +32,7 @@ public class GyroTurnAngleController implements Drive.DriveController {
 	
 	@Override
 	public DriveSignal update(Pose pose) {
+		mCachedPose = pose;
 		P = setpoint.getHeading()-pose.getHeading();
 		I = I + P * Constants.kLooperDt;
 		
@@ -55,9 +53,9 @@ public class GyroTurnAngleController implements Drive.DriveController {
 
 	@Override
 	public boolean onTarget() {
-		System.out.println("Gyro Turn angle error: " + String.valueOf(Math.abs(setpoint.getHeading()-kDrive.getPhysicalPose().getHeading())).substring(0, 4));
-		if(Math.abs(setpoint.getHeading()-kDrive.getPhysicalPose().getHeading()) < Constants.kAcceptableGyroTurnError &&
-				Math.abs(kDrive.getPhysicalPose().getHeadingVelocity()) < Constants.kAcceptableGyroTurnStopSpeed) {
+		System.out.println("Gyro Turn angle error: " + String.valueOf(Math.abs(setpoint.getHeading()-mCachedPose.getHeading())).substring(0, 4));
+		if(Math.abs(setpoint.getHeading()-mCachedPose.getHeading()) < Constants.kAcceptableGyroTurnError &&
+				Math.abs(mCachedPose.getHeadingVelocity()) < Constants.kAcceptableGyroTurnStopSpeed) {
 			System.out.println("Gyro turn on target");
 			return true;
 		} else return false;

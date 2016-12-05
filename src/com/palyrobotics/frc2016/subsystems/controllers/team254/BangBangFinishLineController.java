@@ -1,6 +1,6 @@
 package com.palyrobotics.frc2016.subsystems.controllers.team254;
 
-import com.team254.lib.util.Controller;
+import com.palyrobotics.frc2016.robot.team254.lib.util.Controller;
 
 public class BangBangFinishLineController extends Controller {
 

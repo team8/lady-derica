@@ -1,14 +1,13 @@
 package com.palyrobotics.frc2016.subsystems;
 
-import com.palyrobotics.frc2016.input.Commands;
-import com.palyrobotics.frc2016.input.RobotState;
+import com.palyrobotics.frc2016.util.Commands;
+import com.palyrobotics.frc2016.util.RobotState;
 import com.palyrobotics.frc2016.util.Subsystem;
-import com.team254.lib.util.Loop;
 
 /**
  * Represents Derica low goal shooter flywheel
  */
-public class LowGoalShooter extends Subsystem implements Loop {
+public class LowGoalShooter extends Subsystem implements SubsystemLoop {
 	// Stores output to return
 	private double output = 0.0;
 	public enum WantedLowGoalState {

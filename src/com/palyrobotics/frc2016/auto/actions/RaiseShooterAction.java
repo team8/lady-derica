@@ -1,6 +1,6 @@
 package com.palyrobotics.frc2016.auto.actions;
 
-import com.palyrobotics.frc2016.input.RobotState;
+import com.palyrobotics.frc2016.util.RobotState;
 import com.palyrobotics.frc2016.robot.Robot;
 import com.palyrobotics.frc2016.subsystems.TyrShooter.WantedShooterState;
 

@@ -1,6 +1,6 @@
 package com.palyrobotics.frc2016.auto.actions;
 
-import com.team254.lib.util.Pose;
+import com.palyrobotics.frc2016.robot.team254.lib.util.Pose;
 
 /**
  * Waits for drivetrain to pass a specific distance

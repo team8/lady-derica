@@ -2,21 +2,21 @@ package com.palyrobotics.frc2016.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 
-import com.palyrobotics.frc2016.input.Commands;
-import com.palyrobotics.frc2016.input.RobotState;
-import com.palyrobotics.frc2016.input.Commands.*;
-import com.palyrobotics.frc2016.input.Commands.JoystickInput.XboxInput;
+import com.palyrobotics.frc2016.util.Commands;
+import com.palyrobotics.frc2016.util.RobotState;
+import com.palyrobotics.frc2016.util.Commands.*;
+import com.palyrobotics.frc2016.util.Commands.JoystickInput.XboxInput;
 import com.palyrobotics.frc2016.subsystems.Drive.DriveGear;
 import com.palyrobotics.frc2016.util.XboxController;
-import com.team254.lib.util.Latch;
+import com.palyrobotics.frc2016.robot.team254.lib.util.Latch;
 
 /**
  * Used to produce Commands {@link Commands} from human input
- * Singleton
+ * Singleton class. Should only be used in robot package.
  * @author Nihar
  *
  */
-public class OperatorInterface {
+class OperatorInterface {
 	private static OperatorInterface mInstance = new OperatorInterface();
 
 	public static OperatorInterface getInstance() {
@@ -28,7 +28,7 @@ public class OperatorInterface {
 	
 	private Commands m_commands = new Commands();
 
-	private HardwareAdaptor.Joysticks joysticks = HardwareAdaptor.getInstance().getJoysticks();
+	private HardwareAdapter.Joysticks joysticks = HardwareAdapter.getInstance().getJoysticks();
 	private Joystick leftStick = joysticks.kLeftStick;
 	private Joystick rightStick = joysticks.kRightStick;
 	private Joystick operatorStick = joysticks.kOperatorStick;

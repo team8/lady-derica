@@ -1,8 +1,10 @@
 package com.palyrobotics.frc2016.subsystems;
 
-import com.palyrobotics.frc2016.input.Commands;
-import com.palyrobotics.frc2016.input.RobotState;
+import com.palyrobotics.frc2016.util.Commands;
+import com.palyrobotics.frc2016.util.RobotState;
 import com.palyrobotics.frc2016.robot.Robot;
+import com.palyrobotics.frc2016.robot.team254.lib.util.DriveSignal;
+import com.palyrobotics.frc2016.robot.team254.lib.util.Pose;
 import com.palyrobotics.frc2016.subsystems.controllers.EncoderTurnAngleController;
 import com.palyrobotics.frc2016.subsystems.controllers.GyroTurnAngleController;
 import com.palyrobotics.frc2016.subsystems.controllers.team254.DriveFinishLineController;
@@ -12,19 +14,16 @@ import com.palyrobotics.frc2016.subsystems.controllers.team254.TurnInPlaceContro
 import com.palyrobotics.frc2016.util.CheesyDriveHelper;
 import com.palyrobotics.frc2016.util.Constants;
 import com.palyrobotics.frc2016.util.Subsystem;
-import com.team254.lib.trajectory.Path;
-import com.team254.lib.util.*;
+import com.palyrobotics.frc2016.robot.team254.lib.trajectory.Path;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-
-import java.util.function.Consumer;
 
 /**
  * Represents the drivetrain
  * Uses controllers or cheesydrivehelper/proportionaldrivehelper to calculate DriveSignal
  */
-public class Drive extends Subsystem implements Loop {
+public class Drive extends Subsystem implements SubsystemLoop {
 	// Helper classes to calculate teleop output
 	private CheesyDriveHelper cdh = new CheesyDriveHelper();
 //	private ProportionalDriveHelper pdh = new ProportionalDriveHelper();

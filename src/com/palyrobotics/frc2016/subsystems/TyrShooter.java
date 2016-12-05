@@ -1,17 +1,12 @@
 package com.palyrobotics.frc2016.subsystems;
 
-import com.palyrobotics.frc2016.input.Commands;
-import com.palyrobotics.frc2016.input.RobotState;
+import com.palyrobotics.frc2016.util.Commands;
+import com.palyrobotics.frc2016.util.RobotState;
 import com.palyrobotics.frc2016.subsystems.controllers.ConstantVoltageController;
 import com.palyrobotics.frc2016.subsystems.controllers.StrongHoldController;
-import com.palyrobotics.frc2016.util.Dashboard;
 import com.palyrobotics.frc2016.util.Subsystem;
-import com.team254.lib.util.CheesySpeedController;
-import com.team254.lib.util.Controller;
-import com.team254.lib.util.Loop;
-import com.team254.lib.util.StateHolder;
+import com.palyrobotics.frc2016.robot.team254.lib.util.Controller;
 
-import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 
@@ -21,7 +16,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
  * @author Robbie, Nihar
  *
  */
-public class TyrShooter extends Subsystem implements Loop {
+public class TyrShooter extends Subsystem {
 	// Store motor output and solenoid output
 	private double motorOutput = 0.0;
 	private DoubleSolenoid.Value[] solenoidOutput = new DoubleSolenoid.Value[3];
@@ -67,7 +62,7 @@ public class TyrShooter extends Subsystem implements Loop {
 	}
 
 	@Override
-	public void onStart() {
+	public void start() {
 	}
 
 	/**
@@ -94,7 +89,7 @@ public class TyrShooter extends Subsystem implements Loop {
 	}
 
 	@Override
-	public void onStop() {
+	public void stop() {
 	}
 
 	/**
@@ -103,10 +98,10 @@ public class TyrShooter extends Subsystem implements Loop {
 	 */
 	public void reset() {
 		// Reset controller
-		if(m_controller instanceof ConstantVoltageController) {
-			m_controller = new StrongHoldController(kP, kI, kD, kTolerance, m_potentiometer);
-			((StrongHoldController) m_controller).disable();
-		}
+//		if(m_controller instanceof ConstantVoltageController) {
+//			m_controller = new StrongHoldController(kP, kI, kD, kTolerance, m_potentiometer);
+//			((StrongHoldController) m_controller).disable();
+//		}
 		mWantedState = WantedShooterState.NONE;
 	}
 	
@@ -134,25 +129,25 @@ public class TyrShooter extends Subsystem implements Loop {
 	/**
 	 * Tells the shooter to hold position at the target angle
 	 */
-	public void holdPosition() {
-		// Continue using current hold postion controller if possible
-		if(m_controller instanceof StrongHoldController) {
-			((StrongHoldController) m_controller).enable();
-			((StrongHoldController) m_controller).setPositionSetpoint(m_potentiometer.get());			
-			return;
-		} 
-		// No potentiometer -> no shooter hold
-		else if(m_potentiometer == null) {
-			System.err.println("No shooter controller!");			
-		} 
-		// Start new hold position controller
-		else {
-			m_controller = new StrongHoldController(kP, kI, kD, kTolerance, m_potentiometer);
-			((StrongHoldController) m_controller).enable();
-			((StrongHoldController) m_controller).setPositionSetpoint(m_potentiometer.get());			
-		}
-	}
-	
+//	public void holdPosition() {
+//		// Continue using current hold postion controller if possible
+//		if(m_controller instanceof StrongHoldController) {
+//			((StrongHoldController) m_controller).enable();
+//			((StrongHoldController) m_controller).setPositionSetpoint(m_potentiometer.get());
+//			return;
+//		}
+//		// No potentiometer -> no shooter hold
+//		else if(m_potentiometer == null) {
+//			System.err.println("No shooter controller!");
+//		}
+//		// Start new hold position controller
+//		else {
+//			m_controller = new StrongHoldController(kP, kI, kD, kTolerance, m_potentiometer);
+//			((StrongHoldController) m_controller).enable();
+//			((StrongHoldController) m_controller).setPositionSetpoint(m_potentiometer.get());
+//		}
+//	}
+//
 	/**
 	 * Cancels the hold position controller
 	 */
