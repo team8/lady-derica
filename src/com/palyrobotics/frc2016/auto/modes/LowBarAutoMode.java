@@ -9,10 +9,10 @@ import com.palyrobotics.frc2016.auto.actions.DriveDistanceAction;
 import com.palyrobotics.frc2016.auto.actions.GetLowAction;
 import com.palyrobotics.frc2016.auto.actions.IntakeAction;
 import com.palyrobotics.frc2016.auto.actions.ParallelAction;
-import com.palyrobotics.frc2016.util.RobotState;
+import com.palyrobotics.frc2016.config.RobotState;
 import com.palyrobotics.frc2016.robot.Robot;
 import com.palyrobotics.frc2016.subsystems.Intake.WantedIntakeState;
-import com.palyrobotics.frc2016.util.Constants;
+import com.palyrobotics.frc2016.config.Constants;
 
 public class LowBarAutoMode extends AutoMode {
 	

@@ -4,8 +4,8 @@ import com.palyrobotics.frc2016.auto.AutoMode;
 import com.palyrobotics.frc2016.auto.AutoModeExecuter;
 import com.palyrobotics.frc2016.auto.AutoModeSelector;
 import com.palyrobotics.frc2016.behavior.RoutineManager;
-import com.palyrobotics.frc2016.util.Commands;
-import com.palyrobotics.frc2016.util.RobotState;
+import com.palyrobotics.frc2016.config.Commands;
+import com.palyrobotics.frc2016.config.RobotState;
 import com.palyrobotics.frc2016.subsystems.*;
 import com.palyrobotics.frc2016.util.Dashboard;
 import com.palyrobotics.frc2016.util.SubsystemLooper;
@@ -20,7 +20,7 @@ public class Robot extends IterativeRobot {
 	// Instantiate singleton classes
 	private static RobotState mRobotState = new RobotState();
 
-	public static RobotState getRobotState() {
+	static RobotState getRobotState() {
 		return mRobotState;
 	}
 

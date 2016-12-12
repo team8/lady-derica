@@ -2,7 +2,7 @@ package com.palyrobotics.frc2016.behavior.routines;
 
 import java.util.Optional;
 
-import com.palyrobotics.frc2016.util.Commands;
+import com.palyrobotics.frc2016.config.Commands;
 import com.palyrobotics.frc2016.subsystems.Drive;
 import com.palyrobotics.frc2016.robot.team254.lib.util.DriveSignal;
 

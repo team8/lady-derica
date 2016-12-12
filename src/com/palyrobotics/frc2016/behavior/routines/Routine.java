@@ -1,11 +1,7 @@
 package com.palyrobotics.frc2016.behavior.routines;
 
-import com.palyrobotics.frc2016.util.Commands;
+import com.palyrobotics.frc2016.config.Commands;
 import com.palyrobotics.frc2016.robot.HardwareAdaptor;
-import com.palyrobotics.frc2016.subsystems.Drive;
-import com.palyrobotics.frc2016.subsystems.Intake;
-
-import edu.wpi.first.wpilibj.PowerDistributionPanel;
 
 /**
  * Abstract superclass for a routine, which specifies an autonomous series of actions in tele-op <br />

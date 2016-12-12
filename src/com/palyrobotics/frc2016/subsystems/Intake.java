@@ -1,8 +1,8 @@
 package com.palyrobotics.frc2016.subsystems;
 
-import com.palyrobotics.frc2016.util.Commands;
-import com.palyrobotics.frc2016.util.RobotState;
-import com.palyrobotics.frc2016.util.Constants;
+import com.palyrobotics.frc2016.config.Commands;
+import com.palyrobotics.frc2016.config.RobotState;
+import com.palyrobotics.frc2016.config.Constants;
 import com.palyrobotics.frc2016.util.Subsystem;
 import com.palyrobotics.frc2016.robot.team254.lib.util.Controller;
 

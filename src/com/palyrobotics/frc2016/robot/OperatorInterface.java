@@ -2,10 +2,10 @@ package com.palyrobotics.frc2016.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 
-import com.palyrobotics.frc2016.util.Commands;
-import com.palyrobotics.frc2016.util.RobotState;
-import com.palyrobotics.frc2016.util.Commands.*;
-import com.palyrobotics.frc2016.util.Commands.JoystickInput.XboxInput;
+import com.palyrobotics.frc2016.config.Commands;
+import com.palyrobotics.frc2016.config.RobotState;
+import com.palyrobotics.frc2016.config.Commands.*;
+import com.palyrobotics.frc2016.config.Commands.JoystickInput.XboxInput;
 import com.palyrobotics.frc2016.subsystems.Drive.DriveGear;
 import com.palyrobotics.frc2016.util.XboxController;
 import com.palyrobotics.frc2016.robot.team254.lib.util.Latch;

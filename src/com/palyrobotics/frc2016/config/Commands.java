@@ -1,8 +1,8 @@
-package com.palyrobotics.frc2016.util;
+package com.palyrobotics.frc2016.config;
 
 import java.util.Optional;
 
-import com.palyrobotics.frc2016.util.Commands.JoystickInput.XboxInput;
+import com.palyrobotics.frc2016.config.Commands.JoystickInput.XboxInput;
 import com.palyrobotics.frc2016.subsystems.Drive;
 
 /**

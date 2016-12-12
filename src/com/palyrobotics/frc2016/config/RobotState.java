@@ -1,4 +1,4 @@
-package com.palyrobotics.frc2016.util;
+package com.palyrobotics.frc2016.config;
 
 import com.palyrobotics.frc2016.subsystems.Drive.DriveGear;
 import com.palyrobotics.frc2016.robot.team254.lib.util.Pose;
@@ -32,5 +32,5 @@ public class RobotState {
 	// DIO Values
 	public double left_encoder;
 	public double right_encoder;
-	public double arm_potentiometer;
+	public double shooter_potentiometer;
 }

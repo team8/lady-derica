@@ -12,10 +12,10 @@ import com.palyrobotics.frc2016.auto.actions.IntakeAction;
 import com.palyrobotics.frc2016.auto.actions.ParallelAction;
 import com.palyrobotics.frc2016.auto.actions.RaiseShooterAction;
 import com.palyrobotics.frc2016.auto.actions.ShootAction;
-import com.palyrobotics.frc2016.util.RobotState;
+import com.palyrobotics.frc2016.config.RobotState;
 import com.palyrobotics.frc2016.robot.Robot;
 import com.palyrobotics.frc2016.subsystems.Intake.WantedIntakeState;
-import com.palyrobotics.frc2016.util.Constants;
+import com.palyrobotics.frc2016.config.Constants;
 
 /**
  * Goes under the low bar then shoots a high goal

@@ -6,10 +6,10 @@ import com.palyrobotics.frc2016.auto.actions.AutoAlignAction;
 import com.palyrobotics.frc2016.auto.actions.DriveDistanceAction;
 import com.palyrobotics.frc2016.auto.actions.RaiseShooterAction;
 import com.palyrobotics.frc2016.auto.actions.ShootAction;
-import com.palyrobotics.frc2016.util.RobotState;
+import com.palyrobotics.frc2016.config.RobotState;
 import com.palyrobotics.frc2016.robot.Robot;
 import com.palyrobotics.frc2016.subsystems.Drive.DriveGear;
-import com.palyrobotics.frc2016.util.Constants;
+import com.palyrobotics.frc2016.config.Constants;
 
 /**
  * Crosses a B/D class defense

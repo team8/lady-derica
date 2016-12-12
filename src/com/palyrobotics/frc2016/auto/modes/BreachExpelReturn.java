@@ -11,10 +11,10 @@ import com.palyrobotics.frc2016.auto.actions.ExpelShooterAction;
 import com.palyrobotics.frc2016.auto.actions.IntakeAction;
 import com.palyrobotics.frc2016.auto.actions.ParallelAction;
 import com.palyrobotics.frc2016.auto.actions.TurnAngleAutoAction;
-import com.palyrobotics.frc2016.util.RobotState;
+import com.palyrobotics.frc2016.config.RobotState;
 import com.palyrobotics.frc2016.robot.Robot;
 import com.palyrobotics.frc2016.subsystems.Intake.WantedIntakeState;
-import com.palyrobotics.frc2016.util.Constants;
+import com.palyrobotics.frc2016.config.Constants;
 
 /**
  * Crosses a B/D class defense, expels a ball, and returns over the midline

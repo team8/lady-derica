@@ -1,7 +1,7 @@
 package com.palyrobotics.frc2016.robot;
 
-import com.palyrobotics.frc2016.util.RobotState;
-import com.palyrobotics.frc2016.util.Constants;
+import com.palyrobotics.frc2016.config.RobotState;
+import com.palyrobotics.frc2016.config.Constants;
 import com.palyrobotics.frc2016.util.XboxController;
 import com.palyrobotics.frc2016.robot.team254.lib.util.CheesySpeedController;
 
@@ -131,6 +131,7 @@ class HardwareAdapter {
 		public final DoubleSolenoid kLatchSolenoid;
 		public final DoubleSolenoid kGrabberSolenoid;
 		public final CheesySpeedController kShooterMotor;
+		public final AnalogPotentiometer kShooterPotentiometer;
 
 		private ShooterHardware() {
 			if (Robot.getRobotState().name == RobotState.RobotName.TYR) {
@@ -142,11 +143,13 @@ class HardwareAdapter {
 						Constants.kGrabberSolenoidPortExtend, Constants.kGrabberSolenoidPortRetract);
 				kShooterMotor = new CheesySpeedController(new CANTalon(Constants.kTyrShooterMotorDeviceID),
 						Constants.kTyrShooterMotorPDP);
+				kShooterPotentiometer = new AnalogPotentiometer(Constants.kTyrShooterPotentiometerPort);
 			} else {
 				kPistonSolenoid = null;
 				kLatchSolenoid = null;
 				kGrabberSolenoid = null;
 				kShooterMotor = null;
+				kShooterPotentiometer = null;
 			}
 
 		}

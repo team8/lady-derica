@@ -1,7 +1,7 @@
 package com.palyrobotics.frc2016.subsystems;
 
-import com.palyrobotics.frc2016.util.Commands;
-import com.palyrobotics.frc2016.util.RobotState;
+import com.palyrobotics.frc2016.config.Commands;
+import com.palyrobotics.frc2016.config.RobotState;
 import com.palyrobotics.frc2016.subsystems.controllers.ConstantVoltageController;
 import com.palyrobotics.frc2016.subsystems.controllers.StrongHoldController;
 import com.palyrobotics.frc2016.util.Subsystem;

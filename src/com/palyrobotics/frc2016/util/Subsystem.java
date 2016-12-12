@@ -1,5 +1,8 @@
 package com.palyrobotics.frc2016.util;
 
+import com.palyrobotics.frc2016.config.Commands;
+import com.palyrobotics.frc2016.config.RobotState;
+
 public abstract class Subsystem implements SubsystemLoop {
 	protected Dashboard mDashboard = Dashboard.getInstance();
 	private String name;

@@ -8,7 +8,7 @@ import com.palyrobotics.frc2016.auto.actions.Action;
 import com.palyrobotics.frc2016.auto.actions.DriveTimeAction;
 import com.palyrobotics.frc2016.auto.actions.GetLowAction;
 import com.palyrobotics.frc2016.auto.actions.ParallelAction;
-import com.palyrobotics.frc2016.util.RobotState;
+import com.palyrobotics.frc2016.config.RobotState;
 import com.palyrobotics.frc2016.robot.Robot;
 
 public class TimerLowBarAutoMode extends AutoMode {

@@ -1,7 +1,7 @@
 package com.palyrobotics.frc2016.subsystems;
 
-import com.palyrobotics.frc2016.util.Commands;
-import com.palyrobotics.frc2016.util.RobotState;
+import com.palyrobotics.frc2016.config.Commands;
+import com.palyrobotics.frc2016.config.RobotState;
 import com.palyrobotics.frc2016.robot.Robot;
 import com.palyrobotics.frc2016.robot.team254.lib.util.DriveSignal;
 import com.palyrobotics.frc2016.robot.team254.lib.util.Pose;
@@ -12,7 +12,7 @@ import com.palyrobotics.frc2016.subsystems.controllers.team254.DrivePathControll
 import com.palyrobotics.frc2016.subsystems.controllers.team254.DriveStraightController;
 import com.palyrobotics.frc2016.subsystems.controllers.team254.TurnInPlaceController;
 import com.palyrobotics.frc2016.util.CheesyDriveHelper;
-import com.palyrobotics.frc2016.util.Constants;
+import com.palyrobotics.frc2016.config.Constants;
 import com.palyrobotics.frc2016.util.Subsystem;
 import com.palyrobotics.frc2016.robot.team254.lib.trajectory.Path;
 
