@@ -10,17 +10,15 @@ import com.palyrobotics.frc2016.robot.team254.lib.util.Pose;
  *
  */
 public class RobotState {
-	public enum RobotName {
-		TYR, DERICA
-	}
-
 	public enum GamePeriod {
 		AUTO, TELEOP, DISABLED
 	}
+	// Updated by autoInit, teleopInit, disabledInit
 	public GamePeriod gamePeriod;
 
-	public final RobotName name = RobotName.DERICA;
-	
+	// Tracks total voltage from PDP
+	public double voltage;
+
 	// No sensors on the robot currently
 	public DriveGear gear;
 

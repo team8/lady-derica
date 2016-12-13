@@ -5,6 +5,7 @@ import com.palyrobotics.frc2016.auto.AutoModeExecuter;
 import com.palyrobotics.frc2016.auto.AutoModeSelector;
 import com.palyrobotics.frc2016.behavior.RoutineManager;
 import com.palyrobotics.frc2016.config.Commands;
+import com.palyrobotics.frc2016.config.Constants;
 import com.palyrobotics.frc2016.config.RobotState;
 import com.palyrobotics.frc2016.subsystems.*;
 import com.palyrobotics.frc2016.util.Dashboard;
@@ -32,12 +33,12 @@ public class Robot extends IterativeRobot {
 	private RoutineManager routineManager = new RoutineManager();
 
 	// Subsystem controllers
-	private Drive mDrive = new Drive(mRobotState);
-	private Intake mIntake = new Intake(mRobotState.name);
-	private TyrShooter mShooter = new TyrShooter();
-	private Breacher mBreacher = new Breacher();
-	private LowGoalShooter mLowGoalShooter = new LowGoalShooter();
-	private Catapult mCatapult = new Catapult();
+	private Drive mDrive = Drive.getInstance();
+	private Intake mIntake = Intake.getInstance();
+	private TyrShooter mShooter = TyrShooter.getInstance();
+	private Breacher mBreacher = Breacher.getInstance();
+	private LowGoalShooter mLowGoalShooter = LowGoalShooter.getInstance();
+	private Catapult mCatapult = Catapult.getInstance();
 	
 	//hardware updater
 	private HardwareUpdater mHardwareUpdater;
@@ -53,7 +54,7 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		System.out.println("Start robotInit()");
 		subsystem_looper.register(mDrive);
-		if(mRobotState.name == RobotState.RobotName.TYR) {
+		if(Constants.kRobotName == Constants.RobotName.TYR) {
 			subsystem_looper.register(mShooter);
 			subsystem_looper.register(mBreacher);
 			
@@ -98,7 +99,7 @@ public class Robot extends IterativeRobot {
 		System.out.println("Start teleopInit()");
 		mRobotState.gamePeriod = RobotState.GamePeriod.TELEOP;
 		subsystem_looper.start();
-		if(mRobotState.name == RobotState.RobotName.TYR) {
+		if(Constants.kRobotName == Constants.RobotName.TYR) {
 			mShooter.reset();
 		}
 		System.out.println("End teleopInit()");
@@ -107,7 +108,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		// Update RobotState
-
+		mHardwareUpdater.updateSensors();
 		// Gets joystick commands
 		Commands commands = mOperatorInterface.getCommands();
 		

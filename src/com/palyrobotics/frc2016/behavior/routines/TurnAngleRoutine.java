@@ -1,13 +1,14 @@
 package com.palyrobotics.frc2016.behavior.routines;
 
 import com.palyrobotics.frc2016.config.Commands;
-import com.palyrobotics.frc2016.subsystems.Drive;
 import com.palyrobotics.frc2016.robot.team254.lib.util.DriveSignal;
+import com.palyrobotics.frc2016.util.Subsystem;
 
 public class TurnAngleRoutine extends Routine {
-
-	private Drive drive = HardwareAdaptor.kDrive;
-	
+	@Override
+	public Subsystem[] getRequiredSubsystems() {
+		return new Subsystem[]{drive};
+	}
 	private double angle;
 	private double maxVel;
 	

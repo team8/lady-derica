@@ -1,4 +1,4 @@
-package com.palyrobotics.frc2016.auto.actions;
+package com.palyrobotics.frc2016.behavior.actions;
 
 import com.palyrobotics.frc2016.robot.HardwareAdaptor;
 import com.palyrobotics.frc2016.subsystems.Drive;

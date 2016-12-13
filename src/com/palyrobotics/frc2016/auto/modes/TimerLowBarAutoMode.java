@@ -4,10 +4,10 @@ import java.util.ArrayList;
 
 import com.palyrobotics.frc2016.auto.AutoMode;
 import com.palyrobotics.frc2016.auto.AutoModeEndedException;
-import com.palyrobotics.frc2016.auto.actions.Action;
-import com.palyrobotics.frc2016.auto.actions.DriveTimeAction;
-import com.palyrobotics.frc2016.auto.actions.GetLowAction;
-import com.palyrobotics.frc2016.auto.actions.ParallelAction;
+import com.palyrobotics.frc2016.behavior.actions.Action;
+import com.palyrobotics.frc2016.behavior.actions.DriveTimeAction;
+import com.palyrobotics.frc2016.behavior.actions.GetLowAction;
+import com.palyrobotics.frc2016.behavior.actions.ParallelAction;
 import com.palyrobotics.frc2016.config.RobotState;
 import com.palyrobotics.frc2016.robot.Robot;
 

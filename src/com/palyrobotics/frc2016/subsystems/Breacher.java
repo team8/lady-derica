@@ -6,9 +6,13 @@ import com.palyrobotics.frc2016.util.Subsystem;
 
 
 public class Breacher extends Subsystem {
+	private static Breacher mBreacher = new Breacher();
+	public static Breacher getInstance() {
+		return mBreacher;
+	}
 	private double motorOutput = 0.0;
 
-	public Breacher() {
+	private Breacher() {
 		super("Breacher");
 	}
 

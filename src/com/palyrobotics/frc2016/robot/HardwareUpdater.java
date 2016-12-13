@@ -1,5 +1,6 @@
 package com.palyrobotics.frc2016.robot;
 
+import com.palyrobotics.frc2016.config.Constants;
 import com.palyrobotics.frc2016.config.RobotState;
 import com.palyrobotics.frc2016.subsystems.Breacher;
 import com.palyrobotics.frc2016.subsystems.Catapult;
@@ -54,15 +55,17 @@ class HardwareUpdater {
 	void updateSensors() {
 		RobotState robotState = Robot.getRobotState();
 		robotState.shooter_potentiometer = HardwareAdapter.ShooterHardware.getInstance().kShooterPotentiometer.get();
+		robotState.left_encoder = HardwareAdapter.DrivetrainHardware.getInstance().kLeftDriveEncoder.get();
+		robotState.right_encoder = HardwareAdapter.DrivetrainHardware.getInstance().kRightDriveEncoder.get();
 	}
 
 	/**
 	 * Sets the output from all subsystems for the respective hardware
 	 */
 	void updateSubsystems() {
-		if(Robot.getRobotState().name == RobotState.RobotName.DERICA) {
+		if(Constants.kRobotName == Constants.RobotName.DERICA) {
 			updateDrivetrain();
-			updateCatapult();
+			updateLowGoalShooter();
 			updateIntake();
 		} else {
 			updateDrivetrain();
@@ -78,7 +81,7 @@ class HardwareUpdater {
 	}
 	
 	private void updateIntake() {
-		if(Robot.getRobotState().name == RobotState.RobotName.DERICA) {
+		if(Constants.kRobotName == Constants.RobotName.DERICA) {
 			HardwareAdapter.getInstance().getIntake().kLeftIntakeMotor.set(mIntake.get()[0]);
 			HardwareAdapter.getInstance().getIntake().kIntakeArmMotor.set(mIntake.get()[1]);
 		} else {

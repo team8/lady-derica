@@ -1,6 +1,6 @@
 package com.palyrobotics.frc2016.auto;
 
-import com.palyrobotics.frc2016.auto.actions.*;
+import com.palyrobotics.frc2016.behavior.actions.*;
 import com.palyrobotics.frc2016.robot.HardwareAdaptor;
 import com.palyrobotics.frc2016.subsystems.*;
 

@@ -1,17 +1,16 @@
-package com.palyrobotics.frc2016.auto.actions;
+package com.palyrobotics.frc2016.behavior.actions;
 
 import com.palyrobotics.frc2016.subsystems.Intake.WantedIntakeState;
-import com.palyrobotics.frc2016.subsystems.LowGoalShooter.WantedLowGoalState;
 
 import edu.wpi.first.wpilibj.Timer;
 
-public class ExpelShooterAction implements Action {
+public class ExpelIntake implements Action {
 
 	private double time;
 	private boolean mIsDone = false;
 	private Timer mTimer = new Timer();
 	
-	public ExpelShooterAction(double time) {
+	public ExpelIntake(double time) {
 		this.time = time;
 	}
 	
@@ -24,9 +23,6 @@ public class ExpelShooterAction implements Action {
 	public void update() {
 		// TODO Auto-generated method stub
 		intake.setWantedState(WantedIntakeState.EXPELLING);
-		lowShooter.setWantedState(WantedLowGoalState.SHOOTING);
-		
-		
 		if(mTimer.get() >= time) {
 			mIsDone = true;
 		}
@@ -34,8 +30,7 @@ public class ExpelShooterAction implements Action {
 
 	@Override
 	public void done() {
-		intake.setWantedState(WantedIntakeState.NONE);
-		lowShooter.setWantedState(WantedLowGoalState.STOP);
+		intake.setSpeed(0);
 	}
 
 	@Override
@@ -43,6 +38,7 @@ public class ExpelShooterAction implements Action {
 		mIsDone = false;
 		mTimer.reset();
 		mTimer.start();
+		
 	}
-	
+
 }

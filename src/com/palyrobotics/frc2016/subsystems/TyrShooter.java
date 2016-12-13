@@ -17,6 +17,10 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
  *
  */
 public class TyrShooter extends Subsystem {
+	private static TyrShooter instance_ = new TyrShooter();
+	public static TyrShooter getInstance() {
+		return instance_;
+	}
 	// Store motor output and solenoid output
 	private double motorOutput = 0.0;
 	private DoubleSolenoid.Value[] solenoidOutput = new DoubleSolenoid.Value[3];
@@ -206,7 +210,7 @@ public class TyrShooter extends Subsystem {
 	/**
 	 * TODO:
 	 */
-	public TyrShooter() {
+	private TyrShooter() {
 		super("TyrShooter");
 		solenoidOutput[0] = latchOutput;
 		solenoidOutput[1] = pistonOutput;

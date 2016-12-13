@@ -36,7 +36,7 @@ class HardwareAdapter {
 		public final DoubleSolenoid kShifterSolenoid;
 
 		private DrivetrainHardware() {
-			if (Robot.getRobotState().name == RobotState.RobotName.TYR) {
+			if (Constants.kRobotName == Constants.RobotName.TYR) {
 				kLeftDriveMotor = new CheesySpeedController(
 						new SpeedController[]{new CANTalon(Constants.kTyrLeftDriveFrontMotorDeviceID),
 								new CANTalon(Constants.kTyrLeftDriveBackMotorDeviceID)},
@@ -93,7 +93,7 @@ class HardwareAdapter {
 		public final AnalogPotentiometer kIntakeArmPotentiometer;
 
 		private IntakeHardware() {
-			if (Robot.getRobotState().name == RobotState.RobotName.TYR) {
+			if (Constants.kRobotName == Constants.RobotName.TYR) {
 				kLeftIntakeMotor = new CheesySpeedController(
 						new VictorSP(Constants.kTyrLeftIntakeMotorDeviceID),
 						Constants.kTyrLeftIntakeMotorPDP);
@@ -134,7 +134,7 @@ class HardwareAdapter {
 		public final AnalogPotentiometer kShooterPotentiometer;
 
 		private ShooterHardware() {
-			if (Robot.getRobotState().name == RobotState.RobotName.TYR) {
+			if (Constants.kRobotName == Constants.RobotName.TYR) {
 				kPistonSolenoid = new DoubleSolenoid(
 						Constants.kShooterSolenoidPortExtend, Constants.kShooterSolenoidPortRetract);
 				kLatchSolenoid = new DoubleSolenoid(
@@ -167,7 +167,7 @@ class HardwareAdapter {
 		public final CheesySpeedController kBreacherMotor;
 
 		private BreacherHardware() {
-			if (Robot.getRobotState().name == RobotState.RobotName.TYR) {
+			if (Constants.kRobotName == Constants.RobotName.TYR) {
 				kBreacherMotor = new CheesySpeedController(new CANTalon(Constants.kBreacherMotorDeviceID), Constants.kBreacherMotorPDP);
 			} else {
 				kBreacherMotor = null;
@@ -184,7 +184,7 @@ class HardwareAdapter {
 		public final CheesySpeedController kLowGoalShooterMotor;
 		
 		private LowGoalShooterHardware() {
-			if(Robot.getRobotState().name == RobotState.RobotName.DERICA) {
+			if(Constants.kRobotName == Constants.RobotName.DERICA) {
 				kLowGoalShooterMotor = new CheesySpeedController(new Victor(Constants.kDericaLowGoalShooterPWM), Constants.kDericaLowGoalShooterPDP);
 			} else {
 				kLowGoalShooterMotor = null;
@@ -207,7 +207,7 @@ class HardwareAdapter {
 		public final Joystick kOperatorStick;
 
 		public Joysticks() {
-			if (Robot.getRobotState().name == RobotState.RobotName.TYR) {
+			if (Constants.kRobotName == Constants.RobotName.TYR) {
 				kOperatorStick = new XboxController(2);
 			} else {
 				kOperatorStick = new Joystick(2);

@@ -3,11 +3,16 @@ package com.palyrobotics.frc2016.subsystems;
 import com.palyrobotics.frc2016.config.Commands;
 import com.palyrobotics.frc2016.config.RobotState;
 import com.palyrobotics.frc2016.util.Subsystem;
+import com.palyrobotics.frc2016.util.SubsystemLoop;
 
 /**
  * Represents Derica low goal shooter flywheel
  */
 public class LowGoalShooter extends Subsystem implements SubsystemLoop {
+	private static LowGoalShooter instance_ = new LowGoalShooter();
+	public static LowGoalShooter getInstance() {
+		return instance_;
+	}
 	// Stores output to return
 	private double output = 0.0;
 	public enum WantedLowGoalState {
@@ -15,7 +20,7 @@ public class LowGoalShooter extends Subsystem implements SubsystemLoop {
 	}
 	private WantedLowGoalState mWantedState = WantedLowGoalState.STOP;
 
-	public LowGoalShooter() {
+	private LowGoalShooter() {
 		super("LowGoalShooter");
 	}
 
@@ -28,7 +33,7 @@ public class LowGoalShooter extends Subsystem implements SubsystemLoop {
 	}
 
 	@Override
-	public void onStart() {
+	public void start() {
 		output = 0.0;
 	}
 
@@ -59,7 +64,7 @@ public class LowGoalShooter extends Subsystem implements SubsystemLoop {
 	}
 
 	@Override
-	public void onStop() {
+	public void stop() {
 		output = 0.0;
 	}
 }

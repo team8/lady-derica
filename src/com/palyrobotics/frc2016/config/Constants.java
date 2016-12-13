@@ -3,6 +3,11 @@ package com.palyrobotics.frc2016.config;
 import com.palyrobotics.frc2016.robot.team254.lib.util.ConstantsBase;
 
 public class Constants extends ConstantsBase {
+	public enum RobotName {
+		TYR, DERICA
+	}
+	public static final RobotName kRobotName = RobotName.DERICA;
+
 	// Chezy Drive tuning
 	public static double kDriveSensitivity = .85;
 	public static double kNegativeInertiaScalar = 5.0;

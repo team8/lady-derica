@@ -1,10 +1,13 @@
 package com.palyrobotics.frc2016.behavior.routines;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 import com.palyrobotics.frc2016.config.Commands;
 import com.palyrobotics.frc2016.robot.team254.lib.util.DriveSignal;
 
+import com.palyrobotics.frc2016.subsystems.Drive;
+import com.palyrobotics.frc2016.util.Subsystem;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 
@@ -14,6 +17,11 @@ public class AutoAlignmentRoutine extends Routine {
 	 * Aligning = waiting while robot turns
 	 * Done = no goal spotted, or finished iterations
 	 */
+	@Override
+	public Subsystem[] getRequiredSubsystems() {
+		return new Subsystem[]{drive};
+	}
+
 	private enum AutoAlignStates {
 		START, SET_ANGLE, ALIGNING, DONE
 	}

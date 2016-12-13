@@ -1,7 +1,6 @@
 package com.palyrobotics.frc2016.robot.team254.lib.util;
 
-import com.palyrobotics.frc2016.robot.HardwareAdapter;
-
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.SpeedController;
 
 public class CheesySpeedController implements SpeedController {
@@ -37,16 +36,21 @@ public class CheesySpeedController implements SpeedController {
         return (m_invert ? -1.0 : 1.0);
     }
 
-    public double getCurrent() {
+    /**
+     * Takes the PDP as input and returns the current drawn by these slots
+     * @param pdp Reference to the Power distribution panel
+     * @return current of all slots or this pdp
+     */
+    public double getCurrent(PowerDistributionPanel pdp) {
         double current = 0.0;
         for (int slot : m_pdp_slots) {
-            current += HardwareAdapter.kPDP.getCurrent(slot);
+            current += pdp.getCurrent(slot);
         }
         return current;
     }
 
-    public double getSignedCurrent() {
-        return getCurrent() * Math.signum(get()) * sign();
+    public double getSignedCurrent(PowerDistributionPanel pdp) {
+        return getCurrent(pdp) * Math.signum(get()) * sign();
     }
 
     @Override

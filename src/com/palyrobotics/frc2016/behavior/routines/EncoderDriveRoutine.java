@@ -6,6 +6,7 @@ import com.palyrobotics.frc2016.config.Commands;
 import com.palyrobotics.frc2016.subsystems.Drive;
 import com.palyrobotics.frc2016.robot.team254.lib.util.DriveSignal;
 
+import com.palyrobotics.frc2016.util.Subsystem;
 import edu.wpi.first.wpilibj.Timer;
 
 /**
@@ -15,6 +16,10 @@ import edu.wpi.first.wpilibj.Timer;
  * @author Nihar
  */
 public class EncoderDriveRoutine extends Routine {
+	@Override
+	public Subsystem[] getRequiredSubsystems() {
+		return new Subsystem[]{drive};
+	}
 	/*
 	 * START = Set new drive setpoint
 	 * DRIVING = Waiting to reach drive setpoint
@@ -35,8 +40,7 @@ public class EncoderDriveRoutine extends Routine {
 	Timer m_timer = new Timer();
 
 	private boolean m_is_new_state = true;
-	private Drive drive = HardwareAdaptor.kDrive;
-	
+
 	/**
 	 * Constructs with target distance
 	 * Uses default timeout and default velocity setpoint

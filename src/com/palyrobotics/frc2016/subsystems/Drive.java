@@ -16,6 +16,7 @@ import com.palyrobotics.frc2016.config.Constants;
 import com.palyrobotics.frc2016.util.Subsystem;
 import com.palyrobotics.frc2016.robot.team254.lib.trajectory.Path;
 
+import com.palyrobotics.frc2016.util.SubsystemLoop;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 
@@ -24,6 +25,10 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
  * Uses controllers or cheesydrivehelper/proportionaldrivehelper to calculate DriveSignal
  */
 public class Drive extends Subsystem implements SubsystemLoop {
+	private static Drive instance_ = new Drive();
+	public static Drive getInstance() {
+		return instance_;
+	}
 	// Helper classes to calculate teleop output
 	private CheesyDriveHelper cdh = new CheesyDriveHelper();
 //	private ProportionalDriveHelper pdh = new ProportionalDriveHelper();
@@ -52,10 +57,9 @@ public class Drive extends Subsystem implements SubsystemLoop {
 	// Stores output
 	private DriveSignal mSignal = DriveSignal.NEUTRAL;
 
-	public Drive(RobotState robotState) {
+	private Drive() {
 		super("Drive");
-		m_cached_robot_state = robotState;
-		if(m_cached_robot_state.name == RobotState.RobotName.TYR) {
+		if(Constants.kRobotName == Constants.RobotName.TYR) {
 			m_wheelbase_width = 26.0;
 			m_turn_slip_factor = 1.2;
 			m_inches_per_tick = 0.184;
@@ -76,7 +80,7 @@ public class Drive extends Subsystem implements SubsystemLoop {
 	}
 
 	@Override
-	public void onStart() {
+	public void start() {
 	}
 
 	/**
@@ -104,7 +108,7 @@ public class Drive extends Subsystem implements SubsystemLoop {
 	}
 
 	@Override
-	public void onStop() {
+	public void stop() {
 	}
 
 	private void setDriveOutputs(DriveSignal signal) {
@@ -118,7 +122,7 @@ public class Drive extends Subsystem implements SubsystemLoop {
 	 * @return What the shifterSolenoid should be set to
 	 */
 	public DoubleSolenoid.Value setGear(DriveGear targetGear) {
-		if (Robot.getRobotState().name == RobotState.RobotName.DERICA) {
+		if (Constants.kRobotName == Constants.RobotName.DERICA) {
 			System.err.println("No gear shifting on Derica");
 			return null;
 		}
@@ -224,8 +228,7 @@ public class Drive extends Subsystem implements SubsystemLoop {
 	 * @return The pose according to the current sensor state
 	 */
 	public Pose getPhysicalPose() {
-		RobotState robotState = Robot.getRobotState();
-		m_cached_pose = robotState.getDrivePose();
+		m_cached_pose = m_cached_robot_state.getDrivePose();
 		return m_cached_pose;
 	}
 

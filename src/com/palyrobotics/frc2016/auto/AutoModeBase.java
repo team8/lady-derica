@@ -1,6 +1,6 @@
 package com.palyrobotics.frc2016.auto;
 
-import com.palyrobotics.frc2016.auto.actions.Action;
+import com.palyrobotics.frc2016.behavior.actions.Action;
 
 public abstract class AutoModeBase {
     protected double m_update_rate = 1.0 / 50.0;

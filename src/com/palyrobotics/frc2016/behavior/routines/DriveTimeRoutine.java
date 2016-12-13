@@ -6,14 +6,18 @@ import com.palyrobotics.frc2016.config.Commands;
 import com.palyrobotics.frc2016.subsystems.Drive;
 import com.palyrobotics.frc2016.robot.team254.lib.util.DriveSignal;
 
+import com.palyrobotics.frc2016.util.Subsystem;
 import edu.wpi.first.wpilibj.Timer;
 
 public class DriveTimeRoutine extends Routine {
+	@Override
+	public Subsystem[] getRequiredSubsystems() {
+		return new Subsystem[]{drive};
+	}
 
 	private enum DriveTimeRoutineStates {
 		START, DRIVING, DONE
 	}
-
 	DriveTimeRoutineStates m_state = DriveTimeRoutineStates.START;
 	Timer m_timer = new Timer();
 	// Default values for time and velocity setpoints
@@ -21,9 +25,6 @@ public class DriveTimeRoutine extends Routine {
 	private double m_velocity_setpoint;
 	
 	private boolean m_is_new_state = true;
-
-	private Drive drive = HardwareAdaptor.getInstance().getDrivetrain();
-		
 	/**
 	 * Constructs with a specified time setpoint and velocity
 	 * @param time How long to drive (seconds)

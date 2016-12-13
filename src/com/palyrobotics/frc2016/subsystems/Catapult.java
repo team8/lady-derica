@@ -8,11 +8,15 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 
 public class Catapult extends Subsystem {
+	private static Catapult instance_ = new Catapult();
+	public static Catapult getInstance() {
+		return instance_;
+	}
 	// Stores output
 	private double winchMotorOutput = 0.0;
 	private DoubleSolenoid.Value lockSolenoidOutput;
 
-	public Catapult() {
+	private Catapult() {
 		super("Catapult");
 	}
 
@@ -37,6 +41,16 @@ public class Catapult extends Subsystem {
 		} else if (commands.pin_request == Commands.PinRequest.UNLOCK) {
 			unlock();
 		}
+	}
+
+	@Override
+	public void start() {
+
+	}
+
+	@Override
+	public void stop() {
+
 	}
 
 	// Hold the catapult in place

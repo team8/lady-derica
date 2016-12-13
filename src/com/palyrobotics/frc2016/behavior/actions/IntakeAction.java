@@ -1,17 +1,19 @@
-package com.palyrobotics.frc2016.auto.actions;
+package com.palyrobotics.frc2016.behavior.actions;
 
 import com.palyrobotics.frc2016.subsystems.Intake.WantedIntakeState;
 
 import edu.wpi.first.wpilibj.Timer;
 
-public class ExpelIntake implements Action {
+public class IntakeAction implements Action {
 
 	private double time;
+	private WantedIntakeState state;
 	private boolean mIsDone = false;
 	private Timer mTimer = new Timer();
 	
-	public ExpelIntake(double time) {
+	public IntakeAction(double time, WantedIntakeState state) {
 		this.time = time;
+		this.state = state;
 	}
 	
 	@Override
@@ -21,8 +23,7 @@ public class ExpelIntake implements Action {
 
 	@Override
 	public void update() {
-		// TODO Auto-generated method stub
-		intake.setWantedState(WantedIntakeState.EXPELLING);
+		intake.setWantedState(state);
 		if(mTimer.get() >= time) {
 			mIsDone = true;
 		}
@@ -30,15 +31,15 @@ public class ExpelIntake implements Action {
 
 	@Override
 	public void done() {
-		intake.setSpeed(0);
+		intake.setSpeed(0.0);
+		intake.setArmSpeed(0);
 	}
 
 	@Override
 	public void start() {
+		System.out.println("Moving intake!");
 		mIsDone = false;
 		mTimer.reset();
 		mTimer.start();
-		
 	}
-
 }

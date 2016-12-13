@@ -2,10 +2,10 @@ package com.palyrobotics.frc2016.auto.modes;
 
 import com.palyrobotics.frc2016.auto.AutoMode;
 import com.palyrobotics.frc2016.auto.AutoModeEndedException;
-import com.palyrobotics.frc2016.auto.actions.AutoAlignAction;
-import com.palyrobotics.frc2016.auto.actions.DriveDistanceAction;
-import com.palyrobotics.frc2016.auto.actions.RaiseShooterAction;
-import com.palyrobotics.frc2016.auto.actions.ShootAction;
+import com.palyrobotics.frc2016.behavior.actions.AutoAlignAction;
+import com.palyrobotics.frc2016.behavior.actions.DriveDistanceAction;
+import com.palyrobotics.frc2016.behavior.actions.RaiseShooterAction;
+import com.palyrobotics.frc2016.behavior.actions.ShootAction;
 import com.palyrobotics.frc2016.config.RobotState;
 import com.palyrobotics.frc2016.robot.Robot;
 import com.palyrobotics.frc2016.subsystems.Drive.DriveGear;
