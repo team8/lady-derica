@@ -110,7 +110,7 @@ public class RoutineManager implements Tappable {
 	public ArrayList<Routine> conflictingRoutines(ArrayList<Routine> routinesList, Routine newRoutine) {
 		// Get hash sets of required subsystems for existing routines
 		ArrayList<HashSet<Subsystem>> routineSubsystemSets = new ArrayList<HashSet<Subsystem>>();
-//		HashSet<Subsystem>[] routineSubsystemSets = new HashSet[routines.length];
+		HashSet<Subsystem> subsystemsRequired = new HashSet(Arrays.asList(newRoutine.getRequiredSubsystems()));
 		for (int i = 0; i < routinesList.size(); i++) {
 			routineSubsystemSets.add(new HashSet<Subsystem>(Arrays.asList(routinesList.get(i).getRequiredSubsystems())));
 		}
@@ -118,12 +118,11 @@ public class RoutineManager implements Tappable {
 		// Any existing routines that require the same subsystem are added to routine
 		breakpoint:
 		for (int j = 0; j < routinesList.size(); j++) {
-			for (Subsystem subsystem : newRoutine.getRequiredSubsystems()) {
-				if (routineSubsystemSets.get(j).contains(subsystem)) {
-					conflicts.add(routinesList.get(j));
-					// Move to next routine in the list
-					break breakpoint;
-				}
+			routineSubsystemSets.get(j).retainAll(subsystemsRequired);
+			if(routineSubsystemSets.get(j).size()!=0) {
+				conflicts.add(routinesList.get(j));
+				// Move to next routine in the list
+				break breakpoint;
 			}
 		}
 		return conflicts;
@@ -149,34 +148,12 @@ public class RoutineManager implements Tappable {
 		HashSet<Subsystem> initialSet = new HashSet<Subsystem>(Arrays.asList(routines[0].getRequiredSubsystems()));
 		// Instantiate all other subsystems
 		HashSet<Subsystem>[] routineSubsystemSets = new HashSet[routines.length];
-		for(int i=1; i<routines.length; i++) {
+		for (int i = 1; i < routines.length; i++) {
 			routineSubsystemSets[i] = new HashSet<Subsystem>(Arrays.asList(routines[i].getRequiredSubsystems()));
 		}
-		for(int j=1; j<routines.length; j++) {
+		for (int j = 1; j < routines.length; j++) {
 			initialSet.retainAll(routineSubsystemSets[j]);
 		}
 		return (Subsystem[]) initialSet.toArray();
-	}
-
-	public ArrayList<ArrayList<Integer>> conflictingNumbers(ArrayList<ArrayList<Integer>> routines, Integer integer) {
-		// Get hash sets of required subsystems for existing routines
-		ArrayList<HashSet<Integer>> routineSubsystemSets = new ArrayList<HashSet<Integer>>();
-//		HashSet<Subsystem>[] routineSubsystemSets = new HashSet[routines.length];
-		for (int i = 0; i < routines.size(); i++) {
-			routineSubsystemSets.add(new HashSet<Integer>(routines.get(i)));
-		}
-		ArrayList<ArrayList<Integer>> conflicts = new ArrayList<ArrayList<Integer>>();
-		// Any existing routines that require the same subsystem are added to routine
-		breakpoint:
-		for (int j = 0; j < routines.size(); j++) {
-			for (Integer testInt : routines.get(j)) {
-				if (integer.equals(testInt)) {
-					conflicts.add(routines.get(j));
-					// Move to next routine in the list
-					break breakpoint;
-				}
-			}
-		}
-		return conflicts;
 	}
 }
