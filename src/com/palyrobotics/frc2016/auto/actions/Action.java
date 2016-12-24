@@ -1,10 +1,6 @@
-package com.palyrobotics.frc2016.behavior.actions;
+package com.palyrobotics.frc2016.auto.actions;
 
-import com.palyrobotics.frc2016.robot.HardwareAdaptor;
-import com.palyrobotics.frc2016.subsystems.Drive;
-import com.palyrobotics.frc2016.subsystems.Intake;
-import com.palyrobotics.frc2016.subsystems.LowGoalShooter;
-import com.palyrobotics.frc2016.subsystems.TyrShooter;
+import com.palyrobotics.frc2016.subsystems.*;
 
 /**
  * Action Interface, an interface that describes an iterative action. It is run
@@ -14,10 +10,12 @@ import com.palyrobotics.frc2016.subsystems.TyrShooter;
  * @see com.palyrobotics.frc2016.auto.AutoModeBase#runAction
  */
 public interface Action {
-	public final Drive drive = HardwareAdaptor.kDrive;
-	public final TyrShooter tyrShooter = HardwareAdaptor.kTyrShooter;
-	public final Intake intake = HardwareAdaptor.kIntake;
-	public final LowGoalShooter lowShooter = HardwareAdaptor.kLowGoalShooter;
+	public final Drive drive = Drive.getInstance();
+	public final Intake intake = Intake.getInstance();
+
+	public final Breacher breacher = Breacher.getInstance();
+	public final TyrShooter tyrShooter = TyrShooter.getInstance();
+	public final LowGoalShooter lowShooter = LowGoalShooter.getInstance();
 
     /**
      * Returns whether or not the code has finished execution. When implementing

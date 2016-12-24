@@ -156,11 +156,11 @@ public class Constants extends ConstantsBase {
 	// 95.5 inches from start defense to 12 ft from goal
 	public static final double kBreachDistance = 95.5 + 10;
 	
-	// !!! Program constants
+	// !!! Loop rate of normal Looper
 	public static double kControlLoopsDt = 0.005;
 
-	// !!! Control loop constants
-	public static double kLooperDt = 0.001;
+	// !!! Loop rate of subsystem updates
+	public static double kSubsystemLooperDt = 0.005;
 	
 	// Drive parameters
 	public static double kDriveEncoderCountsPerRev = 250.0;

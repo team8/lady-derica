@@ -1,18 +1,21 @@
 package com.palyrobotics.frc2016.auto;
 
-import com.palyrobotics.frc2016.behavior.actions.*;
-import com.palyrobotics.frc2016.robot.HardwareAdaptor;
+import com.palyrobotics.frc2016.auto.actions.*;
 import com.palyrobotics.frc2016.subsystems.*;
 
-import edu.wpi.first.wpilibj.PowerDistributionPanel;
-
 public abstract class AutoMode extends AutoModeBase {
+	/**
+	 * Keeps access to all subsystems to modify their output and read their status like
+	 * {@link Drive#controllerOnTarget()} {@link Drive#setGear(Drive.DriveGear)}
+	 */
+	protected final Drive drive = Drive.getInstance();
+	protected final Intake intake = Intake.getInstance();
+	protected final Breacher breacher = Breacher.getInstance();
+	protected final Catapult catapult = Catapult.getInstance();
+	protected final LowGoalShooter lowGoalShooter = LowGoalShooter.getInstance();
+	protected final TyrShooter tyrShooter = TyrShooter.getInstance();
 
-    protected Drive drive = HardwareAdaptor.kDrive;
-    protected PowerDistributionPanel pdp = HardwareAdaptor.kPDP;
-    protected Intake intake = HardwareAdaptor.kIntake;
-
-    public void waitTime(double seconds) throws AutoModeEndedException {
-        runAction(new TimeoutAction(seconds));
-    }    
+	public void waitTime(double seconds) throws AutoModeEndedException {
+		runAction(new TimeoutAction(seconds));
+	}
 }

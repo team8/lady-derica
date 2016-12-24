@@ -20,7 +20,7 @@ import java.util.List;
  */
 public class SubsystemLooper {
 	// SubsystemLoop update rate
-	private final double kPeriod = Constants.kLooperDt;
+	private final double kPeriod = Constants.kSubsystemLooperDt;
 
 	private boolean running_;
 

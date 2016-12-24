@@ -90,6 +90,7 @@ public class CheesyDriveHelper {
 		// Quickturn!
 		if (isQuickTurn) {
 			if (Math.abs(linearPower) < 0.2) {
+				// Can be tuned
 				double alpha = 0.3;
 				quickStopAccumulator = (1 - alpha) * quickStopAccumulator
 						+ alpha * Util.limit(wheel, 1.0) * 5;
@@ -116,15 +117,8 @@ public class CheesyDriveHelper {
 
 		rightPwm = leftPwm = linearPower;
 		
-//		if(throttle >= -0.05) {
-			leftPwm += angularPower;
-			rightPwm -= angularPower;
-//		} else {
-//			leftPwm -= angularPower;
-//			rightPwm += angularPower;
-//		}
-//		leftPwm += angularPower;
-//		rightPwm -= angularPower;
+		leftPwm += angularPower;
+		rightPwm -= angularPower;
 
 		if (leftPwm > 1.0) {
 			rightPwm -= overPower * (leftPwm - 1.0);

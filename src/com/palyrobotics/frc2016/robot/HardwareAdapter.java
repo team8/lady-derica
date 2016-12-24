@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj.*;
  *
  * @author Nihar
  */
-class HardwareAdapter {
+public class HardwareAdapter {
 	// Hardware components at the top for maintenance purposes, variables and getters at bottom
 	/* 
 	 * DRIVETRAIN

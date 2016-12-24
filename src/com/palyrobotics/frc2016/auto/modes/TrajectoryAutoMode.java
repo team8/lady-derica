@@ -2,7 +2,7 @@ package com.palyrobotics.frc2016.auto.modes;
 
 import com.palyrobotics.frc2016.auto.AutoMode;
 import com.palyrobotics.frc2016.auto.AutoModeEndedException;
-import com.palyrobotics.frc2016.behavior.actions.DrivePathAction;
+import com.palyrobotics.frc2016.auto.actions.DrivePathAction;
 import com.palyrobotics.frc2016.robot.team254.lib.trajectory.Path;
 import com.palyrobotics.frc2016.robot.team254.lib.trajectory.Trajectory;
 import com.palyrobotics.frc2016.robot.team254.lib.trajectory.Trajectory.Segment;

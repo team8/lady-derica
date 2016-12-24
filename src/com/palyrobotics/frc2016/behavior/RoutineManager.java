@@ -6,7 +6,6 @@ import com.palyrobotics.frc2016.robot.team254.lib.util.StateHolder;
 import com.palyrobotics.frc2016.robot.team254.lib.util.Tappable;
 import com.palyrobotics.frc2016.util.Subsystem;
 
-import java.lang.reflect.Array;
 import java.util.*;
 
 public class RoutineManager implements Tappable {

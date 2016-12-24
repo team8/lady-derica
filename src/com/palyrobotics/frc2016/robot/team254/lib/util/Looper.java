@@ -10,14 +10,14 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
- * This code runs all of the robot's loops. SubsystemLoop objects are stored in a List
+ * This code runs all of the robot's loops. Loop objects are stored in a List
  * object. They are started when the robot powers up and stopped after the
  * match.
  * @author Team 254
  */
 public class Looper {
 	// SubsystemLoop update rate
-	private final double kPeriod = Constants.kLooperDt;
+	private final double kPeriod = Constants.kControlLoopsDt;
 
 	private boolean running_;
 

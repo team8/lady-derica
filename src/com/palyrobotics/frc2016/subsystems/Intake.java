@@ -19,14 +19,6 @@ public class Intake extends Subsystem implements SubsystemLoop {
 	}
 	// Stores output voltage
 	private double[] output = new double[2];
-	// Used mainly for autonomous raising and lowering of the shooter
-	public enum WantedIntakeState {
-		INTAKING, EXPELLING, RAISING, LOWERING, NONE
-	}
-	public WantedIntakeState mWantedState = WantedIntakeState.NONE;
-	// Constants for trying to hold intake up or down all the way
-	private static final double kIntakeUpVoltage = 1;
-	private static final double kIntakeDownVoltage = -1;
 
 	Controller m_controller = null;
 	// Tuning constants for StrongHoldController
@@ -51,47 +43,11 @@ public class Intake extends Subsystem implements SubsystemLoop {
 	public void start() {
 		// TODO Auto-generated method stub
 	}
-	
-	/**
-	 * Used for autonomous
-	 * TODO: Not safe for Tyr vs Derica
-	 * Directs the shooter to a desired position
-	 */
-	public void setWantedState(WantedIntakeState wantedState) {
-		mWantedState = wantedState;
-		switch(mWantedState) {
-		case NONE:
-			m_controller = null;
-			output[0] = 0.0;
-			output[1] = 0.0;
-			break;
-		case RAISING:
-//			m_controller = new ConstantVoltageController(kIntakeUpVoltage);
-			output[1] = kIntakeUpVoltage;
-			break;
-		case LOWERING:
-//			m_controller = new ConstantVoltageController(kIntakeDownVoltage);
-			output[1] = kIntakeDownVoltage;
-			break;
-		case INTAKING:
-			output[0] = Constants.kManualIntakeSpeed;
-			break;
-		case EXPELLING:
-			output[0] = Constants.kManualExhaustSpeed;
-			break;
-		default:
-			break;
-		}
-	}
-	
+
 	/**
 	 * TODO: this
-	 * Runs control loop to position intake if applicable
 	 */
 	@Override
-	/**
-	 * Runs the intake during teleop
-	 */
 	public void update(Commands commands, RobotState robotState) {
 		// Intake commands parsing
 		if (commands.intakeRequest == Commands.IntakeRequest.INTAKE) {
@@ -100,7 +56,7 @@ public class Intake extends Subsystem implements SubsystemLoop {
 			if(Constants.kRobotName == Constants.RobotName.TYR) {
 				output[1] = Constants.kManualIntakeSpeed;
 			}
-		} else if (commands.intakeRequest == Commands.IntakeRequest.EXHAUST) {
+		} else if (commands.intakeRequest == Commands.IntakeRequest.EXPEL) {
 			// Run intake outwards (negative speed is exhaust)
 			output[0] = Constants.kManualExhaustSpeed;
 			if(Constants.kRobotName == Constants.RobotName.TYR) {

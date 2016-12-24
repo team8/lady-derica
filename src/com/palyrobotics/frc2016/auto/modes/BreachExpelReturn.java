@@ -4,13 +4,11 @@ import java.util.ArrayList;
 
 import com.palyrobotics.frc2016.auto.AutoMode;
 import com.palyrobotics.frc2016.auto.AutoModeEndedException;
-import com.palyrobotics.frc2016.behavior.actions.Action;
-import com.palyrobotics.frc2016.behavior.actions.DriveDistanceAction;
-import com.palyrobotics.frc2016.behavior.actions.ExpelIntake;
-import com.palyrobotics.frc2016.behavior.actions.ExpelShooterAction;
-import com.palyrobotics.frc2016.behavior.actions.IntakeAction;
-import com.palyrobotics.frc2016.behavior.actions.ParallelAction;
-import com.palyrobotics.frc2016.behavior.actions.TurnAngleAutoAction;
+import com.palyrobotics.frc2016.auto.actions.Action;
+import com.palyrobotics.frc2016.auto.actions.DriveDistanceAction;
+import com.palyrobotics.frc2016.auto.actions.ExpelIntake;
+import com.palyrobotics.frc2016.auto.actions.ExpelShooterAction;
+import com.palyrobotics.frc2016.auto.actions.TurnAngleAutoAction;
 import com.palyrobotics.frc2016.config.RobotState;
 import com.palyrobotics.frc2016.robot.Robot;
 import com.palyrobotics.frc2016.subsystems.Intake.WantedIntakeState;

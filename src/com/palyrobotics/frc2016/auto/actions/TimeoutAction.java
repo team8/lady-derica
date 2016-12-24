@@ -1,4 +1,4 @@
-package com.palyrobotics.frc2016.behavior.actions;
+package com.palyrobotics.frc2016.auto.actions;
 
 import edu.wpi.first.wpilibj.Timer;
 

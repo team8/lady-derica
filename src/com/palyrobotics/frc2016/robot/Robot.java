@@ -21,7 +21,7 @@ public class Robot extends IterativeRobot {
 	// Instantiate singleton classes
 	private static RobotState mRobotState = new RobotState();
 
-	static RobotState getRobotState() {
+	public static RobotState getRobotState() {
 		return mRobotState;
 	}
 

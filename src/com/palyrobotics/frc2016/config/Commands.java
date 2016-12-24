@@ -83,7 +83,7 @@ public class Commands {
 	
 	// Subsystem Requests
 	public enum IntakeRequest {
-		NONE, INTAKE, EXHAUST
+		NONE, INTAKE, EXPEL, STOP
 	}
 	public enum GrabberRequest {
 		GRAB, RELEASE

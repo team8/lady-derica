@@ -1,9 +1,9 @@
 package com.palyrobotics.frc2016.robot;
 
+import com.palyrobotics.frc2016.config.Constants;
 import edu.wpi.first.wpilibj.Joystick;
 
 import com.palyrobotics.frc2016.config.Commands;
-import com.palyrobotics.frc2016.config.RobotState;
 import com.palyrobotics.frc2016.config.Commands.*;
 import com.palyrobotics.frc2016.config.Commands.JoystickInput.XboxInput;
 import com.palyrobotics.frc2016.subsystems.Drive.DriveGear;
@@ -16,7 +16,7 @@ import com.palyrobotics.frc2016.robot.team254.lib.util.Latch;
  * @author Nihar
  *
  */
-class OperatorInterface {
+public class OperatorInterface {
 	private static OperatorInterface mInstance = new OperatorInterface();
 
 	public static OperatorInterface getInstance() {
@@ -41,7 +41,7 @@ class OperatorInterface {
 	
 	public Commands getCommands() {
 		Commands commands;
-		if(Robot.getRobotState().name == RobotState.RobotName.TYR) {
+		if(Constants.kRobotName == Constants.RobotName.TYR) {
 			commands = getTyrCommands();
 			commands.operatorStickInput = new XboxInput(((XboxController) operatorStick).getLeftX(), ((XboxController) operatorStick).getLeftY(), ((XboxController) operatorStick).getRightX(), ((XboxController) operatorStick).getRightY());
 		} else {
@@ -56,7 +56,7 @@ class OperatorInterface {
 	public Commands getDericaCommands() {		
 		// Operator Stick - Derica Intake Control
 		if (operatorStick.getRawButton(5)) {
-			m_commands.intakeRequest = Commands.IntakeRequest.EXHAUST;
+			m_commands.intakeRequest = Commands.IntakeRequest.EXPEL;
 			m_commands.low_request = Commands.LowGoalShooterRequest.SHOOT;
 		} else if (operatorStick.getRawButton(3)) {
 			m_commands.intakeRequest = Commands.IntakeRequest.INTAKE;
@@ -77,7 +77,7 @@ class OperatorInterface {
 		if (((XboxController) operatorStick).getRightTriggerPressed()) {
 			m_commands.intakeRequest = Commands.IntakeRequest.INTAKE;
 		} else if (((XboxController) operatorStick).getLeftTriggerPressed()) {
-			m_commands.intakeRequest = Commands.IntakeRequest.EXHAUST;
+			m_commands.intakeRequest = Commands.IntakeRequest.EXPEL;
 		} else {
 			m_commands.intakeRequest = Commands.IntakeRequest.NONE;
 		}
