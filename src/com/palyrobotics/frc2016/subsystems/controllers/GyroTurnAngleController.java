@@ -34,7 +34,7 @@ public class GyroTurnAngleController implements Drive.DriveController {
 	public DriveSignal update(Pose pose) {
 		mCachedPose = pose;
 		P = setpoint.getHeading()-pose.getHeading();
-		I = I + P * Constants.kLooperDt;
+		I = I + P * Constants.kControlLoopsDt;
 		
 		D = -pose.getHeadingVelocity();
 		

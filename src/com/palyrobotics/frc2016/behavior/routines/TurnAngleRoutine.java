@@ -31,7 +31,7 @@ public class TurnAngleRoutine extends Routine {
 	}
 
 	@Override
-	public Commands.Setpoints update(Commands commands) {
+	public Commands update(Commands commands) {
 		Commands.Setpoints setpoints = commands.robotSetpoints;
 		
 		switch(m_state) {
@@ -54,14 +54,15 @@ public class TurnAngleRoutine extends Routine {
 			break;
 		}
 		
-		return setpoints;
+		return commands;
 	}
 	
 	@Override
-	public void cancel() {
+	public Commands cancel(Commands commands) {
 		m_state = States.DONE;
 		drive.setOpenLoop(DriveSignal.NEUTRAL);
 		drive.resetController();
+		return commands;
 	}
 
 	@Override

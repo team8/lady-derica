@@ -57,7 +57,7 @@ public class DriveTimeRoutine extends Routine {
 	}
 	//Routines just change the states of the robotsetpoints, which the behavior manager then moves the physical subsystems based on.
 	@Override
-	public Commands.Setpoints update(Commands commands) {
+	public Commands update(Commands commands) {
 		DriveTimeRoutineStates new_state = m_state;
 		Commands.Setpoints setpoints = commands.robotSetpoints;
 		switch (m_state) {
@@ -98,18 +98,18 @@ public class DriveTimeRoutine extends Routine {
 			//m_timer.resetController();
 			m_is_new_state = true;
 		}
-		
-		return setpoints;
+		return commands;
 	}
 
 	@Override
-	public void cancel() {
+	public Commands cancel(Commands commands) {
 		m_state = DriveTimeRoutineStates.DONE;
 		System.out.println("Cancelling");
 		m_timer.stop();
 		m_timer.reset();
 		drive.resetController();
 		drive.setOpenLoop(DriveSignal.NEUTRAL);
+		return commands;
 	}
 	
 	@Override

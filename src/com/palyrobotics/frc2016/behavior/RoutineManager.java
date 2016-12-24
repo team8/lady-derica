@@ -21,6 +21,7 @@ public class RoutineManager implements Tappable {
 		ArrayList<Routine> conflicts = conflictingRoutines(mRunningRoutines, newRoutine);
 		for(Routine routine : conflicts) {
 			routine.cancel();
+			System.out.println("Canceling routine "+routine.getName());
 			mRunningRoutines.remove(routine);
 		}
 		newRoutine.start();

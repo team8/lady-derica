@@ -50,7 +50,7 @@ public class AutoAlignmentRoutine extends Routine {
 	}
 
 	@Override
-	public Commands.Setpoints update(Commands commands) {
+	public Commands update(Commands commands) {
 		Commands.Setpoints setpoints = commands.robotSetpoints;
 		AutoAlignStates new_state = m_state;
 		switch(m_state) {
@@ -118,14 +118,15 @@ public class AutoAlignmentRoutine extends Routine {
 			m_state = new_state;
 			m_is_new_state = true;
 		}
-		return setpoints;
+		return commands;
 	}
 
 	@Override
-	public void cancel() {
+	public Commands cancel(Commands commands) {
 		m_state = AutoAlignStates.DONE;
 		drive.setOpenLoop(DriveSignal.NEUTRAL);
 		drive.resetController();
+		return commands;
 	}
 
 	@Override

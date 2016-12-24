@@ -90,7 +90,7 @@ public class EncoderDriveRoutine extends Routine {
 
 	//Routines just change the states of the robotsetpoints, which the behavior manager then moves the physical subsystems based on.
 	@Override
-	public Commands.Setpoints update(Commands commands) {
+	public Commands update(Commands commands) {
 		EncoderDriveRoutineStates new_state = m_state;
 		Commands.Setpoints setpoints = commands.robotSetpoints;
 		switch (m_state) {
@@ -128,16 +128,17 @@ public class EncoderDriveRoutine extends Routine {
 			m_is_new_state = true;
 		}
 		
-		return setpoints;
+		return commands;
 	}
 
 	@Override
-	public void cancel() {
+	public Commands cancel(Commands commands) {
 		m_state = EncoderDriveRoutineStates.DONE;
 		m_timer.stop();
 		m_timer.reset();
 		drive.setOpenLoop(DriveSignal.NEUTRAL);
 		drive.resetController();
+		return commands;
 	}
 
 	@Override

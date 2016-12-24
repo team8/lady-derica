@@ -11,7 +11,6 @@ import com.palyrobotics.frc2016.auto.actions.RaiseShooterAction;
 import com.palyrobotics.frc2016.auto.actions.ShootAction;
 import com.palyrobotics.frc2016.config.RobotState;
 import com.palyrobotics.frc2016.robot.Robot;
-import com.palyrobotics.frc2016.subsystems.Intake.WantedIntakeState;
 import com.palyrobotics.frc2016.config.Constants;
 
 /**
@@ -28,7 +27,7 @@ public class LowBarHighGoalAutoMode extends AutoMode {
 		ArrayList<Action> crossLowBar = new ArrayList<Action>(2);
 		crossLowBar.add(new DriveDistanceAction(Constants.kLowBarDistance));
 		ArrayList<Action> prepareGoal = new ArrayList<Action>(2);
-		if(Robot.getRobotState().name == RobotState.RobotName.TYR) {
+		if(Constants.kRobotName == Constants.RobotName.TYR) {
 			crossLowBar.add(new GetLowAction());
 			prepareGoal.add(new RaiseShooterAction());
 			prepareGoal.add(new IntakeAction(1.0, WantedIntakeState.LOWERING));

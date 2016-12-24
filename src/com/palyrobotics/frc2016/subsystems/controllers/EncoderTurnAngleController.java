@@ -28,9 +28,9 @@ public class EncoderTurnAngleController implements Drive.DriveController {
 	public EncoderTurnAngleController(Pose priorSetpoint, double angle, double maxVel) {
 		this.maxVel = maxVel;
 		
-		if(Robot.getRobotState().name == RobotState.RobotName.DERICA) {
+		if(Constants.kRobotName == Constants.RobotName.DERICA) {
 			kDegreeToDistance = Constants.kDericaDegreeToDistance;
-		} else if(Robot.getRobotState().name == RobotState.RobotName.TYR) {
+		} else if(Constants.kRobotName == Constants.RobotName.TYR) {
 			kDegreeToDistance = Constants.kTyrDegreeToDistance;
 		}
 		
@@ -43,8 +43,8 @@ public class EncoderTurnAngleController implements Drive.DriveController {
 		leftP = leftTarget - pose.getLeftDistance();
 		rightP = rightTarget - pose.getRightDistance();
 		
-		leftI = leftI + leftP * Constants.kLooperDt;
-		rightI = rightI + rightP * Constants.kLooperDt;
+		leftI = leftI + leftP * Constants.kControlLoopsDt;
+		rightI = rightI + rightP * Constants.kControlLoopsDt;
 		
 		leftD = -pose.getLeftVelocity();
 		rightD = -pose.getRightVelocity();
