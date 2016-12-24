@@ -72,28 +72,36 @@ public class RoutineManager implements Tappable {
 			System.out.println("Routine cancel called");
 			setNewRoutine(null);
 		}
+		for(Routine routine : mRunningRoutines) {
+			if(routine != null && routine.isFinished()) {
+				System.out.println("Routine cancel called");
+				routine.cancel(commands);
+			} else {
+				routine.update(commands);
+			}
+		}
 
 		// Set TROUT routine_request
 		if (commands.cancel_current_routine) {
 			System.out.println("Cancel routine button");
-			setNewRoutine(null);
+			addNewRoutine(null);
 		} else if (commands.routine_request == Commands.Routines.ENCODER_DRIVE && !(m_cur_routine instanceof EncoderDriveRoutine)) {
-			setNewRoutine(new EncoderDriveRoutine(500));
+			addNewRoutine(new EncoderDriveRoutine(500));
 		} else if (commands.routine_request == Commands.Routines.TIMER_DRIVE && !(m_cur_routine instanceof DriveTimeRoutine)) {
 			System.out.println("Setting routine");
-			setNewRoutine(new DriveTimeRoutine(3, 0.5));
+			addNewRoutine(new DriveTimeRoutine(3, 0.5));
 		} else if (commands.routine_request == Commands.Routines.AUTO_ALIGN && !(m_cur_routine instanceof AutoAlignmentRoutine)) {
 //			System.out.println("Auto align activated");
-			setNewRoutine(new AutoAlignmentRoutine());
+			addNewRoutine(new AutoAlignmentRoutine());
 		} else if (commands.routine_request == Commands.Routines.TURN_ANGLE && !(m_cur_routine instanceof TurnAngleRoutine)) {
 			System.out.println("Turn angle activated");
-			setNewRoutine(new TurnAngleRoutine(45, 0.3));
+			addNewRoutine(new TurnAngleRoutine(45, 0.3));
 		}
 
 		//changes the setpoints according to the current routine update
-		if (m_cur_routine != null) {
-			m_setpoints = m_cur_routine.update(commands);
-		}
+//		if (m_cur_routine != null) {
+//			m_setpoints = m_cur_routine.update(commands);
+//		}
 
 		// Get manual m_setpoints
 		//        m_setpoints = m_manual_routine.update(commands, m_setpoints);
