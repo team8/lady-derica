@@ -37,18 +37,18 @@ public class BreachExpelReturn extends AutoMode {
 	@Override
 	protected void routine() throws AutoModeEndedException {
 		// breach
-		if(Robot.getRobotState().name == RobotState.RobotName.TYR) {
+		if(Constants.kRobotName == Constants.RobotName.TYR) {
 			runAction(new DriveDistanceAction(-Constants.kBreachDistance));
 		} else {
 			runAction(new DriveDistanceAction(Constants.kBreachDistance));
 		}
 		// expel the ball
-		if(Robot.getRobotState().name == RobotState.RobotName.DERICA) {
+		if(Constants.kRobotName == Constants.RobotName.DERICA) {
 			runAction(new ExpelShooterAction(Constants.kAutoShooterExpelTime));
 		}
 		runAction(new ExpelIntake(Constants.kAutoShooterExpelTime));
 		// turn around and stop if Tyr
-		if(Robot.getRobotState().name == RobotState.RobotName.TYR) {
+		if(Constants.kRobotName == Constants.RobotName.TYR) {
 			runAction(new TurnAngleAutoAction(180));
 			runAction(new DriveDistanceAction(-Constants.kBreachDistance));
 			return;

@@ -110,10 +110,10 @@ public class Robot extends IterativeRobot {
 		// Update RobotState
 		mHardwareUpdater.updateSensors();
 		// Gets joystick commands
-		Commands commands = mOperatorInterface.getCommands();
+		mOperatorInterface.updateCommands();
 		
 		// Updates commands based on routines
-		routineManager.update(commands);
+		routineManager.update();
 
 		//Update the hardware
 		mHardwareUpdater.updateSubsystems();

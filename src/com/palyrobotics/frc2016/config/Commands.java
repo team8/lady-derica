@@ -13,6 +13,12 @@ import com.palyrobotics.frc2016.subsystems.Drive;
  *
  */
 public class Commands {
+	static Commands commands = new Commands();
+	
+	public static synchronized Commands getInstance() {
+		return commands;
+	}
+	
 	/**
 	 * Stores all the subsystem setpoints, including what the currently running Routine is
 	 * @author Nihar

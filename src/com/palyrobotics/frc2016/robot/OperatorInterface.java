@@ -26,7 +26,7 @@ public class OperatorInterface {
 	private OperatorInterface() {
 	}
 	
-	private Commands m_commands = new Commands();
+	private Commands m_commands = Commands.getInstance();
 
 	private HardwareAdapter.Joysticks joysticks = HardwareAdapter.getInstance().getJoysticks();
 	private Joystick leftStick = joysticks.kLeftStick;
@@ -35,25 +35,23 @@ public class OperatorInterface {
 
 	private Latch driveForwardLatch = new Latch();
 
-	public void reset() {
-		m_commands = new Commands();
-	}
+//	public void reset() {
+//		m_commands = new Commands();
+//	}
 	
-	public Commands getCommands() {
-		Commands commands;
+	public void updateCommands() {
 		if(Constants.kRobotName == Constants.RobotName.TYR) {
-			commands = getTyrCommands();
-			commands.operatorStickInput = new XboxInput(((XboxController) operatorStick).getLeftX(), ((XboxController) operatorStick).getLeftY(), ((XboxController) operatorStick).getRightX(), ((XboxController) operatorStick).getRightY());
+			updateTyrCommands();
+			m_commands.operatorStickInput = new XboxInput(((XboxController) operatorStick).getLeftX(), ((XboxController) operatorStick).getLeftY(), ((XboxController) operatorStick).getRightX(), ((XboxController) operatorStick).getRightY());
 		} else {
-			commands = getDericaCommands();
-			commands.operatorStickInput = new XboxInput(operatorStick.getX(), operatorStick.getY(), operatorStick.getX(), operatorStick.getY());
+			updateDericaCommands();
+			m_commands.operatorStickInput = new XboxInput(operatorStick.getX(), operatorStick.getY(), operatorStick.getX(), operatorStick.getY());
 		}
-		commands.leftStickInput = new JoystickInput(leftStick.getX(), leftStick.getY(), leftStick.getTrigger());
-		commands.rightStickInput = new JoystickInput(rightStick.getX(), rightStick.getY(), rightStick.getTrigger());
-		return commands;
+		m_commands.leftStickInput = new JoystickInput(leftStick.getX(), leftStick.getY(), leftStick.getTrigger());
+		m_commands.rightStickInput = new JoystickInput(rightStick.getX(), rightStick.getY(), rightStick.getTrigger());
 	}
 	
-	public Commands getDericaCommands() {		
+	public void updateDericaCommands() {		
 		// Operator Stick - Derica Intake Control
 		if (operatorStick.getRawButton(5)) {
 			m_commands.intakeRequest = Commands.IntakeRequest.EXPEL;
@@ -68,11 +66,9 @@ public class OperatorInterface {
 
 		// Left Stick trigger cancels current routine
 		m_commands.cancel_current_routine = leftStick.getTrigger(); // Cancels routine?
-
-		return m_commands;
 	}
 	
-	public Commands getTyrCommands() {
+	public void updateTyrCommands() {
 		// Operator Stick - Intake Control
 		if (((XboxController) operatorStick).getRightTriggerPressed()) {
 			m_commands.intakeRequest = Commands.IntakeRequest.INTAKE;
@@ -119,7 +115,5 @@ public class OperatorInterface {
 		
 		// Left Stick trigger cancels current routine
 		m_commands.cancel_current_routine = leftStick.getTrigger(); // Cancels routine?
-
-		return m_commands;
 	}
 }
