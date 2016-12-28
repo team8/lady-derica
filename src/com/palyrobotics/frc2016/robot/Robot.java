@@ -29,8 +29,8 @@ public class Robot extends IterativeRobot {
 	private static HardwareAdapter mHardwareAdapter = HardwareAdapter.getInstance();
 	// Instantiate separate thread controls
 	private SubsystemLooper subsystem_looper = new SubsystemLooper();
-	private AutoModeExecuter autoModeRunner = new AutoModeExecuter();
 	private RoutineManager routineManager = new RoutineManager();
+	private AutoModeExecuter autoModeRunner = new AutoModeExecuter(routineManager);
 
 	// Subsystem controllers
 	private Drive mDrive = Drive.getInstance();
@@ -90,6 +90,7 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void autonomousPeriodic() {
+		routineManager.update();
 		mDashboard.update();
 		mHardwareUpdater.updateSubsystems();
 	}

@@ -2,12 +2,12 @@ package com.palyrobotics.frc2016.auto.modes;
 
 import com.palyrobotics.frc2016.auto.AutoMode;
 import com.palyrobotics.frc2016.auto.AutoModeEndedException;
-import com.palyrobotics.frc2016.auto.actions.DriveDistanceAction;
+import com.palyrobotics.frc2016.behavior.routines.auto.DriveDistanceAction;
 
 public class DriveForwardAutoMode extends AutoMode {
 	protected void routine() throws AutoModeEndedException {
 		waitTime(3);
-		runAction(new DriveDistanceAction(100));
+		runRoutine(new DriveDistanceAction(100));
 	}
 
 	public void prestart() {

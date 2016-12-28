@@ -2,8 +2,8 @@ package com.palyrobotics.frc2016.auto.modes;
 
 import com.palyrobotics.frc2016.auto.AutoMode;
 import com.palyrobotics.frc2016.auto.AutoModeEndedException;
-import com.palyrobotics.frc2016.auto.actions.DriveDistanceAction;
-import com.palyrobotics.frc2016.auto.actions.DriveTimeAction;
+import com.palyrobotics.frc2016.behavior.routines.auto.DriveDistanceAction;
+import com.palyrobotics.frc2016.behavior.routines.auto.DriveTimeAction;
 
 public class WaitForwardBackwardAutoMode extends AutoMode{
 	
@@ -25,9 +25,9 @@ public class WaitForwardBackwardAutoMode extends AutoMode{
 	
 	protected void routine() throws AutoModeEndedException {
 		waitTime(waitTime);
-		runAction(new DriveTimeAction(driveTime));
+		runRoutine(new DriveTimeAction(driveTime));
 		waitTime(1);
-		runAction(new DriveDistanceAction(backDistance));
+		runRoutine(new DriveDistanceAction(backDistance));
 	}
 
 	public void prestart() {

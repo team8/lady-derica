@@ -30,7 +30,9 @@ public class ParallelRoutine extends Routine {
 	@Override
 	public Commands update(Commands commands) {
 		for(Routine routine: parallelRoutines) {
-			routine.update(commands);
+			if(!routine.isFinished()) {
+				routine.update(commands);
+			}
 		}
 		return commands;
 	}

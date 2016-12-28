@@ -5,11 +5,13 @@ import java.util.ArrayList;
 import com.palyrobotics.frc2016.auto.AutoMode;
 import com.palyrobotics.frc2016.auto.AutoModeEndedException;
 import com.palyrobotics.frc2016.auto.actions.Action;
-import com.palyrobotics.frc2016.auto.actions.DriveTimeAction;
-import com.palyrobotics.frc2016.auto.actions.ExpelIntake;
-import com.palyrobotics.frc2016.auto.actions.ExpelShooterAction;
-import com.palyrobotics.frc2016.auto.actions.RaiseShooterAction;
-import com.palyrobotics.frc2016.auto.actions.ShootAction;
+import com.palyrobotics.frc2016.behavior.Routine;
+import com.palyrobotics.frc2016.behavior.routines.AutoAlignmentRoutine;
+import com.palyrobotics.frc2016.behavior.routines.auto.DriveTimeAction;
+import com.palyrobotics.frc2016.behavior.routines.auto.ExpelIntake;
+import com.palyrobotics.frc2016.behavior.routines.auto.ExpelShooterAction;
+import com.palyrobotics.frc2016.behavior.routines.auto.RaiseShooterAction;
+import com.palyrobotics.frc2016.behavior.routines.auto.ShootAction;
 import com.palyrobotics.frc2016.config.RobotState;
 import com.palyrobotics.frc2016.robot.Robot;
 import com.palyrobotics.frc2016.subsystems.Drive.DriveGear;
@@ -31,7 +33,7 @@ public class TimerBDAutoMode extends AutoMode {
 	 */
 	public TimerBDAutoMode(boolean attemptShot) {
 		mAttemptShot = attemptShot;
-		if(Robot.getRobotState().name == RobotState.RobotName.TYR) {
+		if(Constants.kRobotName == Constants.RobotName.TYR) {
 			leftSpeed = -1.0;
 			rightSpeed = -1.0;
 		} else {
@@ -42,23 +44,23 @@ public class TimerBDAutoMode extends AutoMode {
 
 	@Override
 	protected void routine() throws AutoModeEndedException {
-		if(Robot.getRobotState().name == RobotState.RobotName.TYR) {
+		if(Constants.kRobotName == Constants.RobotName.TYR) {
 			waitTime(mCompressorWaitTime);
 			drive.setGear(DriveGear.HIGH);
 		}
 		
-		runAction(new DriveTimeAction(2.25, leftSpeed, rightSpeed));
-		if(mUTurn && Robot.getRobotState().name == RobotState.RobotName.DERICA) {
-			ArrayList<Action> expel = new ArrayList<Action>(2);
+		runRoutine(new DriveTimeAction(2.25, leftSpeed, rightSpeed));
+		if(mUTurn && Constants.kRobotName == Constants.RobotName.DERICA) {
+			ArrayList<Routine> expel = new ArrayList<Routine>(2);
 			expel.add(new ExpelShooterAction(Constants.kAutoShooterExpelTime));
 			expel.add((new ExpelIntake(Constants.kAutoShooterExpelTime)));
 			waitTime(0.2);
-			runAction(new DriveTimeAction(2.25, -leftSpeed, -rightSpeed));
+			runRoutine(new DriveTimeAction(2.25, -leftSpeed, -rightSpeed));
 		}
-		if(mAttemptShot && Robot.getRobotState().name == RobotState.RobotName.TYR) {
-			runAction(new AutoAlignAction());
-			runAction(new RaiseShooterAction());
-			runAction(new ShootAction());
+		if(mAttemptShot && Constants.kRobotName == Constants.RobotName.TYR) {
+			runRoutine(new AutoAlignmentRoutine());
+			runRoutine(new RaiseShooterAction());
+			runRoutine(new ShootAction());
 		}
 	}
 

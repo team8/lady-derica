@@ -1,9 +1,12 @@
-package com.palyrobotics.frc2016.auto.actions;
+package com.palyrobotics.frc2016.behavior.routines.auto;
 
+import com.palyrobotics.frc2016.behavior.Routine;
+import com.palyrobotics.frc2016.config.Commands;
 import com.palyrobotics.frc2016.robot.team254.lib.trajectory.Path;
 import com.palyrobotics.frc2016.robot.team254.lib.util.DriveSignal;
+import com.palyrobotics.frc2016.util.Subsystem;
 
-public class DrivePathAction implements Action {
+public class DrivePathAction extends Routine {
 
 	private Path path;
 	
@@ -17,19 +20,31 @@ public class DrivePathAction implements Action {
 	}
 
 	@Override
-	public void update() {
+	public Commands update(Commands commands) {
+		return commands;
 	}
 
 	@Override
-	public void done() {
+	public Commands cancel(Commands commands) {
 		System.out.println("DrivePathAction Done");
 		drive.setOpenLoop(DriveSignal.NEUTRAL);
+		return commands;
 	}
 
 	@Override
 	public void start() {
 		System.out.println("DrivePathAction Started");
 		drive.setPathSetpoint(path);
+	}
+
+	@Override
+	public Subsystem[] getRequiredSubsystems() {
+		return new Subsystem[]{drive};
+	}
+
+	@Override
+	public String getName() {
+		return "DrivePath";
 	}
 
 }

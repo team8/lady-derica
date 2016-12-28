@@ -16,7 +16,7 @@ public class RoutineManager implements Tappable {
 	private Commands.Setpoints m_setpoints;
 	//    private ManualRoutine m_manual_routine = new ManualRoutine();
 
-	private void addNewRoutine(Routine newRoutine) {
+	public void addNewRoutine(Routine newRoutine) {
 		// combine running routines w/ new routine to check for shared subsystems
 		ArrayList<Routine> conflicts = conflictingRoutines(mRunningRoutines, newRoutine);
 		for(Routine routine : conflicts) {
@@ -70,16 +70,17 @@ public class RoutineManager implements Tappable {
 	public void update() {
 		Commands commands = Commands.getInstance();
 		// If current routine exists and is finished, nullify it
-		if (m_cur_routine != null && m_cur_routine.isFinished()) {
-			System.out.println("Routine cancel called");
-			setNewRoutine(null);
-		}
+//		if (m_cur_routine != null && m_cur_routine.isFinished()) {
+//			System.out.println("Routine cancel called");
+//			setNewRoutine(null);
+//		}
+		
 		for(Routine routine : mRunningRoutines) {
 			if(routine != null && routine.isFinished()) {
 				System.out.println("Routine cancel called");
-				routine.cancel(commands);
+				commands = routine.cancel(commands);
 			} else {
-				routine.update(commands);
+				commands = routine.update(commands);
 			}
 		}
 

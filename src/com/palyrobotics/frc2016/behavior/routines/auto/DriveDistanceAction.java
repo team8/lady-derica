@@ -1,4 +1,4 @@
-package com.palyrobotics.frc2016.auto.actions;
+package com.palyrobotics.frc2016.behavior.routines.auto;
 
 import com.palyrobotics.frc2016.behavior.Routine;
 import com.palyrobotics.frc2016.config.Commands;

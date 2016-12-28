@@ -5,10 +5,13 @@ import java.util.ArrayList;
 import com.palyrobotics.frc2016.auto.AutoMode;
 import com.palyrobotics.frc2016.auto.AutoModeEndedException;
 import com.palyrobotics.frc2016.auto.actions.Action;
-import com.palyrobotics.frc2016.auto.actions.DriveDistanceAction;
-import com.palyrobotics.frc2016.auto.actions.GetLowAction;
-import com.palyrobotics.frc2016.auto.actions.RaiseShooterAction;
-import com.palyrobotics.frc2016.auto.actions.ShootAction;
+import com.palyrobotics.frc2016.behavior.ParallelRoutine;
+import com.palyrobotics.frc2016.behavior.Routine;
+import com.palyrobotics.frc2016.behavior.routines.AutoAlignmentRoutine;
+import com.palyrobotics.frc2016.behavior.routines.auto.DriveDistanceAction;
+import com.palyrobotics.frc2016.behavior.routines.auto.GetLowAction;
+import com.palyrobotics.frc2016.behavior.routines.auto.RaiseShooterAction;
+import com.palyrobotics.frc2016.behavior.routines.auto.ShootAction;
 import com.palyrobotics.frc2016.config.RobotState;
 import com.palyrobotics.frc2016.robot.Robot;
 import com.palyrobotics.frc2016.config.Constants;
@@ -24,23 +27,22 @@ public class LowBarHighGoalAutoMode extends AutoMode {
 		
 		/* Low bar */
 		waitTime(mCompressorWaitTime); //Waits for compressor
-		ArrayList<Action> crossLowBar = new ArrayList<Action>(2);
+		ArrayList<Routine> crossLowBar = new ArrayList<Routine>(2);
 		crossLowBar.add(new DriveDistanceAction(Constants.kLowBarDistance));
-		ArrayList<Action> prepareGoal = new ArrayList<Action>(2);
+		ArrayList<Routine> prepareGoal = new ArrayList<Routine>(2);
 		if(Constants.kRobotName == Constants.RobotName.TYR) {
 			crossLowBar.add(new GetLowAction());
 			prepareGoal.add(new RaiseShooterAction());
-			prepareGoal.add(new IntakeAction(1.0, WantedIntakeState.LOWERING));
 		}
-		runAction(new ParallelAction(crossLowBar));
+		runRoutine(new ParallelRoutine(crossLowBar));
 		/* Auto Align then high goal */
 		
-		runAction(new AutoAlignAction());
-		runAction(new ParallelAction(prepareGoal));
-		runAction(new ShootAction());
+		runRoutine(new AutoAlignmentRoutine());
+		runRoutine(new ParallelRoutine(prepareGoal));
+		runRoutine(new ShootAction());
 		waitTime(0.5);
 		/* Bring shooter down if extra time */
-		runAction(new GetLowAction());
+		runRoutine(new GetLowAction());
 	}
 
 	@Override

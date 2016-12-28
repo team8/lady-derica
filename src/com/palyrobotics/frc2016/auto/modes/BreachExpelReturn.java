@@ -5,13 +5,17 @@ import java.util.ArrayList;
 import com.palyrobotics.frc2016.auto.AutoMode;
 import com.palyrobotics.frc2016.auto.AutoModeEndedException;
 import com.palyrobotics.frc2016.auto.actions.Action;
-import com.palyrobotics.frc2016.auto.actions.DriveDistanceAction;
-import com.palyrobotics.frc2016.auto.actions.ExpelIntake;
-import com.palyrobotics.frc2016.auto.actions.ExpelShooterAction;
-import com.palyrobotics.frc2016.auto.actions.TurnAngleAutoAction;
+import com.palyrobotics.frc2016.behavior.ParallelRoutine;
+import com.palyrobotics.frc2016.behavior.Routine;
+import com.palyrobotics.frc2016.behavior.RoutineManager;
+import com.palyrobotics.frc2016.behavior.routines.auto.DriveDistanceAction;
+import com.palyrobotics.frc2016.behavior.routines.auto.ExpelIntake;
+import com.palyrobotics.frc2016.behavior.routines.auto.ExpelShooterAction;
+import com.palyrobotics.frc2016.behavior.routines.auto.IntakeAction;
+import com.palyrobotics.frc2016.behavior.routines.auto.TurnAngleAutoAction;
 import com.palyrobotics.frc2016.config.RobotState;
 import com.palyrobotics.frc2016.robot.Robot;
-import com.palyrobotics.frc2016.subsystems.Intake.WantedIntakeState;
+import com.palyrobotics.frc2016.config.Commands;
 import com.palyrobotics.frc2016.config.Constants;
 
 /**
@@ -38,37 +42,37 @@ public class BreachExpelReturn extends AutoMode {
 	protected void routine() throws AutoModeEndedException {
 		// breach
 		if(Constants.kRobotName == Constants.RobotName.TYR) {
-			runAction(new DriveDistanceAction(-Constants.kBreachDistance));
+			runRoutine(new DriveDistanceAction(-Constants.kBreachDistance));
 		} else {
-			runAction(new DriveDistanceAction(Constants.kBreachDistance));
+			runRoutine(new DriveDistanceAction(Constants.kBreachDistance));
 		}
 		// expel the ball
 		if(Constants.kRobotName == Constants.RobotName.DERICA) {
-			runAction(new ExpelShooterAction(Constants.kAutoShooterExpelTime));
+			runRoutine(new ExpelShooterAction(Constants.kAutoShooterExpelTime));
 		}
-		runAction(new ExpelIntake(Constants.kAutoShooterExpelTime));
+		runRoutine(new ExpelIntake(Constants.kAutoShooterExpelTime));
 		// turn around and stop if Tyr
 		if(Constants.kRobotName == Constants.RobotName.TYR) {
-			runAction(new TurnAngleAutoAction(180));
-			runAction(new DriveDistanceAction(-Constants.kBreachDistance));
+			runRoutine(new TurnAngleAutoAction(180));
+			runRoutine(new DriveDistanceAction(-Constants.kBreachDistance));
 			return;
 		}
 		if (!this.mUTurn) {
 			// drive back
-			runAction(new DriveDistanceAction(-Constants.kBreachDistance));
-			runAction(new TurnAngleAutoAction(180));
+			runRoutine(new DriveDistanceAction(-Constants.kBreachDistance));
+			runRoutine(new TurnAngleAutoAction(180));
 		} else {
-			runAction(new TurnAngleAutoAction(180));
-			runAction(new DriveDistanceAction(Constants.kBreachDistance)); 	
+			runRoutine(new TurnAngleAutoAction(180));
+			runRoutine(new DriveDistanceAction(Constants.kBreachDistance)); 	
 			
 		}
 
 		// drive towards midline ball and accumulate at the same time
-		ArrayList<Action> secondaryActions = new ArrayList<Action>();
+		ArrayList<Routine> secondaryActions = new ArrayList<Routine>();
 		secondaryActions.add(new DriveDistanceAction(Constants.kDistanceToDriveToAccumulateExtra));
-		secondaryActions.add(new IntakeAction(1.0, WantedIntakeState.INTAKING));
+		secondaryActions.add(new IntakeAction(1.0, Commands.IntakeRequest.INTAKE));
 		if(mMidlineAccumulate) {
-			runAction(new ParallelAction(secondaryActions));
+			runRoutine(new ParallelRoutine(secondaryActions));
 		}
 	}
 

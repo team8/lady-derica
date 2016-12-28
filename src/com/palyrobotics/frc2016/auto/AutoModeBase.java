@@ -1,6 +1,8 @@
 package com.palyrobotics.frc2016.auto;
 
 import com.palyrobotics.frc2016.auto.actions.Action;
+import com.palyrobotics.frc2016.behavior.Routine;
+import com.palyrobotics.frc2016.behavior.RoutineManager;
 
 public abstract class AutoModeBase {
     protected double m_update_rate = 1.0 / 50.0;
@@ -9,8 +11,10 @@ public abstract class AutoModeBase {
     protected abstract void routine() throws AutoModeEndedException;
     public abstract String toString();
     public abstract void prestart();
+    private RoutineManager routineManager;
 
-    public void run() {
+    public void run(RoutineManager routineManager) {
+    	this.routineManager = routineManager;
         m_active = true;
         try {
             routine();
@@ -49,5 +53,9 @@ public abstract class AutoModeBase {
         }
         action.done();
     }
-
+    
+    public void runRoutine(Routine routine) {
+    	routineManager.addNewRoutine(routine);
+    }
+    
 }

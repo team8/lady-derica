@@ -1,6 +1,7 @@
 package com.palyrobotics.frc2016.auto;
 
 import com.palyrobotics.frc2016.auto.actions.*;
+import com.palyrobotics.frc2016.behavior.routines.auto.TimeoutAction;
 import com.palyrobotics.frc2016.subsystems.*;
 
 public abstract class AutoMode extends AutoModeBase {
@@ -16,6 +17,6 @@ public abstract class AutoMode extends AutoModeBase {
 	protected final TyrShooter tyrShooter = TyrShooter.getInstance();
 
 	public void waitTime(double seconds) throws AutoModeEndedException {
-		runAction(new TimeoutAction(seconds));
+		runRoutine(new TimeoutAction(seconds));
 	}
 }

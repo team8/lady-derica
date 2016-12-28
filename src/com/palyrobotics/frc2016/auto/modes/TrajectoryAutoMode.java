@@ -2,7 +2,7 @@ package com.palyrobotics.frc2016.auto.modes;
 
 import com.palyrobotics.frc2016.auto.AutoMode;
 import com.palyrobotics.frc2016.auto.AutoModeEndedException;
-import com.palyrobotics.frc2016.auto.actions.DrivePathAction;
+import com.palyrobotics.frc2016.behavior.routines.auto.DrivePathAction;
 import com.palyrobotics.frc2016.robot.team254.lib.trajectory.Path;
 import com.palyrobotics.frc2016.robot.team254.lib.trajectory.Trajectory;
 import com.palyrobotics.frc2016.robot.team254.lib.trajectory.Trajectory.Segment;
@@ -21,7 +21,7 @@ public class TrajectoryAutoMode extends AutoMode {
 		Trajectory right = new Trajectory(segments);
 		Trajectory.Pair pair = new Trajectory.Pair(left, right);
 		Path path = new Path("low bar", pair);
-		runAction(new DrivePathAction(path));
+		runRoutine(new DrivePathAction(path));
 	}
 
 	@Override

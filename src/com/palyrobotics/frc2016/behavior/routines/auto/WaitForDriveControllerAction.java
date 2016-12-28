@@ -1,4 +1,4 @@
-package com.palyrobotics.frc2016.auto.actions;
+package com.palyrobotics.frc2016.behavior.routines.auto;
 
 /**
  * Waits for drivetrain controller to reach it's target, or time out

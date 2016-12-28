@@ -1,8 +1,11 @@
-package com.palyrobotics.frc2016.auto.actions;
+package com.palyrobotics.frc2016.behavior.routines.auto;
 
+import com.palyrobotics.frc2016.behavior.Routine;
+import com.palyrobotics.frc2016.config.Commands;
 import com.palyrobotics.frc2016.config.Constants;
 import com.palyrobotics.frc2016.config.RobotState;
 import com.palyrobotics.frc2016.robot.Robot;
+import com.palyrobotics.frc2016.util.Subsystem;
 
 import edu.wpi.first.wpilibj.Timer;
 
@@ -11,14 +14,14 @@ import edu.wpi.first.wpilibj.Timer;
  * @author Nihar
  *
  */
-public class ShootAction implements Action {
+public class ShootAction extends Routine {
 	Timer m_timer = new Timer();
 	// Wait time in between extending and unlocking the shooter
 	private final double waitTime = 1;
 	private boolean mIsDone = false;
 	
 	@Override
-	public void update() {
+	public Commands update(Commands commands) {
 		// Extend shooter and release grabber
 		tyrShooter.extend();
 		tyrShooter.release();
@@ -27,6 +30,7 @@ public class ShootAction implements Action {
 			tyrShooter.unlock();
 			mIsDone = true;
 		}
+		return commands;
 	}
 
 	@Override
@@ -48,8 +52,19 @@ public class ShootAction implements Action {
 	}
 
 	@Override
-	public void done() {
+	public Commands cancel(Commands commands) {
 		System.out.println("Shots fired");
+		return commands;
+	}
+
+	@Override
+	public Subsystem[] getRequiredSubsystems() {
+		return new Subsystem[]{tyrShooter};
+	}
+
+	@Override
+	public String getName() {
+		return "Shoot";
 	}
 
 }
