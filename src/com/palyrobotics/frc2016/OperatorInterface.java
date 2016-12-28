@@ -33,10 +33,10 @@ public class OperatorInterface {
 		
 		m_commands.resetRoutineRequests();
 		// Operator Stick - Derica Intake Control
-		if (operatorStick.getRawButton(5)) {
+		if (leftStick.getRawButton(5)) {
 			m_commands.intake_request = Commands.IntakeRequest.EXHAUST;
 			m_commands.low_request = Commands.LowGoalShooterRequest.SHOOT;
-		} else if (operatorStick.getRawButton(3)) {
+		} else if (leftStick.getRawButton(3)) {
 			m_commands.intake_request = Commands.IntakeRequest.INTAKE;
 			m_commands.low_request = Commands.LowGoalShooterRequest.LOAD;
 		} else {
@@ -83,16 +83,16 @@ public class OperatorInterface {
 		}
 		
 		// Right Stick - Activate routine
-		if(rightStick.getRawButton(2)) {
+		if(leftStick.getRawButton(2)) {
 			m_commands.resetRoutineRequests();
 			m_commands.auto_align_request = Commands.AutoAlignRequest.ACTIVATE;
 		} else {
 			m_commands.resetRoutineRequests();
 		}
 		
-		if(rightStick.getRawButton(4)) {
+		if(leftStick.getRawButton(4)) {
 			HardwareAdaptor.kDrive.setGear(DriveGear.LOW);
-		} else if(rightStick.getRawButton(6)) {
+		} else if(leftStick.getRawButton(6)) {
 			HardwareAdaptor.kDrive.setGear(DriveGear.HIGH);
 		}
 		

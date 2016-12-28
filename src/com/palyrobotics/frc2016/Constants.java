@@ -6,6 +6,9 @@ public class Constants extends ConstantsBase {
 	// Chezy Drive tuning
 	public static double kDriveSensitivity = .85;
 	public static double kNegativeInertiaScalar = 5.0;
+	
+	//Proportional Drive tuning
+	public static double kDriveScalar = 0.5;
 
 	// Manual control speed tuning
 	public static double kManualIntakeSpeed = 1.0;

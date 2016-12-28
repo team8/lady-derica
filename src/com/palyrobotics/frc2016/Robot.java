@@ -124,8 +124,8 @@ public class Robot extends IterativeRobot {
 //			intake.update(operatorStick.getY());
 		}
 		// Pick one or the other drive scheme
-//		pdh.pDrive(-leftStick.getY(), rightStick.getX(), behavior_manager.getSetpoints());
-		cdh.cheesyDrive(-leftStick.getY(), rightStick.getX(), rightStick.getRawButton(1), drive.isHighGear(), behavior_manager.getSetpoints());
+		pdh.pDrive(-leftStick.getY(), leftStick.getX(), behavior_manager.getSetpoints());
+//		cdh.cheesyDrive(-leftStick.getY(), rightStick.getX(), rightStick.getRawButton(1), drive.isHighGear(), behavior_manager.getSetpoints());
 		
 		// Runs routines
 		behavior_manager.update(operator_interface.getCommands());
