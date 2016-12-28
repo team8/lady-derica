@@ -2,6 +2,7 @@ package com.palyrobotics.frc2016.robot;
 
 import com.palyrobotics.frc2016.config.Constants;
 import com.palyrobotics.frc2016.config.RobotState;
+import com.palyrobotics.frc2016.robot.team254.lib.util.ConstantsBase;
 import com.palyrobotics.frc2016.subsystems.Breacher;
 import com.palyrobotics.frc2016.subsystems.Catapult;
 import com.palyrobotics.frc2016.subsystems.Drive;
@@ -54,7 +55,9 @@ class HardwareUpdater {
 	 */
 	void updateSensors() {
 		RobotState robotState = Robot.getRobotState();
-		robotState.shooter_potentiometer = HardwareAdapter.ShooterHardware.getInstance().kShooterPotentiometer.get();
+		if(Constants.kRobotName == Constants.RobotName.TYR) {
+			robotState.shooter_potentiometer = HardwareAdapter.ShooterHardware.getInstance().kShooterPotentiometer.get();
+		}
 		robotState.left_encoder = HardwareAdapter.DrivetrainHardware.getInstance().kLeftDriveEncoder.get();
 		robotState.right_encoder = HardwareAdapter.DrivetrainHardware.getInstance().kRightDriveEncoder.get();
 	}
@@ -77,7 +80,8 @@ class HardwareUpdater {
 	
 	private void updateDrivetrain() {
 		HardwareAdapter.getInstance().getDrivetrain().kLeftDriveMotor.set(mDrive.getDriveSignal().leftMotor);
-		HardwareAdapter.getInstance().getDrivetrain().kRightDriveMotor.set(mDrive.getDriveSignal().rightMotor);
+		// Need to invert right side motor
+		HardwareAdapter.getInstance().getDrivetrain().kRightDriveMotor.set(-mDrive.getDriveSignal().rightMotor);
 	}
 	
 	private void updateIntake() {

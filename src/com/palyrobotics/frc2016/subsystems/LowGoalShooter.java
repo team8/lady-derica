@@ -50,10 +50,10 @@ public class LowGoalShooter extends Subsystem implements SubsystemLoop {
 		}
 		switch (this.mWantedState) {
 			case INTAKING:
-				output = -0.7;
+				output = 0.7;
 				break;
 			case SHOOTING:
-				output = 1.0;
+				output = -1.0;
 				break;
 			case STOP:
 				output = 0.0;

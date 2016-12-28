@@ -10,7 +10,7 @@ import java.util.*;
 
 public class RoutineManager implements Tappable {
 	// Routines that are being run
-	ArrayList<Routine> mRunningRoutines;
+	ArrayList<Routine> mRunningRoutines = new ArrayList<Routine>();
 
 	private Routine m_cur_routine = null;
 	private Commands.Setpoints m_setpoints;

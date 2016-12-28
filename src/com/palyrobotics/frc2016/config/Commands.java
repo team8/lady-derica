@@ -43,7 +43,7 @@ public class Commands {
 		}
 	}
 	// All robot setpoints
-	public Setpoints robotSetpoints;
+	public Setpoints robotSetpoints = new Setpoints();
 	
 	/**
 	 * Class to store Joystick input
@@ -75,7 +75,7 @@ public class Commands {
 		TIMER_DRIVE, ENCODER_DRIVE, TURN_ANGLE, AUTO_ALIGN, NONE
 	}
 	// Routine requests
-	public Routines routine_request;
+	public Routines routine_request = Routines.NONE;
 	
 	// Subsystem requests
 	public IntakeRequest intakeRequest;
