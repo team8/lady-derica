@@ -93,7 +93,7 @@ public class Drive extends Subsystem implements SubsystemLoop {
 		Commands.Setpoints setpoints = commands.robotSetpoints;
 		// Call methods associated with any setpoints that are present
 		// Encoder drive distance routine
-		setpoints.encoder_drive_setpoint.ifPresent((Double t)->setOpenLoop(new DriveSignal(setpoints.drive_velocity_setpoint.get(), setpoints.drive_velocity_setpoint.get())));
+//		setpoints.encoder_drive_setpoint.ifPresent(this.setDistanceSetpoint(setpoints.encoder_drive_setpoint));
 		// Timer based routine
 		setpoints.timer_drive_time_setpoint.ifPresent((Double t)->setOpenLoop(new DriveSignal(setpoints.drive_velocity_setpoint.get(), setpoints.drive_velocity_setpoint.get())));
 		// Auto-align setpoint passed along

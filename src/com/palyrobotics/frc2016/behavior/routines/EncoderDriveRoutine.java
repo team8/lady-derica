@@ -105,6 +105,7 @@ public class EncoderDriveRoutine extends Routine {
 
 			setpoints.currentRoutine = Commands.Routines.ENCODER_DRIVE;
 			new_state = EncoderDriveRoutineStates.DRIVING;
+			drive.setDistanceSetpoint(setpoints.encoder_drive_setpoint.get());
 			break;
 		case DRIVING:
 			setpoints.encoder_drive_setpoint = Optional.of(m_distance);

@@ -59,9 +59,13 @@ public class OperatorInterface {
 		} else if (operatorStick.getRawButton(3)) {
 			m_commands.intakeRequest = Commands.IntakeRequest.INTAKE;
 			m_commands.low_request = Commands.LowGoalShooterRequest.LOAD;
-		} else {
+		} else if(operatorStick.getRawButton(4)) {
+			m_commands.routine_request = Commands.Routines.ENCODER_DRIVE;
+		}
+		else {
 			m_commands.intakeRequest = Commands.IntakeRequest.NONE;
 			m_commands.low_request = Commands.LowGoalShooterRequest.NONE;
+			m_commands.routine_request = Commands.Routines.NONE;
 		}
 
 		// Left Stick trigger cancels current routine
