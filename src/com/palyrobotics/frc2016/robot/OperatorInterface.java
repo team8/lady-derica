@@ -23,7 +23,13 @@ public class OperatorInterface {
 		return mInstance;
 	}
 
-	private OperatorInterface() {
+	private OperatorInterface(/* xu: string file_path, boolean read_from_file, boolean write_to_file */) {
+		// xu: m_testing = testing;
+		// if (m_testing) {
+		//    m_file = open(file, read);
+		// } else {
+		//    m_file = open(file, write);
+	    // }
 	}
 	
 	private Commands m_commands = Commands.getInstance();
@@ -40,6 +46,7 @@ public class OperatorInterface {
 //	}
 	
 	public void updateCommands() {
+        // xu: if !m_testing:
 		if(Constants.kRobotName == Constants.RobotName.TYR) {
 			updateTyrCommands();
 			m_commands.operatorStickInput = new XboxInput(((XboxController) operatorStick).getLeftX(), ((XboxController) operatorStick).getLeftY(), ((XboxController) operatorStick).getRightX(), ((XboxController) operatorStick).getRightY());
@@ -49,6 +56,13 @@ public class OperatorInterface {
 		}
 		m_commands.leftStickInput = new JoystickInput(leftStick.getX(), leftStick.getY(), leftStick.getTrigger());
 		m_commands.rightStickInput = new JoystickInput(rightStick.getX(), rightStick.getY(), rightStick.getTrigger());
+		// xu: serialize it
+		// cmd_str = m_commands.serialize();
+		// m_file.append(cmd_str);
+		// xu: else: (if m_testing) {
+		//     cmd_str = m_file.readline();
+		//     m_command.deserialize(cmd_str);
+		//     }
 	}
 	
 	public void updateDericaCommands() {		
