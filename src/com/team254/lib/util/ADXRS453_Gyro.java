@@ -16,8 +16,6 @@ import edu.wpi.first.wpilibj.GyroBase;
 import edu.wpi.first.wpilibj.PIDSource;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.communication.FRCNetworkCommunicationsLibrary.tResourceType;
-import edu.wpi.first.wpilibj.communication.UsageReporting;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
@@ -74,7 +72,7 @@ public class ADXRS453_Gyro extends GyroBase implements Gyro, PIDSource, LiveWind
         if ((readRegister(kPIDRegister) & 0xff00) != 0x5200) {
             m_spi.free();
             m_spi = null;
-            DriverStation.reportError("Could not find ADXRS453 gyro on SPI port " + port.getValue(), false);
+            DriverStation.reportError("Could not find ADXRS453 gyro on SPI port " + port.value, false);
             return;
         }
 
@@ -82,9 +80,9 @@ public class ADXRS453_Gyro extends GyroBase implements Gyro, PIDSource, LiveWind
 
         calibrate();
 
-        UsageReporting.report(tResourceType.kResourceType_ADXRS450, port.getValue());
+//        UsageReporting.report(tResourceType.kResourceType_ADXRS450, port.getValue());
 
-        LiveWindow.addSensor("ADXRS453_Gyro", port.getValue(), this);
+        LiveWindow.addSensor("ADXRS453_Gyro", port.value, this);
     }
 
     /**

@@ -1,5 +1,6 @@
 package com.palyrobotics.frc2016;
 
+import com.ctre.CANTalon;
 import com.palyrobotics.frc2016.Robot.RobotName;
 import com.palyrobotics.frc2016.subsystems.*;
 import com.palyrobotics.frc2016.util.XboxController;
@@ -24,7 +25,7 @@ public class HardwareAdaptor {
 	static {
 		if(Robot.name == RobotName.TYR) {
 			kLeftDriveMotor = new CheesySpeedController(
-					new SpeedController[]{new CANTalon(Constants.kTyrLeftDriveFrontMotorDeviceID), 
+					new SpeedController[]{new CANTalon(Constants.kTyrLeftDriveFrontMotorDeviceID),
 							new CANTalon(Constants.kTyrLeftDriveBackMotorDeviceID)},
 					new int[]{Constants.kTyrLeftDriveFrontMotorPDP, Constants.kTyrLeftDriveBackMotorPDP});
 			kRightDriveMotor = new CheesySpeedController(
