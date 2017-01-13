@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component inherit-compiler-output="true" inheritJdk="true">
+	<output-test url="file://$MODULE_DIR$/out/test/Lady-Derica"/>
+	<exclude-output/>
+	<contentEntry url="file://$MODULE_DIR$">
+		<testFolder url="file://$MODULE_DIR$/test"/>
+	</contentEntry>
+	<lib name="wpilib" scope="COMPILE">
+		<srcroot url="jar://$wpilib.sources$!/"/>
+	</lib>
+	<lib name="networktables" scope="COMPILE">
+		<srcroot url="jar://$networktables.sources$!/"/>
+	</lib>
+	<lib name="opencv" scope="COMPILE">
+		<srcroot url="jar://$opencv.sources$!/"/>
+	</lib>
+	<lib name="cscore" scope="COMPILE">
+		<srcroot url="jar://$cscore.sources$!/"/>
+	</lib>
+	<lib name="json-simple-1.1.1.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/json-simple-1.1.1.jar!/"/>
+	</lib>
+	<lib name="guava-18.0.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/guava-18.0.jar!/"/>
+	</lib>
+</component>
