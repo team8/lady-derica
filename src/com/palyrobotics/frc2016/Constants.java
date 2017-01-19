@@ -132,9 +132,9 @@ public class Constants extends ConstantsBase {
 	// INTAKE
 	public static int kDericaIntakeMotorPWM = 7;
 	public static int kDericaIntakeMotorPDP = 1;
-	public static int kDericaArmIntakeMotorPWM = 8;
+	public static int kDericaArmIntakeMotorPWM = 0;
 	public static int kDericaArmIntakeMotorPDP = 0;
-	public static int kDericaLowGoalShooterPWM = 0;
+	public static int kDericaLowGoalShooterPWM = 8;
 	public static int kDericaLowGoalShooterPDP = 3;
 
 
